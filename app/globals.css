@@ -1,26 +1,542 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   The Grove Coffee House.
+
+   Direction: neighbourhood signage. A shop that has been on that
+   road a while. Condensed painted lettering, deep green used as a
+   field rather than as a button colour, square corners throughout,
+   and rules doing the work that background bands used to do.
+
+   The palette is unchanged from the approved set. Everything else
+   about how it is used has moved.
+   ============================================================ */
+
+@theme {
+  /* Color, as approved */
+  --color-paper: #faf7f2;        /* page ground, warm paper not white */
+  --color-surface: #f1ebe1;      /* used sparingly now, mostly for insets */
+  --color-ink: #1c1a17;          /* text, rules, frames */
+  --color-muted: #6b6459;        /* meta at 14px and up. 5.47:1 on paper */
+  --color-muted-strong: #5c5549; /* the same role at 11 to 12px. 6.89:1 on paper */
+  --color-line: #ded5c7;         /* decorative hairline only */
+  --color-line-strong: #8c7b60;  /* a rule that identifies a control. 3.84:1 */
+  --color-accent: #2f5d3f;       /* grove green. Now a field colour. 7.12:1 */
+  --color-accent-hover: #24492f;
+  --color-seasonal: #c6772f;     /* amber. Fills, and large text on paper only */
+  --color-seasonal-ink: #8a4a19; /* amber as text on paper or surface. 6.39:1 */
+  --color-seasonal-light: #f2c38a; /* amber as text on the green field. 4.69:1 */
+
+  /* Type. A condensed signage face over a warm grotesque. */
+  --font-sign: var(--font-shoulders), "Haettenschweiler", "Arial Narrow", sans-serif;
+  --font-sans: var(--font-work), ui-sans-serif, system-ui, sans-serif;
+
+  /* Square. Painted signs do not have rounded corners. */
+  --radius-none: 0px;
+
+  /* Motion, from parabox-motion/references/motion-tokens.md */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+  --ease-in-quart: cubic-bezier(0.5, 0, 0.75, 0);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --duration-instant: 100ms;
+  --duration-micro: 160ms;
+  --duration-fast: 240ms;
+  --duration-base: 400ms;
+  --duration-reveal: 640ms;
+  --duration-slow: 900ms;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+  /* On the green field the green ring would vanish. */
+  .on-green :focus-visible,
+  .on-ink :focus-visible {
+    outline-color: var(--color-paper);
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* ---------- Signage lettering ----------
+     Condensed, uppercase, set large and tight. The scale jumps hard
+     between roles on purpose: a page where every heading is roughly
+     the same size has no hierarchy to read. */
+
+  .t-hero {
+    font-family: var(--font-sign);
+    font-weight: 700;
+    font-size: clamp(58px, 12.5vw, 168px);
+    line-height: 0.86;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+  }
+
+  .t-display {
+    font-family: var(--font-sign);
+    font-weight: 700;
+    font-size: clamp(44px, 8vw, 104px);
+    line-height: 0.88;
+    letter-spacing: -0.012em;
+    text-transform: uppercase;
+  }
+
+  .t-h2 {
+    font-family: var(--font-sign);
+    font-weight: 700;
+    font-size: clamp(34px, 5.2vw, 62px);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .t-h3 {
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: clamp(24px, 2.6vw, 32px);
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  /* Item names on the board. Condensed but not shouting. */
+  .t-item {
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.02;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .t-card {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 19px;
+    line-height: 1.3;
+  }
+
+  .t-body {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  /* Stencilled meta. Small, wide, never a heading. */
+  .t-label {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 1.3;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Index numerals on the board. */
+  .t-index {
+    font-family: var(--font-sign);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- Layout ---------- */
+
+  .wrap {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+  @media (min-width: 768px) {
+    .wrap {
+      padding-inline: 32px;
+    }
+  }
+
+  .measure {
+    max-width: 34rem;
+  }
+
+  /* Denser than before. The old rhythm gave every section the same
+     amount of air, so nothing was emphasised. */
+  .section {
+    padding-block: 56px;
+  }
+  @media (min-width: 768px) {
+    .section {
+      padding-block: 88px;
+    }
+  }
+
+  /* Edge to edge hairline. This, not a background band, is what
+     separates one section from the next. */
+  .rule-top {
+    border-top: 1px solid var(--color-ink);
+  }
+  .rule-bottom {
+    border-bottom: 1px solid var(--color-ink);
+  }
+
+  /* ---------- The signage band ----------
+     Replaces the small uppercase label that used to float above every
+     heading. It is a painted band across the page: a label on the
+     left, a rule through the middle, a note on the right. */
+
+  .band {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-top: 2px solid var(--color-ink);
+    padding-top: 10px;
+  }
+  .band-line {
+    flex: 1 1 auto;
+    height: 1px;
+    background-color: var(--color-ink);
+    opacity: 0.25;
+  }
+  .on-green .band,
+  .on-ink .band {
+    border-top-color: var(--color-paper);
+  }
+  .on-green .band-line,
+  .on-ink .band-line {
+    background-color: var(--color-paper);
+  }
+
+  /* ---------- Fields ---------- */
+
+  .on-green {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+  .on-ink {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  /* ---------- Frames ----------
+     Photography is matted inside a heavy square frame rather than
+     floating on a rounded rectangle. */
+
+  .frame {
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-surface);
+    padding: 10px;
+  }
+  .on-green .frame,
+  .on-ink .frame {
+    border-color: var(--color-paper);
+    background-color: transparent;
+  }
+
+  /* ---------- Buttons ----------
+     Square, heavy edged, and they invert on hover. */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 50px;
+    padding: 13px 24px;
+    border-radius: 0;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    border: 2px solid transparent;
+    transition:
+      background-color var(--duration-micro) var(--ease-standard),
+      color var(--duration-micro) var(--ease-standard),
+      border-color var(--duration-micro) var(--ease-standard);
+  }
+
+  .btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+    border-color: var(--color-accent);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .btn-onphoto {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    border-color: var(--color-paper);
+  }
+  .btn-onphoto:hover {
+    background-color: transparent;
+    color: var(--color-paper);
+  }
+
+  .on-green .btn-secondary,
+  .on-ink .btn-secondary {
+    color: var(--color-paper);
+    border-color: var(--color-paper);
+  }
+  .on-green .btn-secondary:hover,
+  .on-ink .btn-secondary:hover {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  /* ---------- Tags ----------
+     Square chips, stencilled. */
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 0;
+    padding: 4px 9px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tag-season {
+    background-color: var(--color-seasonal);
+    color: var(--color-ink); /* 5.03:1. Paper on amber would fail. */
+  }
+  .tag-rest {
+    background-color: transparent;
+    color: var(--color-muted-strong);
+    border: 1px solid var(--color-line-strong);
+  }
+
+  /* ---------- Links ---------- */
+
+  .link-slide {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    transition: background-size var(--duration-fast) var(--ease-out-quart);
+    padding-bottom: 2px;
+  }
+  .link-slide:hover,
+  .link-slide:focus-visible {
+    background-size: 100% 3px;
+  }
+}
+
+/* ============================================================
+   Motion. Unchanged behaviour, see parabox-motion.
+   ============================================================ */
+
+.js-motion [data-reveal],
+.js-motion [data-reveal-group] > * {
+  opacity: 0;
+}
+
+.js-motion [data-split] {
+  opacity: 0;
+  animation: split-failsafe 1ms linear 1200ms forwards;
+}
+
+.js-motion .band-line {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+@keyframes split-failsafe {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-motion [data-reveal],
+  .js-motion [data-reveal-group] > *,
+  .js-motion [data-split] {
+    opacity: 1;
+  }
+  .js-motion .band-line {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-rail-section][data-pinned="true"] {
+    display: flex;
+    min-height: 100svh;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+/* ============================================================
+   Marquee
+   ============================================================ */
+
+@keyframes grove-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: grove-marquee 46s linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow: visible;
+  }
+  .marquee-track {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.25rem;
+  }
+  .marquee-track > [aria-hidden="true"] {
+    display: none;
+  }
+  .marquee-row {
+    width: 100%;
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .marquee-item {
+    flex-shrink: 1;
+  }
+  [data-rail-viewport] {
+    overflow-x: auto;
+  }
+}
+
+/* ============================================================
+   Page transition. Opacity only, on purpose.
+
+   An earlier version also translated the page wrapper 8px. Chrome treats an
+   element whose animation ever touched transform as a containing block for
+   position: fixed, even after it finishes, so ScrollTrigger's pinned rail was
+   being positioned relative to the page wrapper and landing thousands of
+   pixels above the viewport. The computed transform reads "none", so nothing
+   could detect it. Do not add transform back to this keyframe.
+   ============================================================ */
+
+@keyframes grove-page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-in {
+  animation: grove-page-in 700ms var(--ease-out-quart) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-in {
+    animation-duration: 150ms;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+.skip-link:focus {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 12px 20px;
+  clip: auto;
+  overflow: visible;
+  white-space: normal;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  box-shadow: 0 0 0 3px var(--color-accent);
 }
