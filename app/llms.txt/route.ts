@@ -18,11 +18,13 @@ export async function GET() {
   line();
   line(`> Family owned, independent coffee house at ${site.addressLine}. Open seven days from 7:00 AM. Beans from ${site.roaster.name} in ${site.roaster.location}. Seasonal drinks, a real food menu, outlets, and seating inside and out.`);
   line();
-  line(`- Website: ${site.url}`);
-  line(`- Phone: ${site.phone.display}`);
+  /* Links are written as Markdown, the llmstxt.org convention, so a reader can
+     tell a link from prose. Bare URLs read as text and fail that check. */
+  line(`- [Website](${site.url}/)`);
+  line(`- Phone: [${site.phone.display}](${site.phone.href})`);
   line(`- Address: ${site.addressLine}`);
-  line(`- Instagram: ${site.instagram.url}`);
-  line(`- Directions: ${site.directionsUrl}`);
+  line(`- [Instagram ${site.instagram.handle}](${site.instagram.url}): events are posted here first`);
+  line(`- [Directions on Google Maps](${site.directionsUrl})`);
   line(`- Opened: summer 2023`);
   line(`- Online ordering: not available. Order at the counter.`);
   line();
@@ -51,7 +53,7 @@ export async function GET() {
   line(`Posted first on Instagram. Recent:`);
   for (const e of events) {
     const d = formatEventDate(e);
-    line(`- ${d.day} ${d.month} ${d.year}: ${e.title}. ${e.blurb} Source: ${e.source}`);
+    line(`- ${d.day} ${d.month} ${d.year}: [${e.title}](${e.source}). ${e.blurb}`);
   }
   line();
   line(`## Questions people ask`);
@@ -61,10 +63,10 @@ export async function GET() {
   }
   line();
   line(`## Pages`);
-  line(`- ${site.url}/ : home`);
-  line(`- ${site.url}/menu : the whole board with prices`);
-  line(`- ${site.url}/visit : hours, directions, parking, questions`);
-  line(`- ${site.url}/our-story : who they are`);
+  line(`- [Home](${site.url}/): what the shop is, the seasonal board, events`);
+  line(`- [Menu](${site.url}/menu): the whole board with prices`);
+  line(`- [Visit](${site.url}/visit): hours, directions, parking, questions`);
+  line(`- [Our story](${site.url}/our-story): who they are`);
   line();
 
   return new Response(L.join("\n"), {
