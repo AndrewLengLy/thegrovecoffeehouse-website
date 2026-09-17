@@ -69,6 +69,13 @@ Parses every JSON-LD block on every page, checks each page carries the types it 
 refuses any schema price that is not in `lib/menu.ts`, and checks `/llms.txt`, `/robots.txt`
 and `/sitemap.xml`.
 
+## Deploying
+
+The repo is connected to the Vercel project `thegrovecoffeehouse-website` on the Parabox Digital
+team. A push to `main` deploys to production; any other branch or pull request gets its own
+preview URL. Test against the production alias, https://thegrovecoffeehouse-website.vercel.app,
+not a per-deployment URL, which sits behind Vercel's login.
+
 ## Going live
 
 `robots.txt` disallows everything until `NEXT_PUBLIC_SITE_URL` is set, so a `.vercel.app`
