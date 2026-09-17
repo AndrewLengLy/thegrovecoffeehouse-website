@@ -39,15 +39,20 @@ export function MenuCard({ item, index }: { item: MenuItem; index?: number }) {
         {item.oneLiner}
       </p>
 
-      <div className="mt-auto flex items-end justify-between gap-4 border-t border-line pt-4">
-        <p className={`text-[14px] leading-[1.5] ${resting ? "text-muted" : "text-ink"}`}>
-          {item.whatsInIt}
-        </p>
-        {item.price && (
-          <span className={`t-item shrink-0 tabular-nums ${resting ? "text-muted" : "text-ink"}`}>
-            ${item.price}
-          </span>
-        )}
+      {/* mt-auto pins the foot to the bottom so a row of cards lines up, and
+          the padding outside the rule guarantees air above it on the tallest
+          card, where mt-auto resolves to nothing. */}
+      <div className="mt-auto pt-5">
+        <div className="flex items-end justify-between gap-4 border-t border-line pt-4">
+          <p className={`text-[14px] leading-[1.5] ${resting ? "text-muted" : "text-ink"}`}>
+            {item.whatsInIt}
+          </p>
+          {item.price && (
+            <span className={`t-item shrink-0 tabular-nums ${resting ? "text-muted" : "text-ink"}`}>
+              ${item.price}
+            </span>
+          )}
+        </div>
       </div>
     </article>
   );

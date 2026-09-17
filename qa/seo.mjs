@@ -3,7 +3,7 @@
  * types that page promises, and never quote a price the menu data does not hold.
  */
 import { readFileSync } from "node:fs";
-const BASE = process.env.BASE ?? "http://localhost:3001";
+const BASE = process.env.BASE ?? "http://localhost:3000";
 const menuSrc = readFileSync(new URL("../lib/menu.ts", import.meta.url), "utf8");
 const knownPrices = new Set([...menuSrc.matchAll(/price: "([\d.]+)"/g)].map(m => m[1]));
 

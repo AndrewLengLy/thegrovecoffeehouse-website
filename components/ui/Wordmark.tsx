@@ -58,6 +58,8 @@ export function Wordmark({
     return (
       <svg
         viewBox="0 0 386.45 78"
+        /* Round letters overshoot the cap height by a unit or so. Let them. */
+        overflow="visible"
         className={`block w-full ${className}`}
         role={title ? "img" : "presentation"}
         aria-label={title ?? undefined}

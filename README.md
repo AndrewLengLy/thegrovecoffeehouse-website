@@ -18,7 +18,10 @@ npm run build      # production build
 | `lib/menu.ts` | The menu, as typed data. The signature system. Add and remove items here and every surface updates. |
 | `lib/events.ts` | Things that have happened at the shop, each sourced to an Instagram post. Feeds the home page Events section. |
 | `components/motion/` | The GSAP wrappers. `Reveal` is the workhorse, `SplitHeading` is the masked headline. |
-| `components/sections/SeasonalRail.tsx` | The one signature scroll moment. Pinned horizontal pass above 1024px, native scroller on tablet, stacked column on mobile. |
+| `components/sections/SeasonalRail.tsx` | The one signature scroll moment. Pinned horizontal pass above 1024px; below that, a native swipe with snap points, a progress rule and previous and next buttons. |
+| `lib/open-status.ts` | "Open now, until 5 PM", worked out in Roseville's time zone in the browser. Feeds the hero plate, the phone action bar and the Today marker in `HoursList`. |
+| `components/layout/MobileActionBar.tsx` | The phone thumb bar: open status, call, directions. Appears past the hero, leaves at the footer. |
+| `components/ui/MenuJumpBar.tsx` | The sticky section bar on `/menu`. Takes over from the page index once it scrolls away and follows the header up and down. |
 | `qa/` | The delivery gates. See below. |
 
 ## The delivery gates
@@ -39,15 +42,17 @@ node qa/interaction.mjs
 ```
 
 The pinned rail, keyboard reachability inside it, mobile nav focus containment and Escape
-handling, the skip link, the hidden reward, and that content is still present with JavaScript
-disabled.
+handling, the skip link, the hidden reward, the phone rail and thumb bar, the menu jump bar,
+and that content is still present with JavaScript disabled.
 
 ```bash
 node qa/axe.mjs
 ```
 
-axe-core against WCAG 2.1 and 2.2 AA on every route at two widths. Point `BASE` at whichever
-server is running.
+axe-core against WCAG 2.1 and 2.2 AA on every route at two widths.
+
+Every browser gate reads `BASE` (default `http://localhost:3000`) and `CHROME` (default: the
+macOS Google Chrome path), so point them at whichever server and browser you have.
 
 One thing that will look like a bug and is not: a full-page screenshot of `/` shows a tall
 blank band under the seasonal rail. That is the ScrollTrigger pin spacer. Full-page capture

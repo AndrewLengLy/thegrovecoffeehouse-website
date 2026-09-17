@@ -223,13 +223,26 @@
 
   .band {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 16px;
+    column-gap: 16px;
+    row-gap: 6px;
     border-top: 2px solid var(--color-ink);
     padding-top: 10px;
   }
+  /* Each end of the band is one painted phrase and never breaks inside
+     itself. On a phone, when both phrases and the rule will not fit, the note
+     drops to its own line and keeps to the right, rather than each phrase
+     folding into a two line stack with the rule squeezed to nothing. */
+  .band > :not(.band-line) {
+    white-space: nowrap;
+  }
+  .band > .band-line ~ :last-child {
+    margin-left: auto;
+  }
   .band-line {
     flex: 1 1 auto;
+    min-width: 2.5rem;
     height: 1px;
     background-color: var(--color-ink);
     opacity: 0.25;
@@ -286,11 +299,22 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     line-height: 1.2;
+    /* A long label that wraps on a phone stays centred and evenly broken
+       instead of hanging off the left edge of a full width button. */
+    text-align: center;
+    text-wrap: balance;
     border: 2px solid transparent;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
     transition:
       background-color var(--duration-micro) var(--ease-standard),
       color var(--duration-micro) var(--ease-standard),
-      border-color var(--duration-micro) var(--ease-standard);
+      border-color var(--duration-micro) var(--ease-standard),
+      translate var(--duration-instant) var(--ease-standard);
+  }
+  /* A touch screen has no hover, so a press needs its own answer. */
+  .btn:active {
+    translate: 0 1px;
   }
 
   .btn-primary {
@@ -298,19 +322,11 @@
     color: var(--color-paper);
     border-color: var(--color-accent);
   }
-  .btn-primary:hover {
-    background-color: var(--color-ink);
-    border-color: var(--color-ink);
-  }
 
   .btn-secondary {
     background-color: transparent;
     color: var(--color-ink);
     border-color: var(--color-ink);
-  }
-  .btn-secondary:hover {
-    background-color: var(--color-ink);
-    color: var(--color-paper);
   }
 
   .btn-onphoto {
@@ -318,20 +334,41 @@
     color: var(--color-ink);
     border-color: var(--color-paper);
   }
-  .btn-onphoto:hover {
-    background-color: transparent;
-    color: var(--color-paper);
-  }
 
   .on-green .btn-secondary,
   .on-ink .btn-secondary {
     color: var(--color-paper);
     border-color: var(--color-paper);
   }
-  .on-green .btn-secondary:hover,
-  .on-ink .btn-secondary:hover {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
+
+  /* Hover only where there is a pointer that hovers. On a phone a :hover
+     style sticks after the tap and leaves the button looking pressed. */
+  @media (hover: hover) {
+    .btn-primary:hover {
+      background-color: var(--color-ink);
+      border-color: var(--color-ink);
+    }
+    .btn-secondary:hover {
+      background-color: var(--color-ink);
+      color: var(--color-paper);
+    }
+    .btn-onphoto:hover {
+      background-color: transparent;
+      color: var(--color-paper);
+    }
+    .on-green .btn-secondary:hover,
+    .on-ink .btn-secondary:hover {
+      background-color: var(--color-paper);
+      color: var(--color-ink);
+    }
+  }
+  @media (hover: none) {
+    .btn-primary:active {
+      background-color: var(--color-accent-hover);
+    }
+    .btn-secondary:active {
+      background-color: color-mix(in srgb, currentColor 12%, transparent);
+    }
   }
 
   /* ---------- Tags ----------
@@ -430,6 +467,81 @@
     flex-direction: column;
     justify-content: center;
   }
+}
+
+/* The seasonal rail's controls only mean something when the visitor is doing
+   the scrolling. On a desktop the pin drives the rail, so they are hidden
+   there (lg:hidden in the markup), except under reduced motion, where the pin
+   never engages and the rail is a plain scroller at every width. */
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+  [data-rail-controls] {
+    display: flex;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ============================================================
+   Menu jump bar
+
+   Fixed under the header. When the header slides away on the way
+   down, the bar slides up into its place by exactly the header's
+   height, so the two never leave a gap or overlap.
+   ============================================================ */
+
+.jumpbar {
+  position: fixed;
+  inset-inline: 0;
+  top: 68px;
+  z-index: 30;
+  background-color: var(--color-paper);
+  border-bottom: 1px solid var(--color-ink);
+  transition:
+    transform var(--duration-base) var(--ease-in-out-quart),
+    opacity var(--duration-fast) var(--ease-standard),
+    visibility var(--duration-fast) var(--ease-standard);
+}
+html[data-header="hidden"] .jumpbar {
+  transform: translateY(-68px);
+}
+@media (min-width: 768px) {
+  .jumpbar {
+    top: 76px;
+  }
+  html[data-header="hidden"] .jumpbar {
+    transform: translateY(-76px);
+  }
+}
+.jumpbar[data-shown="false"] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ============================================================
+   Photograph placeholders
+
+   The dark one sits behind the hero headline. A flat black field
+   reads as a failed image, so it carries a low warm light from the
+   upper right, the way the real room's windows will. It stays
+   well under the scrim, so the headline contrast is unchanged.
+   ============================================================ */
+
+[data-photo-placeholder][data-tone="dark"] {
+  background-image:
+    radial-gradient(ellipse 70% 60% at 82% 18%, rgb(242 195 138 / 0.16), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 12% 90%, rgb(47 93 63 / 0.35), transparent 70%);
+}
+[data-photo-placeholder][data-tone="light"] {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0 14px,
+    rgb(140 123 96 / 0.07) 14px 15px
+  );
 }
 
 /* ============================================================

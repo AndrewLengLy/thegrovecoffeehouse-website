@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { site, hours } from "@/lib/site";
+import { site } from "@/lib/site";
 import { Wordmark } from "@/components/ui/Wordmark";
+import { HoursList } from "@/components/ui/HoursList";
 
 const explore = [
   { href: "/menu", label: "The board" },
@@ -43,7 +44,9 @@ export function Footer() {
 
           <nav aria-label="Explore" className="md:col-span-3">
             <h2 className="t-label text-paper/70">Explore</h2>
-            <ul className="mt-4 space-y-1">
+            {/* Two columns on a phone. Four short links do not need a screen
+                of their own. */}
+            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-1 md:grid-cols-1">
               {explore.map((l) => (
                 <li key={l.href}>
                   <Link
@@ -59,19 +62,7 @@ export function Footer() {
 
           <div className="md:col-span-4">
             <h2 className="t-label text-paper/70">Hours</h2>
-            <dl className="mt-4 border-t border-paper/25">
-              {hours.map((h) => (
-                <div
-                  key={h.label}
-                  className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-paper/15 py-2.5"
-                >
-                  <dt className="t-label text-paper/70" style={{ fontSize: "10px" }}>
-                    {h.label}
-                  </dt>
-                  <dd className="text-[15px] tabular-nums">{h.time}</dd>
-                </div>
-              ))}
-            </dl>
+            <HoursList tone="ink" className="mt-4" />
             <a
               href={site.instagram.url}
               target="_blank"
@@ -91,7 +82,9 @@ export function Footer() {
         <Wordmark variant="huge" title={null} onDark className="text-paper" />
       </div>
 
-      <div className="wrap">
+      {/* The fascia's baseline sits a hair above the bottom of its box, so the
+          rule below needs its own air or it reads as underlining the letters. */}
+      <div className="wrap mt-5 md:mt-8">
         <div className="flex flex-col gap-2 border-t border-paper/25 py-5 text-[13px] text-paper/60 md:flex-row md:items-center md:justify-between">
           <p>{site.name}. Family owned in Roseville, California.</p>
           <p>

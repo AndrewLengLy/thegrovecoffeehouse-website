@@ -1,9 +1,11 @@
 import puppeteer from "puppeteer";
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+const CHROME = process.env.CHROME ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const BASE = process.env.BASE ?? "http://localhost:3000";
 const browser = await puppeteer.launch({
   executablePath: CHROME, headless: "shell",
-  userDataDir: "/private/tmp/claude-501/-Users-andrew-thegrovecoffeehouse-website/978ed2f1-25b7-402d-b0f8-cf73128aca34/scratchpad/chrome-qa2",
+  userDataDir: join(tmpdir(), "grove-qa", "chrome-qa2"),
   args: ["--no-first-run", "--no-default-browser-check"],
 });
 const results = [];
@@ -164,7 +166,75 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
   await page.close();
 }
 
-/* ---------- 5. JavaScript disabled: nothing may be invisible ---------- */
+/* ---------- 5. Phone: the rail swipes, the thumb bar comes and goes ---------- */
+{
+  const page = await browser.newPage();
+  await page.setViewport({ width: 375, height: 800, isMobile: true, hasTouch: true });
+  await page.goto(BASE + "/", { waitUntil: "networkidle0" });
+  await new Promise(r => setTimeout(r, 1200));
+  const scroll = async (y) => {
+    await page.evaluate((y) => { document.documentElement.style.scrollBehavior = "auto"; window.scrollTo(0, y); }, y);
+    await new Promise(r => setTimeout(r, 700));
+  };
+
+  const bar = () => page.evaluate(() => document.querySelector('aside[aria-label="Quick actions"]')?.dataset.visible);
+  check("thumb bar hidden over the hero", (await bar()) === "false");
+
+  const rail = await page.evaluate(() => {
+    const v = document.querySelector("[data-rail-viewport]");
+    const cards = [...document.querySelectorAll("[data-rail-item]")].map(c => c.getBoundingClientRect());
+    return { scrollable: v.scrollWidth > v.clientWidth + 100, overflowX: getComputedStyle(v).overflowX,
+             oneRow: cards.every(r => Math.abs(r.top - cards[0].top) < 2), top: v.getBoundingClientRect().top + scrollY };
+  });
+  check("rail is one sideways row on a phone, not a stacked column",
+        rail.scrollable && rail.oneRow && rail.overflowX === "auto", JSON.stringify(rail));
+
+  await scroll(rail.top - 200);
+  const nextBtn = await page.$("xpath/.//button[span[text()='Next drink']]");
+  const x0 = await page.$eval("[data-rail-viewport]", v => v.scrollLeft);
+  await nextBtn.click();
+  await new Promise(r => setTimeout(r, 900));
+  const x1 = await page.$eval("[data-rail-viewport]", v => v.scrollLeft);
+  const counter = await page.$eval("[data-rail-controls] p", p => p.textContent.replace(/\s/g, ""));
+  check("next button advances the rail one card", x1 > x0 + 150 && counter.startsWith("02"), `${x0} -> ${x1}, ${counter}`);
+
+  check("thumb bar shows once past the hero", (await bar()) === "true");
+  await scroll(999999);
+  check("thumb bar leaves when the footer is on screen", (await bar()) === "false");
+  await page.close();
+}
+
+/* ---------- 6. Phone: the menu jump bar ---------- */
+{
+  const page = await browser.newPage();
+  await page.setViewport({ width: 375, height: 800, isMobile: true, hasTouch: true });
+  await page.goto(BASE + "/menu", { waitUntil: "networkidle0" });
+  await new Promise(r => setTimeout(r, 1200));
+  const scroll = async (y) => {
+    await page.evaluate((y) => { document.documentElement.style.scrollBehavior = "auto"; window.scrollTo(0, y); }, y);
+    await new Promise(r => setTimeout(r, 800));
+  };
+  const state = () => page.evaluate(() => {
+    const n = document.querySelector(".jumpbar");
+    return { shown: n.dataset.shown, top: Math.round(n.getBoundingClientRect().top),
+             header: document.documentElement.dataset.header,
+             active: n.querySelector('[aria-current="true"]')?.getAttribute("href") ?? null };
+  });
+
+  check("jump bar waits while the page index is on screen", (await state()).shown === "false");
+  await scroll(3200);
+  const down = await state();
+  check("jump bar shows mid menu and takes the header's place", down.shown === "true" && down.top === 0 && down.header === "hidden", JSON.stringify(down));
+  check("jump bar names the current section", !!down.active, String(down.active));
+  await scroll(2900);
+  const up = await state();
+  check("jump bar drops below the header when it returns", up.header === "shown" && up.top >= 60, JSON.stringify(up));
+  await scroll(999999);
+  check("jump bar leaves once the categories end", (await state()).shown === "false");
+  await page.close();
+}
+
+/* ---------- 7. JavaScript disabled: nothing may be invisible ---------- */
 {
   const page = await browser.newPage();
   await page.setJavaScriptEnabled(false);

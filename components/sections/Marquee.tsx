@@ -38,10 +38,21 @@ function Leaf({ className = "" }: { className?: string }) {
   );
 }
 
-export function Marquee({ phrases }: { phrases: string[] }) {
-  const [found, setFound] = useState(false);
-
-  const Row = ({ duplicate = false }: { duplicate?: boolean }) => (
+/* Declared at module scope. Defined inside Marquee it would be a new component
+   type on every render, so React would tear down and rebuild both loops each
+   time the leaf was pressed. */
+function Row({
+  phrases,
+  duplicate = false,
+  found,
+  onToggle,
+}: {
+  phrases: string[];
+  duplicate?: boolean;
+  found: boolean;
+  onToggle: () => void;
+}) {
+  return (
     <div className="marquee-row flex shrink-0 items-center" aria-hidden={duplicate ? "true" : undefined}>
       {phrases.map((p, i) => (
         <span key={p} className="marquee-item flex shrink-0 items-center">
@@ -50,7 +61,7 @@ export function Marquee({ phrases }: { phrases: string[] }) {
           {i === 1 && !duplicate ? (
             <button
               type="button"
-              onClick={() => setFound((v) => !v)}
+              onClick={onToggle}
               aria-expanded={found}
               aria-controls="grove-note"
               /* relative so the visually hidden label cannot escape into the
@@ -72,14 +83,19 @@ export function Marquee({ phrases }: { phrases: string[] }) {
       ))}
     </div>
   );
+}
+
+export function Marquee({ phrases }: { phrases: string[] }) {
+  const [found, setFound] = useState(false);
+  const toggle = () => setFound((v) => !v);
 
   return (
     <section aria-label="Now pouring" className="on-ink border-y-2 border-ink py-3.5">
       <h2 className="sr-only">Now pouring</h2>
       <div className="marquee">
         <div className="marquee-track">
-          <Row />
-          <Row duplicate />
+          <Row phrases={phrases} found={found} onToggle={toggle} />
+          <Row phrases={phrases} found={found} onToggle={toggle} duplicate />
         </div>
       </div>
 

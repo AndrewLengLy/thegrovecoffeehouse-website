@@ -3,6 +3,7 @@ import { site, hours } from "@/lib/site";
 import { Photo } from "@/components/ui/Photo";
 import { SplitHeading } from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
+import { OpenStatus } from "@/components/ui/OpenStatus";
 
 /**
  * Full bleed, edge to edge, no max width. The room, not a latte flat lay.
@@ -66,15 +67,40 @@ export function Hero() {
         </div>
       </div>
 
-      {/* The plate under the window: the three facts a passer by wants. */}
+      {/* The plate under the window: the facts a passer by wants. The first
+          one answers the question people actually have, which is not "when do
+          you open" but "are you open right now". */}
       <div className="on-ink border-t border-paper/25">
-        <Reveal as="dl" onLoad travel={8} each={0.05} className="wrap grid grid-cols-2 divide-paper/20 py-4 md:grid-cols-4 md:divide-x">
+        <Reveal
+          as="dl"
+          onLoad
+          travel={8}
+          each={0.05}
+          className="wrap grid grid-cols-2 gap-x-4 gap-y-4 py-5 md:grid-cols-4 md:gap-0 md:divide-x md:divide-paper/20 md:py-4"
+        >
           {[
-            ["Open", "7:00 AM, every day"],
-            ["Weekdays", hours[0].time],
-            ["Weekends", hours[1].time],
-            ["Find us", "Sierra College Blvd"],
-          ].map(([k, v], i) => (
+            {
+              k: "Right now",
+              v: <OpenStatus fallback="Open 7:00 AM, every day" />,
+            },
+            { k: "Weekdays", v: hours[0].time },
+            { k: "Weekends", v: hours[1].time },
+            {
+              k: "Find us",
+              v: (
+                <a
+                  href={site.directionsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-event="directions_click"
+                  data-event-location="hero_plate"
+                  className="link-slide inline-flex min-h-6 items-center"
+                >
+                  Sierra College Blvd
+                </a>
+              ),
+            },
+          ].map(({ k, v }, i) => (
             <div key={k} className={i > 0 ? "md:pl-6" : ""}>
               <dt className="t-label text-paper/60" style={{ fontSize: "10px" }}>
                 {k}

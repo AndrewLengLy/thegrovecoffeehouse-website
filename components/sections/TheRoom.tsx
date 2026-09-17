@@ -48,8 +48,11 @@ export function TheRoom() {
       </div>
 
       {/* Full bleed. The container breaks here on purpose. */}
-      <Reveal className="mt-12 grid grid-cols-1 gap-px bg-ink md:mt-16 md:grid-cols-[1.6fr_1fr_1fr]">
-        <div className="relative aspect-[16/10] md:aspect-auto md:min-h-[420px]">
+      {/* On a phone the wide shot leads and the two portraits sit side by side
+          under it, instead of three full width frames stacked a screen and a
+          half deep. */}
+      <Reveal className="mt-12 grid grid-cols-2 gap-px bg-ink md:mt-16 md:grid-cols-[1.6fr_1fr_1fr]">
+        <div className="relative col-span-2 aspect-[16/10] md:col-span-1 md:aspect-auto md:min-h-[420px]">
           <ScaleReveal>
           <Photo
             src={null}

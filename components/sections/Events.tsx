@@ -20,10 +20,10 @@ export function Events() {
         </div>
 
         <div className="mt-8 grid gap-6 md:grid-cols-12 md:items-end">
-          <SplitHeading as="h2" className="t-h2 md:col-span-7">
+          <SplitHeading as="h2" className="t-h2 md:col-span-6 lg:col-span-7">
             Not just a place to sit
           </SplitHeading>
-          <p className="t-body text-muted md:col-span-4 md:col-start-9">
+          <p className="t-body text-muted md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
             Some nights the room fills up for a reason. What has been on lately,
             and where the next one will be announced.
           </p>
@@ -60,7 +60,10 @@ export function Events() {
                   rel="noopener noreferrer"
                   data-event="instagram_click"
                   data-event-location={`event_${e.slug}`}
-                  className="link-slide t-label col-start-2 mt-2 inline-flex min-h-[28px] items-center justify-self-start text-muted-strong md:col-start-4 md:mt-0 md:justify-self-end"
+                  /* self-start: as a grid item the link would otherwise stretch
+                     to the full row height and hang its underline far below
+                     the words on a wide screen. */
+                  className="link-slide t-label col-start-2 mt-2 inline-flex min-h-[28px] items-center self-start justify-self-start text-muted-strong md:col-start-4 md:mt-0.5 md:justify-self-end"
                 >
                   See the post
                 </a>
@@ -81,7 +84,10 @@ export function Events() {
             data-event-location="events_section"
             className="btn btn-secondary"
           >
-            Follow {site.instagram.handle}
+            {/* The handle is 22 characters of capitals, which breaks badly in
+                a phone width button. The short label says the same thing. */}
+            <span className="sm:hidden">Follow on Instagram</span>
+            <span className="hidden sm:inline">Follow {site.instagram.handle}</span>
           </a>
         </div>
       </div>

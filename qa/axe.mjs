@@ -1,17 +1,19 @@
 import puppeteer from "puppeteer";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 const require = createRequire(import.meta.url);
 const axeSource = readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
 
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-const BASE = process.env.BASE ?? "http://localhost:3001";
+const CHROME = process.env.CHROME ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const BASE = process.env.BASE ?? "http://localhost:3000";
 const ROUTES = ["/", "/menu", "/visit", "/our-story", "/definitely-not-a-page"];
 const WIDTHS = [375, 1440];
 
 const browser = await puppeteer.launch({
   executablePath: CHROME, headless: "shell",
-  userDataDir: "/private/tmp/claude-501/-Users-andrew-thegrovecoffeehouse-website/978ed2f1-25b7-402d-b0f8-cf73128aca34/scratchpad/chrome-axe",
+  userDataDir: join(tmpdir(), "grove-qa", "chrome-axe"),
   args: ["--no-first-run", "--no-default-browser-check"],
 });
 

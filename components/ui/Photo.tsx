@@ -71,31 +71,56 @@ export function Photo({
     <div
       role="presentation"
       data-photo-placeholder
+      data-tone={tone}
       data-intended-alt={alt}
       aria-hidden="true"
       style={fill ? undefined : { aspectRatio: `${width} / ${height}` }}
       className={
-        "flex h-full w-full flex-col gap-1.5 p-5 " +
+        "flex h-full w-full flex-col gap-1.5 overflow-hidden p-5 " +
+        /* The dark slot is the hero, where the headline owns the bottom, so its
+           label goes top right. Light slots label at the foot, clear of the
+           sprout in the middle. */
         (fill
-          ? "absolute inset-0 items-end justify-start pt-24 text-right "
-          : "items-start justify-end text-left ") +
+          ? tone === "dark"
+            ? "absolute inset-0 items-end justify-start pt-24 text-right "
+            : "absolute inset-0 items-end justify-end text-right "
+          : "relative items-start justify-end text-left ") +
         (tone === "dark" ? "bg-ink text-paper/75 " : "bg-surface text-muted-strong ") +
         className
       }
     >
-      <span className="t-label" style={{ fontSize: "10px" }}>
+      {/* The site's sprout, set faintly in the middle of a light slot so an
+          empty frame reads as waiting for a photograph, not as broken. Kept
+          off the dark hero slot, where it would sit behind the headline. */}
+      {tone === "light" && (
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 text-line-strong opacity-30"
+        >
+          <path d="M12 21.5V10.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" fill="none" />
+          <g transform="translate(16.5 9.5) rotate(-38)">
+            <path d="M-6 0Q0 -4.3 6 0Q0 4.3 -6 0Z" fill="currentColor" />
+          </g>
+          <g transform="translate(7.6 13.6) rotate(38)">
+            <path d="M-5 0Q0 -3.6 5 0Q0 3.6 -5 0Z" fill="currentColor" />
+          </g>
+        </svg>
+      )}
+      <span className="t-label relative" style={{ fontSize: "10px" }}>
         Photograph needed
       </span>
       {/* On a small screen a full shot brief sitting behind the hero headline
           collides with it. The label stays, the detail waits for room. */}
       <span
         className={
-          "max-w-[36ch] text-[13px] leading-snug " + (fill ? "hidden md:block" : "")
+          "relative max-w-[36ch] text-[13px] leading-snug " + (fill ? "hidden md:block" : "")
         }
       >
         {brief}
       </span>
-      <span className={"text-[11px] tabular-nums " + (fill ? "hidden md:block" : "")}>
+      <span className={"relative text-[11px] tabular-nums " + (fill ? "hidden md:block" : "")}>
         {width} x {height}
       </span>
     </div>

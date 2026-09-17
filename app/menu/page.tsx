@@ -18,6 +18,7 @@ import { TrackMenuView } from "@/components/ConversionEvents";
 import { JsonLd } from "@/components/JsonLd";
 import { absolute, breadcrumbs } from "@/lib/seo";
 import { BandLine } from "@/components/motion/BandLine";
+import { MenuJumpBar } from "@/components/ui/MenuJumpBar";
 
 export const metadata: Metadata = {
   title: "Menu",
@@ -77,7 +78,7 @@ export default function MenuPage() {
 
           {/* Jump links. A menu you have to hunt through is halfway back to the
               problem this page exists to solve. */}
-          <nav aria-label="Menu sections" className="md:col-span-6 md:col-start-7">
+          <nav id="menu-index" aria-label="Menu sections" className="md:col-span-6 md:col-start-7">
             <ul className="border-t border-ink">
               {CATEGORY_ORDER.map((c) => (
                 <li key={c}>
@@ -97,12 +98,23 @@ export default function MenuPage() {
         </div>
       </div>
 
+      <MenuJumpBar
+        indexId="menu-index"
+        endId="menu-end"
+        sections={CATEGORY_ORDER.filter((c) => itemsInCategory(c).length > 0).map((c) => ({
+          id: c,
+          label: CATEGORY_LABEL[c],
+        }))}
+      />
+
       {CATEGORY_ORDER.map((category) => {
         const items = itemsInCategory(category);
         if (items.length === 0) return null;
 
+        /* scroll-mt-12 on top of the page's 5rem scroll padding clears the
+           header and the jump bar together. */
         return (
-          <section key={category} id={category} className="rule-top scroll-mt-24">
+          <section key={category} id={category} className="rule-top scroll-mt-12">
             <div className="wrap py-10 md:py-14">
               <div className="band">
                 <h2 className="t-label">{CATEGORY_LABEL[category]}</h2>
@@ -124,7 +136,7 @@ export default function MenuPage() {
       })}
 
       {/* Straight off the bottom of the board in the shop. */}
-      <section className="rule-top">
+      <section id="menu-end" className="rule-top">
         <div className="wrap py-10 md:py-14">
           <div className="grid gap-8 md:grid-cols-12">
             <div className="md:col-span-4">

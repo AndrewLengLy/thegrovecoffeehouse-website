@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { site, hours, hoursCaveat } from "@/lib/site";
+import { site, hoursCaveat } from "@/lib/site";
+import { HoursList } from "@/components/ui/HoursList";
 import { Photo } from "@/components/ui/Photo";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitHeading } from "@/components/motion/SplitHeading";
@@ -138,14 +139,7 @@ export default function VisitPage() {
 
           <div className="lg:col-span-5 lg:col-start-8">
             <h2 className="t-h2">Hours</h2>
-            <dl className="mt-6 border-t-2 border-ink">
-              {hours.map((h) => (
-                <div key={h.label} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line py-3">
-                  <dt className="t-label text-muted-strong">{h.label}</dt>
-                  <dd className="text-[16px] tabular-nums text-ink">{h.time}</dd>
-                </div>
-              ))}
-            </dl>
+            <HoursList className="mt-6" />
             <p className="mt-3 max-w-[46ch] text-[14px] leading-snug text-muted">{hoursCaveat}</p>
 
             <div className="frame mt-8">

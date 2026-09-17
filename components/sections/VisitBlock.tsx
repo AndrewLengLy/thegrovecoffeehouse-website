@@ -1,4 +1,5 @@
-import { site, hours, hoursCaveat } from "@/lib/site";
+import { site, hoursCaveat } from "@/lib/site";
+import { HoursList } from "@/components/ui/HoursList";
 import { SplitHeading } from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
 import { BandLine } from "@/components/motion/BandLine";
@@ -42,17 +43,7 @@ export function VisitBlock({ headingLevel = "h2" }: { headingLevel?: "h1" | "h2"
                 Suite 100, in the retail center on Sierra College Blvd.
               </p>
 
-              <dl className="mt-8 border-t-2 border-ink">
-                {hours.map((h) => (
-                  <div
-                    key={h.label}
-                    className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line py-3"
-                  >
-                    <dt className="t-label text-muted-strong">{h.label}</dt>
-                    <dd className="text-[16px] tabular-nums">{h.time}</dd>
-                  </div>
-                ))}
-              </dl>
+              <HoursList className="mt-8" />
               <p className="mt-3 max-w-[46ch] text-[14px] leading-snug text-muted">{hoursCaveat}</p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">

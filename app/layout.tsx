@@ -3,9 +3,10 @@ import { Big_Shoulders, Work_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 
 import "./globals.css";
-import { site, hours } from "@/lib/site";
+import { site } from "@/lib/site";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { MobileActionBar } from "@/components/layout/MobileActionBar";
 import { ConversionEvents } from "@/components/ConversionEvents";
 import { JsonLd } from "@/components/JsonLd";
 import { absolute, businessNode, openingHours } from "@/lib/seo";
@@ -130,6 +131,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <MobileActionBar />
         <ConversionEvents />
         <Analytics />
       </body>

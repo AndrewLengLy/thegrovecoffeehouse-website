@@ -63,10 +63,21 @@ export function Header() {
     toggleRef.current?.focus();
   }, []);
 
-  // Close the panel on navigation.
-  useEffect(() => {
+  /* Close the panel on navigation. Adjusting state during render when the path
+     changes is React's replacement for a setState inside an effect, which
+     would paint the open panel on the new page for one frame first. */
+  const [lastPath, setLastPath] = useState(pathname);
+  if (lastPath !== pathname) {
+    setLastPath(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
+
+  /* Published on <html> so anything fixed under the header (the menu jump
+     bar) can follow it up and down without a shared React context. */
+  const tucked = hidden && !open;
+  useEffect(() => {
+    document.documentElement.dataset.header = tucked ? "hidden" : "shown";
+  }, [tucked]);
 
   /* Focus containment. A menu that lets the keyboard wander into the page
      behind it is one of the most common accessibility failures on a small
@@ -128,7 +139,7 @@ export function Header() {
         "sticky top-0 z-50 border-b bg-paper text-ink",
         "transition-[transform,border-color] duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)]",
         scrolled ? "border-ink" : "border-line",
-        hidden && !open ? "-translate-y-full" : "translate-y-0",
+        tucked ? "-translate-y-full" : "translate-y-0",
       ].join(" ")}
     >
       <div className="wrap flex h-[68px] items-center justify-between gap-4 md:h-[76px]">

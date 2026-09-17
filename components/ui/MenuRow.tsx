@@ -29,7 +29,10 @@ export function MenuRow({ item, index }: { item: MenuItem; index: number }) {
       </span>
 
       <div>
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
+        {/* On a phone the tag always sits under the name. Letting it wrap
+            inline put it beside some names and under others, so the column
+            had no rhythm. From tablet up there is room to keep it inline. */}
+        <div className="flex flex-col items-start gap-1.5 md:flex-row md:flex-wrap md:items-baseline md:gap-x-3 md:gap-y-2">
           <h3 className={`t-item ${resting ? "text-muted" : "text-ink"}`}>{item.name}</h3>
           {item.season && !resting && (
             <span className="tag tag-season">{SEASON_LABEL[item.season]}</span>

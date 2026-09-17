@@ -1,10 +1,11 @@
 import puppeteer from "puppeteer";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
+import { tmpdir } from "node:os";
 
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const CHROME = process.env.CHROME ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const BASE = process.env.BASE ?? "http://localhost:3000";
-const OUT = process.env.OUT ?? "/private/tmp/claude-501/-Users-andrew-thegrovecoffeehouse-website/978ed2f1-25b7-402d-b0f8-cf73128aca34/scratchpad/shots";
+const OUT = process.env.OUT ?? join(tmpdir(), "grove-qa", "shots");
 const REDUCED = process.env.REDUCED === "1";
 mkdirSync(OUT, { recursive: true });
 
@@ -14,7 +15,7 @@ const ROUTES = (process.env.ROUTES ?? "/,/menu,/visit,/our-story,/definitely-not
 const browser = await puppeteer.launch({
   executablePath: CHROME,
   headless: "shell",
-  userDataDir: "/private/tmp/claude-501/-Users-andrew-thegrovecoffeehouse-website/978ed2f1-25b7-402d-b0f8-cf73128aca34/scratchpad/chrome-qa",
+  userDataDir: join(tmpdir(), "grove-qa", "chrome-qa"),
   args: ["--no-first-run", "--no-default-browser-check", "--disable-features=Translate"],
 });
 
