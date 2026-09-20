@@ -40,13 +40,13 @@ export function Hero() {
 
       <div className="wrap on-deep bg-transparent pb-10 pt-28 text-chalk md:pb-14">
         <SplitHeading as="h1" onLoad className="t-hero max-w-[13ch]">
-          Good coffee. A warm room. An open outlet.
+          Coffee runs, matcha dates, long mornings.
         </SplitHeading>
 
         <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <p className="t-body max-w-[42ch] text-chalk/90">
-            Seasonal drinks you will not find at a drive through, real food, and
-            beans roasted down the road in Sacramento.
+            A seasonal board we change with the weather, real food all day, and
+            beans roasted just down the road in Sacramento.
           </p>
 
           <div className="flex shrink-0 flex-col gap-3 sm:flex-row">

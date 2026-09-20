@@ -13,10 +13,10 @@ import { ScaleReveal } from "@/components/motion/ScaleReveal";
  */
 
 const plate = [
-  ["Power", "Outlets you can actually reach"],
+  ["Power", "Outlets you can reach"],
   ["Seating", "Inside and outside"],
   ["Laptops", "Welcome, all morning"],
-  ["Bikes", "Riders stop in. Sit where you can see it"],
+  ["Bikes", "Riders stop in. Park where you can see it"],
 ];
 
 export function TheRoom() {
@@ -30,10 +30,11 @@ export function TheRoom() {
 
           <Reveal className="md:col-span-5 md:col-start-8">
             <p className="t-body">
-              There are outlets, there are chairs worth sitting in, and nobody is
-              going to hover while you finish. People work here for whole
-              mornings. People read here. People come in off a ride and sit
-              outside with the bike.
+              Settle in and stay. There are outlets, seating inside and out, and
+              nobody watching the clock. People spend whole mornings here
+              working and studying, or catching up with a friend. Riders come
+              in off Sierra College Blvd and sit outside where they can see
+              the bike.
             </p>
             <dl className="mt-7 border-t border-chalk">
               {plate.map(([k, v]) => (

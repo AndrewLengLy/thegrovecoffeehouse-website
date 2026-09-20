@@ -59,7 +59,7 @@ function Row({
               className="relative mx-5 inline-flex h-11 w-11 items-center justify-center rounded-full text-chalk transition-transform duration-fast ease-out-back hover:scale-110 md:mx-7"
               style={{ transform: found ? "rotate(-12deg) scale(1.1)" : undefined }}
             >
-              <span className="sr-only">A note from the grove</span>
+              <span className="sr-only">A note from us</span>
               <Leaf />
             </button>
           ) : i === 1 ? (
@@ -97,9 +97,10 @@ export function Marquee({ phrases }: { phrases: string[] }) {
       >
         <p className="mx-auto mt-4 max-w-[46ch] border-2 border-chalk bg-chalk px-6 py-5 text-center text-[17px] leading-[1.5] text-deep">
           {/* TODO(andrew): if the owners want a real line from the family here,
-              swap this copy. It makes no factual claim as written. */}
-          A grove is a small stand of trees that somebody planted on purpose, then
-          kept. Thanks for looking closely.
+              swap this copy. The only claim it makes is the three years, which
+              /our-story states too and their own birthday post confirms. */}
+          You found the leaf. Thank you for looking closely, and thank you for
+          three years of coffee runs. See you at The Grove.
         </p>
       </div>
     </section>

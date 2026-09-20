@@ -29,19 +29,19 @@ export const metadata: Metadata = {
 const goodFor = [
   {
     title: "A morning of work",
-    body: "Outlets, chairs worth sitting in, and nobody clearing your table at the ninety minute mark.",
+    body: "Outlets, comfortable seating, and nobody watching the clock. Stay as long as the work takes.",
   },
   {
     title: "Meeting one person",
-    body: "Quiet enough to talk. Order at the counter, take a table, stay past the second cup.",
+    body: "Quiet enough to hear each other. Order at the counter, find a table, and stay for the second cup.",
   },
   {
     title: "A stop mid ride",
-    body: "Sierra College Blvd is a regular route. Outdoor seating means you can sit where the bike is.",
+    body: "Riders come in off Sierra College Blvd most days. Refuel, take a seat outside, and get back on it.",
   },
   {
-    title: "Breakfast that is not a drive through",
-    body: "Avocado toast, bagels, scones, and a pastrami sandwich when it is closer to lunch.",
+    title: "Breakfast worth sitting down for",
+    body: "Avocado toast, bagels, scones, and a pastrami sandwich once it is closer to lunch.",
   },
 ];
 
@@ -52,13 +52,14 @@ export default function VisitPage() {
       <JsonLd data={breadcrumbs([{ name: "Visit", path: "/visit" }])} />
       <div className="wrap section pb-10">
         <SplitHeading as="h1" onLoad className="t-hero max-w-[12ch]">
-          Where we are, when we are here
+          Where to find us
         </SplitHeading>
 
         <div className="mt-8 grid gap-6 md:grid-cols-12 md:items-end">
           <p className="t-body text-muted md:col-span-5">
-            We are on Sierra College Blvd in Roseville, in Suite 100. Open at
-            seven every day of the week.
+            We are on Sierra College Blvd in Roseville, in Suite 100, with
+            parking right out front. The coffee is on at seven, every day of
+            the week.
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row md:col-span-6 md:col-start-7 md:justify-end">
@@ -115,14 +116,14 @@ export default function VisitPage() {
               {/* TODO(andrew): confirm the parking situation and the plaza name
                   with the owners, then replace this with the specifics. */}
               <p className="t-body mt-2 text-chalk">
-                There is a parking lot in front of the retail center. We are in
+                There is a parking lot in front of the retail center, and we are in
                 Suite 100.
               </p>
 
               <h3 className="t-label mt-8 text-muted-strong">On two wheels</h3>
               <p className="t-body mt-2 text-chalk">
-                Sierra College Blvd is a regular route and riders stop in often.
-                Outdoor seating means you can sit where you can see the bike.
+                Plenty of riders stop in off Sierra College Blvd. There is seating out
+                front, so you can sit where you can keep an eye on the bike.
               </p>
 
               <h3 className="t-label mt-8 text-muted-strong">Accessibility</h3>
@@ -131,8 +132,9 @@ export default function VisitPage() {
                   an accessibility claim is worse than saying nothing, because a
                   wrong answer strands somebody in the car park. */}
               <p className="t-body mt-2 text-chalk">
-                Call us on {site.phone.display} and we will tell you exactly what
-                the entrance and the seating are like before you drive over.
+                Give us a call on {site.phone.display} and we will tell you exactly
+                what the entrance and the seating are like before you make the
+                drive.
               </p>
             </Reveal>
           </div>

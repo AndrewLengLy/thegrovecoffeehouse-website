@@ -180,11 +180,11 @@ export default function MenuPage() {
       <section className="on-green">
         <div className="wrap section">
           <div className="grid gap-8 md:grid-cols-12 md:items-end">
-            <h2 className="t-h2 md:col-span-6">Not sure what to order</h2>
+            <h2 className="t-h2 md:col-span-6">Not sure what to order?</h2>
             <p className="t-body text-chalk/90 md:col-span-5 md:col-start-8">
-              Tell whoever is on bar what you usually drink and how sweet you like
-              it. That is the fastest route to the right cup, and it is the part
-              of this a website cannot do for you.
+              Tell whoever is on bar what you usually go for and how sweet you like
+              it, and they will find you something. It is the best part of
+              ordering in person.
             </p>
           </div>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">

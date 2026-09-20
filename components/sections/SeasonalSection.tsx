@@ -23,7 +23,7 @@ export function SeasonalSection() {
 
         <div className="mt-8 grid gap-6 md:grid-cols-12 md:items-end">
           <SplitHeading as="h2" className="t-h2 md:col-span-6 lg:col-span-7">
-            The board changes. That is the whole idea.
+            Consider this your sign to switch up your usual
           </SplitHeading>
           <p className="t-body text-muted md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">{menuCaveat}</p>
         </div>

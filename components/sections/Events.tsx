@@ -21,11 +21,12 @@ export function Events() {
 
         <div className="mt-8 grid gap-6 md:grid-cols-12 md:items-end">
           <SplitHeading as="h2" className="t-h2 md:col-span-6 lg:col-span-7">
-            Not just a place to sit
+            Some evenings the room fills up
           </SplitHeading>
           <p className="t-body text-muted md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
-            Some nights the room fills up for a reason. What has been on lately,
-            and where the next one will be announced.
+            Music nights, birthdays, and the occasional candle drop. Here is what
+            has been on lately, and where you will hear about the next one
+            first.
           </p>
         </div>
 
@@ -74,7 +75,8 @@ export function Events() {
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[15px] text-muted">
-            The next one goes up on Instagram before it goes anywhere else.
+            We post the next one on Instagram before anywhere else, so follow
+            along there.
           </p>
           <a
             href={site.instagram.url}

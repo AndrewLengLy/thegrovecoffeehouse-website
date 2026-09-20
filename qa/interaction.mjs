@@ -244,7 +244,7 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
   const noJs = await page.evaluate ? null : null;
   // evaluate needs JS; check via content instead
   const html = await page.content();
-  const hasHeadline = html.includes("Good coffee. A warm room. An open outlet.");
+  const hasHeadline = html.includes("Coffee runs, matcha dates, long mornings.");
   const hasMenuLink = html.includes('href="/menu"');
   check("content present with JavaScript disabled", hasHeadline && hasMenuLink);
   await page.close();

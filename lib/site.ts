@@ -21,7 +21,7 @@ export const site = {
    */
   url: process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://thegrovecoffeehouse.com",
 
-  tagline: "Family owned coffee house in Roseville, California.",
+  tagline: "A family owned coffee house in Roseville, California.",
 
   /**
    * The client's real logo.
@@ -177,7 +177,7 @@ export const hours: HoursRow[] = [
 
 /** Stated plainly because the weekend difference is the thing people get wrong. */
 export const hoursCaveat =
-  "The weekend close is two hours earlier than the weekday close. Holiday hours can differ, so call ahead on a holiday.";
+  "We close two hours earlier on the weekend than we do on weekdays. Holiday hours can change, so give us a call if you are coming on one.";
 
 /* ------------------------------------------------------------------ */
 /* Navigation                                                          */

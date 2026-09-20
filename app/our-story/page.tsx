@@ -46,13 +46,13 @@ export default function OurStoryPage() {
       <JsonLd data={breadcrumbs([{ name: "Our story", path: "/our-story" }])} />
       <div className="wrap section pb-10">
         <SplitHeading as="h1" onLoad className="t-hero max-w-[11ch]">
-          How the grove got planted
+          Three years on Sierra College Blvd
         </SplitHeading>
         <p className="t-body mt-8 max-w-[46ch] text-muted">
-          The Grove opened in the summer of 2023 and turned three in August
-          2026, with cake. It is family owned and independent. No group behind
-          it, no regional office, no second location waiting in a spreadsheet.
-          One room on Sierra College Blvd, run by the people who own it.
+          We opened in the summer of 2023, and this August we turned three.
+          Three years of coffee runs, matcha dates, study sessions and catch
+          ups, and a lot of familiar faces. It is still just us: one family,
+          one room on Sierra College Blvd.
         </p>
       </div>
 
@@ -73,19 +73,21 @@ export default function OurStoryPage() {
       <section className="rule-top">
         <div className="wrap section">
           <div className="grid gap-8 md:grid-cols-12">
-            <h2 className="t-h2 md:col-span-5">Why we called it The Grove</h2>
+            <h2 className="t-h2 md:col-span-5">More than a coffee shop</h2>
             <div className="md:col-span-6 md:col-start-7">
               <Reveal>
                 <p className="t-body">
-                  A grove is a small stand of trees that somebody planted on
-                  purpose and then kept. It is not a forest. Nobody stumbled into
-                  it. Somebody chose the spot, put things in the ground, and came
-                  back to look after them.
+                  Three years in, the part we are proudest of is not on the menu. It
+                  is the familiar faces, the friendships that started here, and
+                  everyone who brought someone along or told a friend about us.
+                  The Grove became more than a coffee shop because of you, and
+                  we are grateful for it.
                 </p>
                 <p className="t-body mt-4">
-                  That is roughly how the drinks list works too. Things go on the
-                  board because they are good right now, and come off when the
-                  season turns. The list in spring is not the list in October.
+                  It is also why the board keeps changing. We put on what tastes
+                  right for the season, and when something has had its run we
+                  make room for the next one. The list in spring is never the
+                  list in October.
                 </p>
               </Reveal>
             </div>
@@ -96,24 +98,23 @@ export default function OurStoryPage() {
       <section className="rule-top">
         <div className="wrap section">
           <div className="grid gap-8 md:grid-cols-12">
-            <h2 className="t-h2 md:col-span-5">The board covers some ground</h2>
+            <h2 className="t-h2 md:col-span-5">There is a lot on the board</h2>
             <div className="md:col-span-6 md:col-start-7">
               <Reveal>
                 <p className="t-body">
-                  On one board, in one small room in Roseville, there is a gulab
-                  jamun latte with cardamom, rose and saffron, a baklava latte
-                  with orange blossom and honey, a Spanish latte on condensed
-                  milk, a Mexican mocha with cayenne in it, and a matcha list
-                  eight drinks long.
+                  In one small room in Roseville you will find a gulab jamun latte
+                  with cardamom, rose and saffron, a baklava latte with orange
+                  blossom and honey, a Spanish latte on condensed milk, a
+                  Mexican mocha with cayenne in it, and a matcha list eight
+                  drinks long.
                 </p>
                 <p className="t-body mt-4">
-                  That is not a theme anybody imposed. It is what happens when
-                  the people making the drinks are allowed to put what they know
-                  on the menu, and the regulars keep asking for it. Some
-                  evenings the same room turns into a music night.
+                  Those drinks are on the board because the people making them
+                  wanted them there, and because you keep ordering them. Some
+                  evenings the same room fills up for a music night instead.
                 </p>
                 <Link href="/menu" className="btn btn-secondary mt-8">
-                  Read the whole board
+                  See the whole board
                 </Link>
               </Reveal>
             </div>
@@ -127,8 +128,8 @@ export default function OurStoryPage() {
             <h2 className="t-h2 md:col-span-5">Who roasts for us</h2>
             <p className="t-body text-chalk/90 md:col-span-6 md:col-start-7">
               We pour {site.roaster.name} out of {site.roaster.location}. Close
-              enough to drive to, which is the whole point. Coffee arrives fresh
-              and there is a person on the other end of it.
+              enough that we can drive out and see them, which means the coffee
+              arrives fresh and we always know who roasted it.
             </p>
           </div>
 

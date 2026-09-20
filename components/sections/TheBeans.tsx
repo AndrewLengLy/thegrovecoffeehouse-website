@@ -30,12 +30,12 @@ export function TheBeans() {
             <Reveal className="mt-8 max-w-[38rem]">
               <p className="t-body text-chalk/90">
                 We pour {site.roaster.name}, a roastery in {site.roaster.location}.
-                Buying from a roaster we can drive to means the coffee is fresh
-                and the person who roasted it will pick up the phone.
+                Buying from people we can drive out and see means the coffee
+                arrives fresh, and we always know who roasted it.
               </p>
               <p className="t-body mt-4 text-chalk/90">
-                It is the same reason everything else here is made the way it is.
-                Somebody nearby is answerable for it.
+                We like knowing the people we buy from. It is the same reason we
+                would rather you got to know us.
               </p>
               <a
                 href={site.roaster.url}

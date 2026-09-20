@@ -62,17 +62,18 @@ export const CATEGORY_LABEL: Record<Category, string> = {
   matcha: "The matcha lineup",
   noncoffee: "Not coffee",
   blended: "Blended and cold",
-  food: "Food, actual food",
+  food: "Something to eat",
 };
 
 export const CATEGORY_BLURB: Record<Category, string> = {
-  seasonal: "These rotate. When one goes, it goes until next year.",
-  coffee: "The everyday list. Espresso, drip, and cold brew, done properly.",
+  seasonal:
+    "These change with the season. When one comes off the board, it is back around the same time next year.",
+  coffee: "The everyday list. Espresso, drip, and cold brew.",
   favorites: "The ones people drive here for.",
-  matcha: "Whisked, not scooped from a powder jug. The longest list in the shop.",
+  matcha: "The longest list in the shop, and the one we get asked about most.",
   noncoffee: "Tea, chai, and the ones with no coffee in them at all.",
   blended: "Cold and blended. Add an espresso shot for 95 cents.",
-  food: "Yes, there is a real food menu. Here is all of it, in one place.",
+  food: "Everything we make to eat, all in one place.",
 };
 
 export const SEASON_LABEL: Record<Season, string> = {
@@ -224,7 +225,7 @@ export const menu: MenuItem[] = [
     name: "Brown sugar cinnamon latte",
     category: "favorites",
     available: true,
-    oneLiner: "Brown sugar and cinnamon, and not much argument.",
+    oneLiner: "Brown sugar and cinnamon, warm all the way down.",
     whatsInIt: "A latte with brown sugar and cinnamon.",
     price: "7.65",
   },
@@ -437,7 +438,7 @@ export const menu: MenuItem[] = [
     name: "Espresso",
     category: "coffee",
     available: true,
-    oneLiner: "Two ounces, nowhere to hide.",
+    oneLiner: "Two ounces, straight off the machine.",
     whatsInIt: "A shot of espresso.",
     price: "4.00",
   },
@@ -529,7 +530,7 @@ export const menu: MenuItem[] = [
     name: "Hot tea",
     category: "noncoffee",
     available: true,
-    oneLiner: "Whatever is in the tin today.",
+    oneLiner: "Ask us what is in the tin today.",
     whatsInIt: "Hot tea, various flavors.",
     price: "3.75",
   },
@@ -583,7 +584,7 @@ export const menu: MenuItem[] = [
     name: "Hot chocolate",
     category: "noncoffee",
     available: true,
-    oneLiner: "For whoever came along and does not drink coffee.",
+    oneLiner: "For anyone who would rather skip the coffee.",
     whatsInIt: "Steamed milk and chocolate.",
     price: "4.85",
   },
@@ -621,7 +622,7 @@ export const menu: MenuItem[] = [
     name: "Caramel white chocolate",
     category: "blended",
     available: true,
-    oneLiner: "Sweet, and it knows it.",
+    oneLiner: "Sweet, cold, and unapologetic.",
     whatsInIt: "Blended caramel and white chocolate.",
     price: "6.75",
   },
@@ -740,7 +741,7 @@ export const announcement = {
 
 /** Said plainly, everywhere the menu appears. */
 export const menuCaveat =
-  "Prices are from the board in the shop and the board changes. A few things here rotate in and out, so if you are coming for something specific, call ahead and we will tell you what is on.";
+  "Prices come from the board in the shop, and the board changes. A few of these rotate in and out, so if you are coming for something in particular, give us a call and we will tell you what is on.";
 
 export const marqueePhrases = [
   "Now pouring",

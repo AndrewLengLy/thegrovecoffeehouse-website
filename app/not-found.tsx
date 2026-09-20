@@ -11,10 +11,10 @@ export default function NotFound() {
           <BandLine />
           <span className="t-label text-muted-strong">Not found</span>
         </div>
-        <h1 className="t-hero mt-8 max-w-[12ch]">This page wandered off the path</h1>
+        <h1 className="t-hero mt-8 max-w-[12ch]">We cannot find that page</h1>
         <p className="t-body mt-8 max-w-[46ch] text-muted">
-          Whatever was here has moved or never existed. The menu is the thing
-          most people are looking for, so start there.
+          It has either moved or never existed. Most people are here for the
+          menu, so that is a good place to start.
         </p>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -37,7 +37,7 @@ export default function NotFound() {
         </div>
 
         <p className="mt-10 text-[15px] text-muted">
-          Still stuck. Call us on{" "}
+          Still stuck? Give us a call on{" "}
           <a
             href={site.phone.href}
             data-event="phone_click"
@@ -46,7 +46,7 @@ export default function NotFound() {
           >
             {site.phone.display}
           </a>{" "}
-          and we will point you at it.
+          and we will point you in the right direction.
         </p>
       </div>
     </section>
