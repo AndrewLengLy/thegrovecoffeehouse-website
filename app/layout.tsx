@@ -9,7 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
 import { ConversionEvents } from "@/components/ConversionEvents";
 import { JsonLd } from "@/components/JsonLd";
-import { absolute, businessNode, openingHours } from "@/lib/seo";
+import { absolute, businessNode, isIndexable, openingHours } from "@/lib/seo";
 import { menu } from "@/lib/menu";
 
 /* A condensed signage face, a warm grotesque, and a mono. All three are self
@@ -65,7 +65,10 @@ export const metadata: Metadata = {
     description:
       "Family owned coffee house on Sierra College Blvd in Roseville. Seasonal drinks, real food, and a room built for staying a while.",
   },
-  robots: { index: true, follow: true },
+  /* Agrees with app/robots.ts rather than contradicting it: a preview that
+     disallows everything in robots.txt while its pages say "index, follow" is
+     telling a crawler two different things. */
+  robots: isIndexable() ? { index: true, follow: true } : { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
