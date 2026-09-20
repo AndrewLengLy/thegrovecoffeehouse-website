@@ -11,7 +11,7 @@ import { BandLine } from "@/components/motion/BandLine";
  */
 export function SeasonalSection() {
   return (
-    <section id="seasonal" className="section scroll-mt-24">
+    <section id="seasonal" className="section scroll-mt-2">
       <div className="wrap">
         <div className="band">
           <span className="t-label">Now pouring</span>

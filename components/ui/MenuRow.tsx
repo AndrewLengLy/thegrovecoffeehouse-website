@@ -19,7 +19,7 @@ export function MenuRow({ item, index }: { item: MenuItem; index: number }) {
     <li
       id={item.slug}
       className={[
-        "scroll-mt-24 grid grid-cols-[2.25rem_1fr_auto] gap-x-3 border-t border-ink py-5",
+        "scroll-mt-12 grid grid-cols-[2.25rem_1fr_auto] gap-x-3 border-t border-chalk py-5",
         "md:grid-cols-[3rem_minmax(0,22rem)_minmax(0,1fr)_5.5rem] md:gap-x-8",
         resting ? "text-muted" : "",
       ].join(" ")}
@@ -33,7 +33,7 @@ export function MenuRow({ item, index }: { item: MenuItem; index: number }) {
             inline put it beside some names and under others, so the column
             had no rhythm. From tablet up there is room to keep it inline. */}
         <div className="flex flex-col items-start gap-1.5 md:flex-row md:flex-wrap md:items-baseline md:gap-x-3 md:gap-y-2">
-          <h3 className={`t-item ${resting ? "text-muted" : "text-ink"}`}>{item.name}</h3>
+          <h3 className={`t-item ${resting ? "text-muted" : "text-chalk"}`}>{item.name}</h3>
           {item.season && !resting && (
             <span className="tag tag-season">{SEASON_LABEL[item.season]}</span>
           )}
@@ -41,7 +41,7 @@ export function MenuRow({ item, index }: { item: MenuItem; index: number }) {
         </div>
         <p
           className={`mt-1.5 text-[17px] leading-[1.35] ${
-            resting ? "text-muted" : "text-seasonal-ink"
+            resting ? "text-muted" : "text-ember"
           }`}
         >
           {item.oneLiner}
@@ -52,14 +52,14 @@ export function MenuRow({ item, index }: { item: MenuItem; index: number }) {
           says nothing here, because its tag already has. */}
       <div className="justify-self-end text-right md:order-last">
         {item.price ? (
-          <span className="t-item tabular-nums text-ink">${item.price}</span>
+          <span className="t-item tabular-nums text-chalk">${item.price}</span>
         ) : resting ? null : (
           <span className="t-label whitespace-nowrap text-muted-strong">Ask</span>
         )}
       </div>
 
       <div className="col-span-2 col-start-2 mt-3 md:col-span-1 md:col-start-3 md:mt-1.5">
-        <p className={`text-[15px] leading-[1.55] ${resting ? "text-muted" : "text-ink"}`}>
+        <p className={`text-[15px] leading-[1.55] ${resting ? "text-muted" : "text-chalk"}`}>
           {item.whatsInIt}
         </p>
       </div>

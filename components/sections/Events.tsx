@@ -11,7 +11,7 @@ import { BandLine } from "@/components/motion/BandLine";
  */
 export function Events() {
   return (
-    <section id="events" className="rule-top scroll-mt-24">
+    <section id="events" className="rule-top scroll-mt-2">
       <div className="wrap section">
         <div className="band">
           <span className="t-label">Things that happen here</span>
@@ -29,7 +29,7 @@ export function Events() {
           </p>
         </div>
 
-        <Reveal as="ol" className="mt-10 list-none border-t border-ink" each={0.06}>
+        <Reveal as="ol" className="mt-10 list-none border-t border-chalk" each={0.06}>
           {recentEvents.map((e) => {
             const d = formatEventDate(e);
             return (

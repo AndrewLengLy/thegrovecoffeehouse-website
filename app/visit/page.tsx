@@ -114,13 +114,13 @@ export default function VisitPage() {
               <h3 className="t-label mt-8 text-muted-strong">Parking</h3>
               {/* TODO(andrew): confirm the parking situation and the plaza name
                   with the owners, then replace this with the specifics. */}
-              <p className="t-body mt-2 text-ink">
+              <p className="t-body mt-2 text-chalk">
                 There is a parking lot in front of the retail center. We are in
                 Suite 100.
               </p>
 
               <h3 className="t-label mt-8 text-muted-strong">On two wheels</h3>
-              <p className="t-body mt-2 text-ink">
+              <p className="t-body mt-2 text-chalk">
                 Sierra College Blvd is a regular route and riders stop in often.
                 Outdoor seating means you can sit where you can see the bike.
               </p>
@@ -130,7 +130,7 @@ export default function VisitPage() {
                   accessible parking with the owners before launch. Guessing at
                   an accessibility claim is worse than saying nothing, because a
                   wrong answer strands somebody in the car park. */}
-              <p className="t-body mt-2 text-ink">
+              <p className="t-body mt-2 text-chalk">
                 Call us on {site.phone.display} and we will tell you exactly what
                 the entrance and the seating are like before you drive over.
               </p>
@@ -162,7 +162,7 @@ export default function VisitPage() {
             <BandLine />
             <span className="t-index text-muted-strong">04</span>
           </div>
-          <Reveal as="ul" className="mt-8 list-none border-t border-ink">
+          <Reveal as="ul" className="mt-8 list-none border-t border-chalk">
             {goodFor.map((g, i) => (
               <li
                 key={g.title}

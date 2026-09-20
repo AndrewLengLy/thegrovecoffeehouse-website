@@ -125,7 +125,7 @@ export default function OurStoryPage() {
         <div className="wrap section">
           <div className="grid gap-8 md:grid-cols-12">
             <h2 className="t-h2 md:col-span-5">Who roasts for us</h2>
-            <p className="t-body text-paper/90 md:col-span-6 md:col-start-7">
+            <p className="t-body text-chalk/90 md:col-span-6 md:col-start-7">
               We pour {site.roaster.name} out of {site.roaster.location}. Close
               enough to drive to, which is the whole point. Coffee arrives fresh
               and there is a person on the other end of it.

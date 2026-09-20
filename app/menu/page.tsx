@@ -79,12 +79,12 @@ export default function MenuPage() {
           {/* Jump links. A menu you have to hunt through is halfway back to the
               problem this page exists to solve. */}
           <nav id="menu-index" aria-label="Menu sections" className="md:col-span-6 md:col-start-7">
-            <ul className="border-t border-ink">
+            <ul className="border-t border-chalk">
               {CATEGORY_ORDER.map((c) => (
                 <li key={c}>
                   <a
                     href={`#${c}`}
-                    className="group flex items-baseline justify-between gap-4 border-b border-line py-2.5 transition-colors duration-micro hover:text-accent"
+                    className="group flex items-baseline justify-between gap-4 border-b border-line py-2.5 transition-colors duration-micro hover:text-ember"
                   >
                     <span className="t-label">{CATEGORY_LABEL[c]}</span>
                     <span className="t-index text-muted-strong">
@@ -181,7 +181,7 @@ export default function MenuPage() {
         <div className="wrap section">
           <div className="grid gap-8 md:grid-cols-12 md:items-end">
             <h2 className="t-h2 md:col-span-6">Not sure what to order</h2>
-            <p className="t-body text-paper/90 md:col-span-5 md:col-start-8">
+            <p className="t-body text-chalk/90 md:col-span-5 md:col-start-8">
               Tell whoever is on bar what you usually drink and how sweet you like
               it. That is the fastest route to the right cup, and it is the part
               of this a website cannot do for you.

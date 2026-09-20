@@ -15,7 +15,7 @@ export function MenuCard({ item, index }: { item: MenuItem; index?: number }) {
     <article
       className={[
         "flex h-full flex-col border-2 p-5",
-        resting ? "border-line-strong text-muted" : "border-ink",
+        resting ? "border-line-strong text-muted" : "border-chalk",
       ].join(" ")}
       aria-label={resting ? `${item.name}, back next season` : undefined}
     >
@@ -29,11 +29,11 @@ export function MenuCard({ item, index }: { item: MenuItem; index?: number }) {
         {resting && <span className="tag tag-rest">Back next season</span>}
       </div>
 
-      <h3 className={`t-item mt-4 ${resting ? "text-muted" : "text-ink"}`}>{item.name}</h3>
+      <h3 className={`t-item mt-4 ${resting ? "text-muted" : "text-chalk"}`}>{item.name}</h3>
 
       <p
         className={`mt-2 text-[17px] leading-[1.35] ${
-          resting ? "text-muted" : "text-seasonal-ink"
+          resting ? "text-muted" : "text-ember"
         }`}
       >
         {item.oneLiner}
@@ -44,11 +44,11 @@ export function MenuCard({ item, index }: { item: MenuItem; index?: number }) {
           card, where mt-auto resolves to nothing. */}
       <div className="mt-auto pt-5">
         <div className="flex items-end justify-between gap-4 border-t border-line pt-4">
-          <p className={`text-[14px] leading-[1.5] ${resting ? "text-muted" : "text-ink"}`}>
+          <p className={`text-[14px] leading-[1.5] ${resting ? "text-muted" : "text-chalk"}`}>
             {item.whatsInIt}
           </p>
           {item.price && (
-            <span className={`t-item shrink-0 tabular-nums ${resting ? "text-muted" : "text-ink"}`}>
+            <span className={`t-item shrink-0 tabular-nums ${resting ? "text-muted" : "text-chalk"}`}>
               ${item.price}
             </span>
           )}

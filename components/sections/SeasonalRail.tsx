@@ -212,11 +212,11 @@ export function SeasonalRail({ items }: { items: MenuItem[] }) {
 
       <div data-rail-controls className="wrap mt-5 flex items-center gap-4 md:mt-6 lg:hidden">
         <p className="t-index shrink-0 tabular-nums text-muted-strong" aria-hidden="true">
-          <span className="text-ink">{pad(position.index + 1)}</span> / {pad(items.length)}
+          <span className="text-chalk">{pad(position.index + 1)}</span> / {pad(items.length)}
         </p>
         <div className="relative h-[2px] min-w-0 flex-1 bg-line" aria-hidden="true">
           <div
-            className="absolute inset-y-0 left-0 w-full origin-left bg-ink"
+            className="absolute inset-y-0 left-0 w-full origin-left bg-ember"
             style={{ transform: `scaleX(${Math.max(0.04, position.progress)})` }}
           />
         </div>
@@ -225,7 +225,7 @@ export function SeasonalRail({ items }: { items: MenuItem[] }) {
             type="button"
             onClick={() => step(-1)}
             disabled={position.atStart}
-            className="inline-flex h-11 w-11 items-center justify-center border-2 border-ink transition-opacity duration-micro disabled:opacity-30"
+            className="inline-flex h-11 w-11 items-center justify-center border-2 border-chalk transition-opacity duration-micro disabled:opacity-30"
           >
             <span className="sr-only">Previous drink</span>
             <Chevron dir="left" />
@@ -234,7 +234,7 @@ export function SeasonalRail({ items }: { items: MenuItem[] }) {
             type="button"
             onClick={() => step(1)}
             disabled={position.atEnd}
-            className="inline-flex h-11 w-11 items-center justify-center border-2 border-ink bg-ink text-paper transition-opacity duration-micro disabled:opacity-30"
+            className="inline-flex h-11 w-11 items-center justify-center border border-chalk bg-chalk text-ground transition-opacity duration-micro disabled:opacity-30"
           >
             <span className="sr-only">Next drink</span>
             <Chevron dir="right" />

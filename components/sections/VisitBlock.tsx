@@ -12,7 +12,7 @@ import { BandLine } from "@/components/motion/BandLine";
  */
 export function VisitBlock({ headingLevel = "h2" }: { headingLevel?: "h1" | "h2" }) {
   return (
-    <section id="visit" className="rule-top scroll-mt-24">
+    <section id="visit" className="rule-top scroll-mt-2">
       <div className="wrap section">
         <div className="band">
           <span className="t-label">Visit</span>

@@ -35,16 +35,16 @@ export function Hero() {
 
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 -z-10 h-[78%] bg-gradient-to-t from-ink/85 via-ink/60 to-transparent"
+        className="absolute inset-x-0 bottom-0 -z-10 h-[78%] bg-gradient-to-t from-deep/95 via-deep/70 to-transparent"
       />
 
-      <div className="wrap on-ink bg-transparent pb-10 pt-28 text-paper md:pb-14">
+      <div className="wrap on-deep bg-transparent pb-10 pt-28 text-chalk md:pb-14">
         <SplitHeading as="h1" onLoad className="t-hero max-w-[13ch]">
           Good coffee. A warm room. An open outlet.
         </SplitHeading>
 
         <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <p className="t-body max-w-[42ch] text-paper/90">
+          <p className="t-body max-w-[42ch] text-chalk/90">
             Seasonal drinks you will not find at a drive through, real food, and
             beans roasted down the road in Sacramento.
           </p>
@@ -70,13 +70,13 @@ export function Hero() {
       {/* The plate under the window: the facts a passer by wants. The first
           one answers the question people actually have, which is not "when do
           you open" but "are you open right now". */}
-      <div className="on-ink border-t border-paper/25">
+      <div className="on-deep border-t border-chalk/25">
         <Reveal
           as="dl"
           onLoad
           travel={8}
           each={0.05}
-          className="wrap grid grid-cols-2 gap-x-4 gap-y-4 py-5 md:grid-cols-4 md:gap-0 md:divide-x md:divide-paper/20 md:py-4"
+          className="wrap grid grid-cols-2 gap-x-4 gap-y-4 py-5 md:grid-cols-4 md:gap-0 md:divide-x md:divide-chalk/20 md:py-4"
         >
           {[
             {
@@ -102,10 +102,10 @@ export function Hero() {
             },
           ].map(({ k, v }, i) => (
             <div key={k} className={i > 0 ? "md:pl-6" : ""}>
-              <dt className="t-label text-paper/60" style={{ fontSize: "10px" }}>
+              <dt className="t-label text-chalk/60" style={{ fontSize: "10px" }}>
                 {k}
               </dt>
-              <dd className="mt-1 text-[15px] leading-snug text-paper">{v}</dd>
+              <dd className="mt-1 text-[15px] leading-snug text-chalk">{v}</dd>
             </div>
           ))}
         </Reveal>

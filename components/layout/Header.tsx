@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
 import { site } from "@/lib/site";
+import { GroveMark } from "@/components/ui/GroveMark";
 import { Wordmark } from "@/components/ui/Wordmark";
 
 const links = [
@@ -17,7 +18,6 @@ const links = [
 export function Header() {
   const pathname = usePathname();
 
-  const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -25,8 +25,8 @@ export function Header() {
   const panelRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  /* Scroll recipe 11. The header changes state past the hero and, on small
-     screens, gets out of the way on the way down and returns on the way up. */
+  /* Scroll recipe 11. The board is tall, so on the way down it gets out of the
+     way at every width, not just on a phone, and comes back on the way up. */
   useGSAP(() => {
     const mm = gsap.matchMedia();
 
@@ -35,24 +35,15 @@ export function Header() {
         start: 0,
         end: "max",
         onUpdate: (self) => {
-          setScrolled(self.scroll() > 80);
           setHidden(self.direction === 1 && self.scroll() > 400);
         },
       });
       return () => st.kill();
     });
 
-    // Under reduced motion the header never hides. It only changes surface.
+    // Under reduced motion the header never moves.
     mm.add("(prefers-reduced-motion: reduce)", () => {
-      const st = ScrollTrigger.create({
-        start: 0,
-        end: "max",
-        onUpdate: (self) => {
-          setScrolled(self.scroll() > 80);
-          setHidden(false);
-        },
-      });
-      return () => st.kill();
+      setHidden(false);
     });
 
     return () => mm.revert();
@@ -71,6 +62,24 @@ export function Header() {
     setLastPath(pathname);
     setOpen(false);
   }
+
+  /* The fascia is type scaled to the viewport, so the header's height is a
+     function of the window width and cannot be written down as a constant.
+     It is measured and published on <html> instead, where the menu jump bar,
+     the mobile panel and scroll-padding-top all read it. A ResizeObserver
+     rather than a resize listener, because the height also changes when a
+     font finally swaps in. */
+  useLayoutEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const publish = () => {
+      document.documentElement.style.setProperty("--header-h", `${Math.round(el.offsetHeight)}px`);
+    };
+    publish();
+    const ro = new ResizeObserver(publish);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   /* Published on <html> so anything fixed under the header (the menu jump
      bar) can follow it up and down without a shared React context. */
@@ -128,35 +137,59 @@ export function Header() {
     };
   }, [open]);
 
-  /* The header sits in flow under the announcement strip rather than floating
-     over the hero photograph. Light chrome over an unknown photograph cannot be
-     guaranteed to meet contrast, and a scrim heavy enough to fix that would
-     dull the top of every hero image on the site. */
+  /* min-h-7 with the padding to fill it: a 12px label is a 16px tall box, and
+     a 16px tall tap target fails WCAG 2.2 target size. The row's own padding
+     comes down by the same amount, so the tape is the height it looks. */
+  /* Sizing only, never display: these strings are combined with "hidden
+     lg:inline-flex" and friends, and an unprefixed display utility in here
+     would sit at the same specificity as the hidden it is meant to lose to. */
+  const tapeItem = "min-h-7 items-center py-1.5";
+  const navLink =
+    `t-label ${tapeItem} text-ember transition-colors duration-micro hover:text-chalk ` +
+    "aria-[current=page]:underline aria-[current=page]:decoration-1 aria-[current=page]:underline-offset-[6px]";
+  const utilityLink = `t-label ${tapeItem} text-muted-strong transition-colors duration-micro hover:text-chalk`;
+
+  /* The board. The name painted edge to edge, with the nav on a strip of tape
+     directly beneath it. Nothing floats over the hero photograph: light
+     chrome over an unknown image cannot be guaranteed to meet contrast, and a
+     scrim heavy enough to fix that would dull the top of every hero on the
+     site. */
   return (
     <header
       ref={headerRef}
       className={[
-        "sticky top-0 z-50 border-b bg-paper text-ink",
-        "transition-[transform,border-color] duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)]",
-        scrolled ? "border-ink" : "border-line",
+        "sticky top-0 z-50 bg-ground",
+        "transition-transform duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)]",
         tucked ? "-translate-y-full" : "translate-y-0",
       ].join(" ")}
     >
-      <div className="wrap flex h-[68px] items-center justify-between gap-4 md:h-[76px]">
-        <Link
-          href="/"
-          className="shrink-0 transition-transform duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)]"
-          style={{ transform: scrolled ? "scale(0.94)" : "scale(1)", transformOrigin: "left center" }}
-        >
-          <Wordmark />
-        </Link>
+      {/* Fascia. Full bleed on purpose: the letters run to both edges, which
+          is the one thing this reference does that a centred column cannot. */}
+      <Link href="/" aria-label={`${site.name}, home`} className="block pt-2 md:pt-2.5">
+        {/* The relative box wraps the SVG alone, so the sprig is sized against
+            the lettering rather than against the lettering plus padding. */}
+        <span className="relative block">
+          <Wordmark variant="fascia" title={null} className="text-chalk" />
+          {/* The mark sits in the gap between GROVE and COFFEE. 43% is that
+              gap's centre for this string, measured off the same advance the
+              viewBox is built from. The gap is narrower than the mark, so the
+              leaves carry over the E and the C the way the reference's flower
+              carries over its own wordmark. */}
+          <GroveMark
+            weight={2.2}
+            className="absolute left-[43%] top-1/2 h-[128%] w-auto -translate-x-1/2 -translate-y-1/2 text-ember"
+          />
+        </span>
+      </Link>
 
-        <nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
+      {/* The tape. Every item spread across the full width. */}
+      <div className="flex items-center justify-between gap-3 border-b border-line px-3 py-1 md:px-4">
+        <nav aria-label="Main" className="contents">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="t-label inline-flex min-h-[28px] items-center border-b-2 border-transparent transition-colors duration-micro hover:border-ink aria-[current=page]:border-ink"
+              className={`${navLink} hidden lg:inline-flex`}
               aria-current={pathname === l.href ? "page" : undefined}
             >
               {l.label}
@@ -164,52 +197,58 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-5 lg:flex">
-          <a
-            href={site.phone.href}
-            data-event="phone_click"
-            data-event-location="header"
-            className="t-label inline-flex min-h-[28px] items-center border-b-2 border-transparent tabular-nums transition-colors duration-micro hover:border-ink"
-          >
-            {site.phone.display}
-          </a>
-          <a
-            href={site.directionsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-event="directions_click"
-            data-event-location="header"
-            className="btn btn-primary"
-          >
-            Get directions
-          </a>
-        </div>
+        <a
+          href={site.phone.href}
+          data-event="phone_click"
+          data-event-location="header"
+          className={`${utilityLink} hidden tabular-nums lg:inline-flex`}
+        >
+          {site.phone.display}
+        </a>
+        <a
+          href={site.directionsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-event="directions_click"
+          data-event-location="header"
+          className={`${utilityLink} hidden lg:inline-flex`}
+        >
+          Get directions
+        </a>
 
-        {/* Menu is one tap from anywhere, including on mobile before the panel opens. */}
-        <div className="flex items-center gap-2 lg:hidden">
-          <Link href="/menu" className="btn btn-primary">
-            Menu
-          </Link>
-          <button
-            ref={toggleRef}
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            className="inline-flex h-12 w-12 items-center justify-center border-2 border-current"
-          >
-            <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-            <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true" focusable="false">
-              <path
-                d={open ? "M2 2 L18 12 M18 2 L2 12" : "M0 1 H20 M0 7 H20 M0 13 H20"}
-                stroke="currentColor"
-                strokeWidth="1.75"
-                strokeLinecap="round"
-                fill="none"
-              />
-            </svg>
-          </button>
-        </div>
+        {/* Under lg the tape carries the two things people actually came for
+            and the way into everything else. */}
+        <Link href="/menu" className={`${navLink} inline-flex lg:hidden`} aria-current={pathname === "/menu" ? "page" : undefined}>
+          Menu
+        </Link>
+        <a
+          href={site.phone.href}
+          data-event="phone_click"
+          data-event-location="header"
+          className={`${utilityLink} inline-flex tabular-nums lg:hidden`}
+        >
+          {site.phone.display}
+        </a>
+        <button
+          ref={toggleRef}
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          className="t-label inline-flex min-h-11 items-center gap-2 text-chalk lg:hidden"
+        >
+          <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+          <span aria-hidden="true">{open ? "Close" : "More"}</span>
+          <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true" focusable="false">
+            <path
+              d={open ? "M2 1 L16 11 M16 1 L2 11" : "M0 1 H18 M0 6 H18 M0 11 H18"}
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              fill="none"
+            />
+          </svg>
+        </button>
       </div>
 
       {/* Panel. Rendered only when open so nothing is reachable behind it. */}
@@ -217,7 +256,8 @@ export function Header() {
         <div
           id="mobile-nav"
           ref={panelRef}
-          className="fixed inset-x-0 top-[68px] bottom-0 z-50 overflow-y-auto border-t border-ink bg-paper text-ink md:top-[76px] lg:hidden"
+          className="fixed inset-x-0 bottom-0 z-50 overflow-y-auto border-t border-line bg-ground text-chalk lg:hidden"
+          style={{ top: "var(--header-h, 116px)" }}
         >
           <nav aria-label="Main" className="wrap flex flex-col gap-1 py-6">
             {links.map((l) => (
@@ -226,7 +266,7 @@ export function Header() {
                 href={l.href}
                 onClick={close}
                 aria-current={pathname === l.href ? "page" : undefined}
-                className="t-item border-b border-line py-4"
+                className="t-item border-b border-line py-4 aria-[current=page]:text-ember"
               >
                 {l.label}
               </Link>
@@ -236,7 +276,7 @@ export function Header() {
               href={site.phone.href}
               data-event="phone_click"
               data-event-location="mobile_nav"
-              className="t-label flex min-h-12 items-center border-b border-line py-4 tabular-nums"
+              className="t-label flex min-h-12 items-center border-b border-line py-4 tabular-nums text-muted-strong"
             >
               {site.phone.display}
             </a>
@@ -246,7 +286,7 @@ export function Header() {
               rel="noopener noreferrer"
               data-event="instagram_click"
               data-event-location="mobile_nav"
-              className="t-label flex min-h-12 items-center border-b border-line py-4"
+              className="t-label flex min-h-12 items-center border-b border-line py-4 text-muted-strong"
             >
               Instagram {site.instagram.handle}
             </a>

@@ -51,7 +51,7 @@ export function MobileActionBar() {
       inert={!visible}
       data-visible={visible}
       className={[
-        "on-ink fixed inset-x-0 bottom-0 z-40 border-t-2 border-paper/15 lg:hidden",
+        "on-deep fixed inset-x-0 bottom-0 z-40 border-t-2 border-chalk/15 lg:hidden",
         "pb-[max(0.625rem,env(safe-area-inset-bottom))] pt-2.5",
         "transition-[transform,visibility] duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
         visible ? "visible translate-y-0" : "invisible translate-y-full",

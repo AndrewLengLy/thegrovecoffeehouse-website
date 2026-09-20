@@ -92,8 +92,8 @@ export function MenuJumpBar({
                     "t-label inline-flex min-h-10 items-center whitespace-nowrap border-2 px-3",
                     "transition-colors duration-micro",
                     current
-                      ? "border-ink bg-ink text-paper"
-                      : "border-transparent text-ink hover:border-ink",
+                      ? "border-chalk bg-chalk text-ground"
+                      : "border-transparent text-chalk hover:border-chalk",
                   ].join(" ")}
                 >
                   {s.label}

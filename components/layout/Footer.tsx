@@ -12,11 +12,14 @@ const explore = [
 
 export function Footer() {
   return (
-    <footer className="on-ink">
+    /* The page ends by flipping hard to the light field, the way the reference
+       does. On a site that is otherwise one continuous charcoal, this is what
+       tells you that you have reached the bottom. */
+    <footer className="on-concrete">
       <div className="wrap pt-16 md:pt-20">
         <div className="grid gap-10 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-5">
-            <h2 className="t-label text-paper/70">Come sit with us</h2>
+            <h2 className="t-label text-deep/75">Come sit with us</h2>
             <address className="mt-4 not-italic">
               <a
                 href={site.directionsUrl}
@@ -28,7 +31,7 @@ export function Footer() {
               >
                 9260 Sierra College Blvd STE 100
               </a>
-              <span className="t-item mt-1 block text-paper/60">
+              <span className="t-item mt-1 block text-deep/75">
                 Roseville, CA 95661
               </span>
               <a
@@ -43,7 +46,7 @@ export function Footer() {
           </div>
 
           <nav aria-label="Explore" className="md:col-span-3">
-            <h2 className="t-label text-paper/70">Explore</h2>
+            <h2 className="t-label text-deep/75">Explore</h2>
             {/* Two columns on a phone. Four short links do not need a screen
                 of their own. */}
             <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-1 md:grid-cols-1">
@@ -61,8 +64,8 @@ export function Footer() {
           </nav>
 
           <div className="md:col-span-4">
-            <h2 className="t-label text-paper/70">Hours</h2>
-            <HoursList tone="ink" className="mt-4" />
+            <h2 className="t-label text-deep/75">Hours</h2>
+            <HoursList tone="concrete" className="mt-4" />
             <a
               href={site.instagram.url}
               target="_blank"
@@ -79,13 +82,13 @@ export function Footer() {
 
       {/* The fascia. Painted across the full width, not a small logo lockup. */}
       <div className="mt-14 px-3 md:mt-20" aria-hidden="true">
-        <Wordmark variant="huge" title={null} onDark className="text-paper" />
+        <Wordmark variant="huge" title={null} className="text-deep" />
       </div>
 
       {/* The fascia's baseline sits a hair above the bottom of its box, so the
           rule below needs its own air or it reads as underlining the letters. */}
       <div className="wrap mt-5 md:mt-8">
-        <div className="flex flex-col gap-2 border-t border-paper/25 py-5 text-[13px] text-paper/60 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-2 border-t border-deep/25 py-5 text-[13px] text-deep/70 md:flex-row md:items-center md:justify-between">
           <p>{site.name}. Family owned in Roseville, California.</p>
           <p>
             Built by{" "}

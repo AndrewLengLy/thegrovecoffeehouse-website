@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { GroveMark } from "@/components/ui/GroveMark";
 
 /**
  * Every photographic slot on the site.
@@ -85,7 +86,7 @@ export function Photo({
             ? "absolute inset-0 items-end justify-start pt-24 text-right "
             : "absolute inset-0 items-end justify-end text-right "
           : "relative items-start justify-end text-left ") +
-        (tone === "dark" ? "bg-ink text-paper/75 " : "bg-surface text-muted-strong ") +
+        (tone === "dark" ? "bg-deep text-chalk/75 " : "bg-panel text-muted-strong ") +
         className
       }
     >
@@ -93,20 +94,10 @@ export function Photo({
           empty frame reads as waiting for a photograph, not as broken. Kept
           off the dark hero slot, where it would sit behind the headline. */}
       {tone === "light" && (
-        <svg
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-          focusable="false"
+        <GroveMark
+          weight={1.4}
           className="pointer-events-none absolute left-1/2 top-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 text-line-strong opacity-30"
-        >
-          <path d="M12 21.5V10.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" fill="none" />
-          <g transform="translate(16.5 9.5) rotate(-38)">
-            <path d="M-6 0Q0 -4.3 6 0Q0 4.3 -6 0Z" fill="currentColor" />
-          </g>
-          <g transform="translate(7.6 13.6) rotate(38)">
-            <path d="M-5 0Q0 -3.6 5 0Q0 3.6 -5 0Z" fill="currentColor" />
-          </g>
-        </svg>
+        />
       )}
       <span className="t-label relative" style={{ fontSize: "10px" }}>
         Photograph needed

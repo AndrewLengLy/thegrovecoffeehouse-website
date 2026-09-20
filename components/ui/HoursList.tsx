@@ -13,43 +13,42 @@ import { useOpenStatus } from "@/lib/open-status";
  * Today's row is marked once the browser knows what day it is in Roseville.
  */
 export function HoursList({
-  tone = "paper",
+  tone = "ground",
   className = "",
 }: {
-  tone?: "paper" | "ink";
+  /** "ground" is the charcoal page. "concrete" is the light footer field. */
+  tone?: "ground" | "concrete";
   className?: string;
 }) {
   const status = useOpenStatus();
-  const onInk = tone === "ink";
+  const onConcrete = tone === "concrete";
 
   return (
-    <dl className={`${onInk ? "border-t border-paper/25" : "border-t-2 border-ink"} ${className}`}>
+    <dl className={`${onConcrete ? "border-t-2 border-deep" : "border-t-2 border-chalk"} ${className}`}>
       {hours.map((h) => {
         const today = status ? h.days.includes(status.weekday) : false;
         return (
           <div
             key={h.label}
             className={`flex items-baseline justify-between gap-4 border-b py-3 ${
-              onInk ? "border-paper/15" : "border-line"
+              onConcrete ? "border-deep/20" : "border-line"
             }`}
           >
             <dt
               className={`t-label flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 ${
-                onInk ? "text-paper/70" : "text-muted-strong"
+                onConcrete ? "text-deep/70" : "text-muted-strong"
               }`}
             >
               {h.label}
               {today && (
-                <span
-                  className={`tag px-1.5 py-0 text-[10px] ${
-                    onInk ? "bg-paper text-ink" : "bg-ink text-paper"
-                  }`}
-                >
-                  Today
-                </span>
+                <span className="tag tag-season px-1.5 py-0 text-[10px]">Today</span>
               )}
             </dt>
-            <dd className={`shrink-0 whitespace-nowrap tabular-nums ${onInk ? "text-[15px]" : "text-[16px] text-ink"}`}>
+            <dd
+              className={`shrink-0 whitespace-nowrap tabular-nums ${
+                onConcrete ? "text-[15px] text-deep" : "text-[16px] text-chalk"
+              }`}
+            >
               {h.time}
             </dd>
           </div>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Big_Shoulders, Work_Sans } from "next/font/google";
+import { Big_Shoulders, IBM_Plex_Mono, Work_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 
 import "./globals.css";
@@ -12,13 +12,16 @@ import { JsonLd } from "@/components/JsonLd";
 import { absolute, businessNode, openingHours } from "@/lib/seo";
 import { menu } from "@/lib/menu";
 
-/* A condensed signage face over a warm grotesque. Both self hosted by
-   next/font and subset to latin, so there is no third party request and no
-   layout shift when they land.
+/* A condensed signage face, a warm grotesque, and a mono. All three are self
+   hosted by next/font and subset to latin, so there is no third party request
+   and no layout shift when they land.
 
    Big Shoulders was drawn for public signage, which is exactly the register
    this shop wants: painted, condensed, set large. Work Sans carries the
-   reading copy without the flatness of the usual default. */
+   reading copy without the flatness of the usual default. IBM Plex Mono is the
+   texture of this build: every label, caption, price and button sits in it, so
+   the small type reads as typed and pinned up rather than set. It is loaded at
+   two weights only, because that is all the design uses. */
 const shoulders = Big_Shoulders({
   subsets: ["latin"],
   display: "swap",
@@ -29,6 +32,13 @@ const work = Work_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-work",
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-plex-mono",
 });
 
 export const metadata: Metadata = {
@@ -59,8 +69,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#faf7f2",
-  colorScheme: "light",
+  themeColor: "#1f1e1b",
+  colorScheme: "dark",
 };
 
 /** LocalBusiness with the CafeOrCoffeeShop subtype, plus the WebSite node.
@@ -108,7 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
        whole point of it, and React would otherwise flag the difference. */
     <html
       lang="en"
-      className={`${shoulders.variable} ${work.variable}`}
+      className={`${shoulders.variable} ${work.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <head>

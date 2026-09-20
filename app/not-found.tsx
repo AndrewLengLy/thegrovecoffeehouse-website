@@ -42,7 +42,7 @@ export default function NotFound() {
             href={site.phone.href}
             data-event="phone_click"
             data-event-location="not_found"
-            className="link-slide font-semibold text-accent tabular-nums"
+            className="link-slide font-semibold text-ember tabular-nums"
           >
             {site.phone.display}
           </a>{" "}

@@ -21,7 +21,7 @@ const plate = [
 
 export function TheRoom() {
   return (
-    <section id="the-room" className="rule-top scroll-mt-24">
+    <section id="the-room" className="rule-top scroll-mt-2">
       <div className="wrap section pb-0 md:pb-0">
         <div className="grid gap-8 md:grid-cols-12">
           <SplitHeading as="h2" className="t-h2 md:col-span-7">
@@ -35,7 +35,7 @@ export function TheRoom() {
               mornings. People read here. People come in off a ride and sit
               outside with the bike.
             </p>
-            <dl className="mt-7 border-t border-ink">
+            <dl className="mt-7 border-t border-chalk">
               {plate.map(([k, v]) => (
                 <div key={k} className="flex gap-4 border-b border-line py-2.5">
                   <dt className="t-label w-[5.5rem] shrink-0 pt-[3px] text-muted-strong">{k}</dt>
@@ -51,7 +51,7 @@ export function TheRoom() {
       {/* On a phone the wide shot leads and the two portraits sit side by side
           under it, instead of three full width frames stacked a screen and a
           half deep. */}
-      <Reveal className="mt-12 grid grid-cols-2 gap-px bg-ink md:mt-16 md:grid-cols-[1.6fr_1fr_1fr]">
+      <Reveal className="mt-12 grid grid-cols-2 gap-px bg-line md:mt-16 md:grid-cols-[1.6fr_1fr_1fr]">
         <div className="relative col-span-2 aspect-[16/10] md:col-span-1 md:aspect-auto md:min-h-[420px]">
           <ScaleReveal>
           <Photo

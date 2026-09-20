@@ -46,6 +46,19 @@ export function SplitHeading({ children, className, as = "h2", onLoad = false }:
                 ease: "expo.out",
                 stagger: 0.08,
                 delay: onLoad ? 0.05 : 0,
+                /* The mask is only doing work while the line is travelling.
+                   These headings are set at a line-height below 1, so the
+                   glyphs are taller than their own line box and a mask left
+                   in place afterwards shaves the caps and any comma. Release
+                   it once the line has landed: the reveal is unchanged and
+                   the letterforms are whole at rest. autoSplit re-runs
+                   onSplit on resize, so the new masks get the same treatment. */
+                onComplete: () => {
+                  self.lines.forEach((line) => {
+                    const mask = line.parentNode;
+                    if (mask instanceof HTMLElement) mask.style.overflow = "visible";
+                  });
+                },
                 scrollTrigger: onLoad
                   ? undefined
                   : { trigger: el, start: "top 85%", once: true },

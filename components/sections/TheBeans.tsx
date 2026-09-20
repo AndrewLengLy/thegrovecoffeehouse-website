@@ -11,12 +11,12 @@ import { ScaleReveal } from "@/components/motion/ScaleReveal";
  */
 export function TheBeans() {
   return (
-    <section id="the-beans" className="on-green scroll-mt-24">
+    <section id="the-beans" className="on-green scroll-mt-2">
       <div className="wrap section">
         <div className="band">
           <span className="t-label">The beans</span>
           <BandLine />
-          <span className="t-label" style={{ color: "var(--color-seasonal-light)" }}>
+          <span className="t-label">
             {site.roaster.location}
           </span>
         </div>
@@ -28,12 +28,12 @@ export function TheBeans() {
             </SplitHeading>
 
             <Reveal className="mt-8 max-w-[38rem]">
-              <p className="t-body text-paper/90">
+              <p className="t-body text-chalk/90">
                 We pour {site.roaster.name}, a roastery in {site.roaster.location}.
                 Buying from a roaster we can drive to means the coffee is fresh
                 and the person who roasted it will pick up the phone.
               </p>
-              <p className="t-body mt-4 text-paper/90">
+              <p className="t-body mt-4 text-chalk/90">
                 It is the same reason everything else here is made the way it is.
                 Somebody nearby is answerable for it.
               </p>
