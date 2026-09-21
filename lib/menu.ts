@@ -25,6 +25,28 @@
  *
  * There is no food on that board at all, so the food section below is still
  * review sourced and still has no prices. TODO(andrew): get the food menu.
+ *
+ * THE FALL 2026 BOARD IS NOT IN HERE.
+ *
+ * On 17 September 2026 the shop posted a teaser reel, "Fall Menu Loading",
+ * saying the fall menu released on the 18th. They never published the lineup.
+ * Checked again on 19 September 2026: no feed post (still 208), no active
+ * story, no highlight, nothing in their tagged posts, newest Yelp review is
+ * the 15th. The reel itself is eight seconds of three unlabelled iced cups
+ * with no on screen text, so it names nothing either. One commenter asked for
+ * a "basic witch", which is a customer's word and not a board we can read.
+ *
+ * So the summer items below are marked unavailable, because the shop's own
+ * post says fall has arrived and leaving them listed would send somebody out
+ * for a drink that came off the board. Elphaba's Brew and Apple Hill stay
+ * available: both are established fall drinks here, Elphaba's Brew from a
+ * dated 2 November 2025 review and their own "this fall season" post, and
+ * Apple Hill from Yelp's popular drinks. Neither is confirmed on the 2026
+ * board.
+ *
+ * TODO(andrew): the moment they post the lineup, or the owners send it, add
+ * the items, flip the two above if they are not on it, and set FEATURED_SLUG
+ * at the bottom of this file.
  */
 
 export type Season = "spring" | "summer" | "fall" | "winter";
@@ -56,7 +78,7 @@ export type MenuItem = {
 
 /** Section headings are brand voice, never a generic label. */
 export const CATEGORY_LABEL: Record<Category, string> = {
-  seasonal: "On the board right now",
+  seasonal: "The seasonal board",
   coffee: "Coffee, straight up",
   favorites: "The favorites",
   matcha: "The matcha lineup",
@@ -127,13 +149,13 @@ export const menu: MenuItem[] = [
 
   /* Summer 2026 board. Names and descriptions are the shop's own, from their
      "Grove Summer Favorites" post of 7 July 2026. No prices were shown.
-     TODO(andrew): confirm which of these are still pouring in September. */
+     Rotated off on 19 September 2026: see the fall note at the top of the file. */
   {
     slug: "bee-nana",
     name: "Bee-nana latte or matcha",
     category: "seasonal",
     season: "summer",
-    available: true,
+    available: false,
     oneLiner: "Banana, cream, and a pinch of salt on top.",
     whatsInIt: "Creamy banana latte or matcha, topped with foam and a sprinkle of sea salt.",
   },
@@ -142,7 +164,7 @@ export const menu: MenuItem[] = [
     name: "Mango Oasis",
     category: "seasonal",
     season: "summer",
-    available: true,
+    available: false,
     oneLiner: "Mango sticky rice, if it were a drink.",
     whatsInIt: "Inspired by mango sticky rice. Matcha with coconut mango cold foam, a condensed milk drizzle, and black seed on top.",
   },
@@ -151,7 +173,7 @@ export const menu: MenuItem[] = [
     name: "Ubedan latte",
     category: "seasonal",
     season: "summer",
-    available: true,
+    available: false,
     oneLiner: "Purple underneath, green foam on top.",
     whatsInIt: "Ube latte topped with pandan cold foam.",
   },
@@ -160,7 +182,7 @@ export const menu: MenuItem[] = [
     name: "Jasmine Cloud",
     category: "seasonal",
     season: "summer",
-    available: true,
+    available: false,
     oneLiner: "Jasmine tea under a soft green cloud.",
     whatsInIt: "Jasmine iced tea with a matcha cold foam.",
   },
@@ -169,7 +191,7 @@ export const menu: MenuItem[] = [
     name: "Coconut mango cream chai",
     category: "seasonal",
     season: "summer",
-    available: true,
+    available: false,
     oneLiner: "Warm spice, cold tropical foam.",
     whatsInIt: "Chai latte topped with coconut mango cold foam.",
   },
@@ -178,7 +200,7 @@ export const menu: MenuItem[] = [
     name: "Miso Blue",
     category: "seasonal",
     season: "summer",
-    available: true,
+    available: false,
     oneLiner: "Salty caramel, blueberry, and green tea in one cup.",
     whatsInIt: "Miso salted caramel matcha with blueberry cold foam.",
   },
@@ -187,7 +209,7 @@ export const menu: MenuItem[] = [
     name: "Golden Hour Nitro",
     category: "seasonal",
     season: "summer",
-    available: true,
+    available: false,
     oneLiner: "Cold, creamy, and lit from the top.",
     whatsInIt: "Nitro cold brew with salted honey cold foam.",
   },
@@ -196,7 +218,7 @@ export const menu: MenuItem[] = [
     name: "Rose Dalgona",
     category: "seasonal",
     season: "summer",
-    available: true,
+    available: false,
     oneLiner: "Rose milk with a whipped coffee cap.",
     whatsInIt: "Rose milk with dalgona whipped coffee foam on top.",
   },
@@ -725,16 +747,20 @@ export const extras = ["Extra shot, $1.75", "Whip cream, 45 cents", "Syrup, 95 c
 
 /**
  * The one line at the top of the home page.
- * TODO(andrew): confirm the current seasonal feature with the owners and update
- * this whenever the board changes.
+ *
+ * TODO(andrew): name the featured drink again as soon as we have the fall
+ * lineup. Set FEATURED_SLUG to its slug and the line writes itself. Until then
+ * the fallback says only what their own post says, which is that fall is here,
+ * because naming a drink nobody has seen on the board is how somebody drives
+ * out for a cup that is not being poured. See the fall note at the top of this
+ * file.
  */
-const FEATURED_SLUG = "elphabas-brew";
+const FEATURED_SLUG: string | null = null;
 
-const featured =
-  menu.find((i) => i.slug === FEATURED_SLUG) ?? seasonalItems.find((i) => i.available);
+const featured = FEATURED_SLUG ? menu.find((i) => i.slug === FEATURED_SLUG) : null;
 
 export const announcement = {
-  line: featured ? `${featured.name} is on the board right now.` : "A new seasonal drink is on the board.",
+  line: featured ? `${featured.name} is on the board right now.` : "Fall has arrived at The Grove.",
   linkLabel: "See what is pouring",
   href: "/menu#seasonal",
 };
