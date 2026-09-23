@@ -1,5 +1,4 @@
 import { faq } from "@/lib/faq";
-import { BandLine } from "@/components/motion/BandLine";
 
 /**
  * Native details/summary: keyboard operable, screen reader announced, no
@@ -9,27 +8,25 @@ import { BandLine } from "@/components/motion/BandLine";
  */
 export function Faq() {
   return (
-    <section id="faq" className="rule-top scroll-mt-2">
-      <div className="wrap section">
-        <div className="band">
-          <h2 className="t-label">Things people ask</h2>
-          <BandLine />
-          <span className="t-index text-muted-strong">{String(faq.length).padStart(2, "0")}</span>
-        </div>
+    <section id="faq" aria-labelledby="faq-heading" className="scroll-mt-2">
+      <div className="wrap section grid gap-8 lg:grid-cols-12">
+        <h2 id="faq-heading" className="t-h2 lg:col-span-4">
+          Things people ask
+        </h2>
 
-        <div className="mt-8 border-t border-chalk md:max-w-[52rem]">
+        <div className="border-t border-pencil/50 lg:col-span-7 lg:col-start-6">
           {faq.map((f) => (
-            <details key={f.q} className="group border-b border-line">
-              <summary className="flex cursor-pointer list-none items-baseline justify-between gap-6 py-4 [&::-webkit-details-marker]:hidden">
-                <h3 className="t-item">{f.q}</h3>
+            <details key={f.q} className="group border-b border-pencil/50">
+              <summary className="flex min-h-12 cursor-pointer list-none items-baseline justify-between gap-6 py-3.5 [&::-webkit-details-marker]:hidden">
+                <h3 className="t-h3 text-[21px]">{f.q}</h3>
                 <span
                   aria-hidden="true"
-                  className="t-index shrink-0 transition-transform duration-fast ease-standard group-open:rotate-45"
+                  className="t-price shrink-0 transition-transform duration-fast ease-standard group-open:rotate-45"
                 >
                   +
                 </span>
               </summary>
-              <p className="t-body max-w-[60ch] pb-5 text-chalk">{f.a}</p>
+              <p className="t-body max-w-[60ch] pb-5">{f.a}</p>
             </details>
           ))}
         </div>

@@ -51,14 +51,14 @@ export function MobileActionBar() {
       inert={!visible}
       data-visible={visible}
       className={[
-        "on-deep fixed inset-x-0 bottom-0 z-40 border-t-2 border-chalk/15 lg:hidden",
+        "paper fixed inset-x-0 bottom-0 z-40 border-t border-pencil/60 lg:hidden",
         "pb-[max(0.625rem,env(safe-area-inset-bottom))] pt-2.5",
         "transition-[transform,visibility] duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
         visible ? "visible translate-y-0" : "invisible translate-y-full",
       ].join(" ")}
     >
       <div className="wrap flex items-center gap-3">
-        <p className="min-w-0 flex-1 text-[13px] font-semibold leading-tight">
+        <p className="t-note min-w-0 flex-1 leading-tight">
           <OpenStatus stacked fallback="Open 7 AM daily" />
         </p>
         {/* A phone glyph needs no word next to it, and the room it frees is
@@ -67,7 +67,7 @@ export function MobileActionBar() {
           href={site.phone.href}
           data-event="phone_click"
           data-event-location="mobile_bar"
-          className="btn btn-secondary h-12 w-12 shrink-0 p-0"
+          className="btn btn-light h-11 w-11 shrink-0 p-0 shadow-[inset_0_0_0_1px_var(--color-ink)]"
         >
           <PhoneIcon />
           <span className="sr-only">Call {site.phone.display}</span>
@@ -78,7 +78,7 @@ export function MobileActionBar() {
           rel="noopener noreferrer"
           data-event="directions_click"
           data-event-location="mobile_bar"
-          className="btn btn-onphoto min-h-12 shrink-0 px-4"
+          className="btn min-h-11 shrink-0 px-4"
         >
           <ArrowIcon />
           Directions

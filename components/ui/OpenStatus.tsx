@@ -26,9 +26,9 @@ export function OpenStatus({
 
   const dot =
     status.state === "open"
-      ? "bg-[#6fcf8e]"
+      ? "bg-[#3f7d4e]"
       : status.state === "closing"
-        ? "bg-ember"
+        ? "bg-brick"
         : "bg-current opacity-50";
 
   return (

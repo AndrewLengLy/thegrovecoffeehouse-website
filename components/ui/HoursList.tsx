@@ -4,7 +4,8 @@ import { hours } from "@/lib/site";
 import { useOpenStatus } from "@/lib/open-status";
 
 /**
- * The hours, the same way everywhere they appear.
+ * The hours, the same way everywhere they appear: the days in grotesque
+ * capitals, the times in typewriter figures, a pencil rule between them.
  *
  * The time never wraps and always sits on the right. The label is the part
  * allowed to break, so on a narrow phone "Saturday and Sunday" goes to two
@@ -13,44 +14,26 @@ import { useOpenStatus } from "@/lib/open-status";
  * Today's row is marked once the browser knows what day it is in Roseville.
  */
 export function HoursList({
-  tone = "ground",
+  tone = "paper",
   className = "",
 }: {
-  /** "ground" is the charcoal page. "concrete" is the light footer field. */
-  tone?: "ground" | "concrete";
+  tone?: "paper" | "wine";
   className?: string;
 }) {
   const status = useOpenStatus();
-  const onConcrete = tone === "concrete";
+  const rule = tone === "wine" ? "border-paper/30" : "border-pencil/50";
 
   return (
-    <dl className={`${onConcrete ? "border-t-2 border-deep" : "border-t-2 border-chalk"} ${className}`}>
+    <dl className={`border-t ${rule} ${className}`}>
       {hours.map((h) => {
         const today = status ? h.days.includes(status.weekday) : false;
         return (
-          <div
-            key={h.label}
-            className={`flex items-baseline justify-between gap-4 border-b py-3 ${
-              onConcrete ? "border-deep/20" : "border-line"
-            }`}
-          >
-            <dt
-              className={`t-label flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 ${
-                onConcrete ? "text-deep/70" : "text-muted-strong"
-              }`}
-            >
+          <div key={h.label} className={`flex items-baseline justify-between gap-4 border-b py-2.5 ${rule}`}>
+            <dt className="t-item flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
               {h.label}
-              {today && (
-                <span className="tag tag-season px-1.5 py-0 text-[10px]">Today</span>
-              )}
+              {today && <span className="tag tag-season text-[10px]">Today</span>}
             </dt>
-            <dd
-              className={`shrink-0 whitespace-nowrap tabular-nums ${
-                onConcrete ? "text-[15px] text-deep" : "text-[16px] text-chalk"
-              }`}
-            >
-              {h.time}
-            </dd>
+            <dd className="t-price shrink-0 text-[15px]">{h.time}</dd>
           </div>
         );
       })}

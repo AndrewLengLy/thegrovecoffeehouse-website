@@ -5,13 +5,12 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
 import { site } from "@/lib/site";
-import { GroveMark } from "@/components/ui/GroveMark";
 import { Wordmark } from "@/components/ui/Wordmark";
 
 const links = [
   { href: "/menu", label: "Menu" },
-  { href: "/#the-room", label: "The room" },
   { href: "/our-story", label: "Our story" },
+  { href: "/#events", label: "Events" },
   { href: "/visit", label: "Visit" },
 ];
 
@@ -25,8 +24,8 @@ export function Header() {
   const panelRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  /* Scroll recipe 11. The board is tall, so on the way down it gets out of the
-     way at every width, not just on a phone, and comes back on the way up. */
+  /* Scroll recipe 11. On the way down the header gets out of the way at every
+     width, and comes back on the way up. */
   useGSAP(() => {
     const mm = gsap.matchMedia();
 
@@ -63,12 +62,9 @@ export function Header() {
     setOpen(false);
   }
 
-  /* The fascia is type scaled to the viewport, so the header's height is a
-     function of the window width and cannot be written down as a constant.
-     It is measured and published on <html> instead, where the menu jump bar,
-     the mobile panel and scroll-padding-top all read it. A ResizeObserver
-     rather than a resize listener, because the height also changes when a
-     font finally swaps in. */
+  /* The header's height changes with the width and when the fonts swap in, so
+     it is measured and published on <html>, where the menu jump bar, the
+     mobile panel and scroll-padding-top all read it. */
   useLayoutEffect(() => {
     const el = headerRef.current;
     if (!el) return;
@@ -137,118 +133,92 @@ export function Header() {
     };
   }, [open]);
 
-  /* min-h-7 with the padding to fill it: a 12px label is a 16px tall box, and
-     a 16px tall tap target fails WCAG 2.2 target size. The row's own padding
-     comes down by the same amount, so the tape is the height it looks. */
-  /* Sizing only, never display: these strings are combined with "hidden
-     lg:inline-flex" and friends, and an unprefixed display utility in here
-     would sit at the same specificity as the hidden it is meant to lose to. */
-  const tapeItem = "min-h-7 items-center py-1.5";
+  /* No display here. Each use sets its own, because a shared inline-flex
+     beats a caller's `hidden` in the cascade and puts desktop-only links in
+     the phone header on top of the name. */
   const navLink =
-    `t-label ${tapeItem} text-ember transition-colors duration-micro hover:text-chalk ` +
-    "aria-[current=page]:underline aria-[current=page]:decoration-1 aria-[current=page]:underline-offset-[6px]";
-  const utilityLink = `t-label ${tapeItem} text-muted-strong transition-colors duration-micro hover:text-chalk`;
+    "t-nav min-h-8 items-center transition-colors duration-micro hover:text-brick " +
+    "aria-[current=page]:underline aria-[current=page]:decoration-1 aria-[current=page]:underline-offset-[5px]";
 
-  /* The board. The name painted edge to edge, with the nav on a strip of tape
-     directly beneath it. Nothing floats over the hero photograph: light
-     chrome over an unknown image cannot be guaranteed to meet contrast, and a
-     scrim heavy enough to fix that would dull the top of every hero on the
-     site. */
+  /* Laid out the way the reference lays out its header: the name, a two line
+     italic note beside it, the navigation straight after in typewriter
+     capitals, and the two practical links pushed to the far right. */
   return (
     <header
       ref={headerRef}
       className={[
-        "sticky top-0 z-50 bg-ground",
+        "paper sticky top-0 z-50",
         "transition-transform duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)]",
         tucked ? "-translate-y-full" : "translate-y-0",
       ].join(" ")}
     >
-      {/* Fascia. Full bleed on purpose: the letters run to both edges, which
-          is the one thing this reference does that a centred column cannot. */}
-      <Link href="/" aria-label={`${site.name}, home`} className="block pt-2 md:pt-2.5">
-        {/* The relative box wraps the SVG alone, so the sprig is sized against
-            the lettering rather than against the lettering plus padding. */}
-        <span className="relative block">
-          <Wordmark variant="fascia" title={null} className="text-chalk" />
-          {/* The mark sits in the gap between GROVE and COFFEE. 43% is that
-              gap's centre for this string, measured off the same advance the
-              viewBox is built from. The gap is narrower than the mark, so the
-              leaves carry over the E and the C the way the reference's flower
-              carries over its own wordmark. */}
-          <GroveMark
-            weight={2.2}
-            className="absolute left-[43%] top-1/2 h-[128%] w-auto -translate-x-1/2 -translate-y-1/2 text-ember"
-          />
-        </span>
-      </Link>
+      <div className="wrap flex items-center justify-between gap-6 py-3 md:py-4">
+        <div className="flex min-w-0 items-center gap-5 lg:gap-7">
+          <Link href="/" aria-label={`${site.name}, home`} className="shrink-0">
+            <Wordmark title={null} />
+          </Link>
+          <p className="hidden text-[14px] italic leading-[1.15] sm:block">
+            Coffee runs &amp; matcha dates.
+            <br />
+            Roseville, EST 2023
+          </p>
 
-      {/* The tape. Every item spread across the full width. */}
-      <div className="flex items-center justify-between gap-3 border-b border-line px-3 py-1 md:px-4">
-        <nav aria-label="Main" className="contents">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={`${navLink} hidden lg:inline-flex`}
-              aria-current={pathname === l.href ? "page" : undefined}
+          <nav aria-label="Main" className="ml-4 hidden items-center gap-6 lg:flex xl:ml-10 xl:gap-7">
+            {links.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={`${navLink} inline-flex`}
+                aria-current={pathname === l.href ? "page" : undefined}
+              >
+                {l.label}
+              </Link>
+            ))}
+            <a
+              href={site.instagram.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-event="instagram_click"
+              data-event-location="header"
+              className={`${navLink} inline-flex`}
             >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
+              Instagram
+            </a>
+          </nav>
+        </div>
 
-        <a
-          href={site.phone.href}
-          data-event="phone_click"
-          data-event-location="header"
-          className={`${utilityLink} hidden tabular-nums lg:inline-flex`}
-        >
-          {site.phone.display}
-        </a>
-        <a
-          href={site.directionsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-event="directions_click"
-          data-event-location="header"
-          className={`${utilityLink} hidden lg:inline-flex`}
-        >
-          Get directions
-        </a>
+        <div className="flex shrink-0 items-center gap-6">
+          <a
+            href={site.phone.href}
+            data-event="phone_click"
+            data-event-location="header"
+            className={`${navLink} hidden tabular-nums lg:inline-flex`}
+          >
+            {site.phone.display}
+          </a>
+          <a
+            href={site.directionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-event="directions_click"
+            data-event-location="header"
+            className={`${navLink} hidden lg:inline-flex`}
+          >
+            Directions
+          </a>
 
-        {/* Under lg the tape carries the two things people actually came for
-            and the way into everything else. */}
-        <Link href="/menu" className={`${navLink} inline-flex lg:hidden`} aria-current={pathname === "/menu" ? "page" : undefined}>
-          Menu
-        </Link>
-        <a
-          href={site.phone.href}
-          data-event="phone_click"
-          data-event-location="header"
-          className={`${utilityLink} inline-flex tabular-nums lg:hidden`}
-        >
-          {site.phone.display}
-        </a>
-        <button
-          ref={toggleRef}
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          className="t-label inline-flex min-h-11 items-center gap-2 text-chalk lg:hidden"
-        >
-          <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-          <span aria-hidden="true">{open ? "Close" : "More"}</span>
-          <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true" focusable="false">
-            <path
-              d={open ? "M2 1 L16 11 M16 1 L2 11" : "M0 1 H18 M0 6 H18 M0 11 H18"}
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              fill="none"
-            />
-          </svg>
-        </button>
+          <button
+            ref={toggleRef}
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            className="t-nav inline-flex min-h-11 items-center gap-2 lg:hidden"
+          >
+            <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+            <span aria-hidden="true">{open ? "Close" : "Menu"}</span>
+          </button>
+        </div>
       </div>
 
       {/* Panel. Rendered only when open so nothing is reachable behind it. */}
@@ -256,51 +226,53 @@ export function Header() {
         <div
           id="mobile-nav"
           ref={panelRef}
-          className="fixed inset-x-0 bottom-0 z-50 overflow-y-auto border-t border-line bg-ground text-chalk lg:hidden"
-          style={{ top: "var(--header-h, 116px)" }}
+          className="paper fixed inset-x-0 bottom-0 z-50 overflow-y-auto lg:hidden"
+          style={{ top: "var(--header-h, 84px)" }}
         >
-          <nav aria-label="Main" className="wrap flex flex-col gap-1 py-6">
+          <nav aria-label="Main" className="wrap flex flex-col py-6">
             {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
                 onClick={close}
                 aria-current={pathname === l.href ? "page" : undefined}
-                className="t-item border-b border-line py-4 aria-[current=page]:text-ember"
+                className="t-display border-b border-pencil/40 py-4 aria-[current=page]:text-brick"
+                style={{ fontSize: "40px" }}
               >
                 {l.label}
               </Link>
             ))}
 
-            <a
-              href={site.phone.href}
-              data-event="phone_click"
-              data-event-location="mobile_nav"
-              className="t-label flex min-h-12 items-center border-b border-line py-4 tabular-nums text-muted-strong"
-            >
-              {site.phone.display}
-            </a>
-            <a
-              href={site.instagram.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="instagram_click"
-              data-event-location="mobile_nav"
-              className="t-label flex min-h-12 items-center border-b border-line py-4 text-muted-strong"
-            >
-              Instagram {site.instagram.handle}
-            </a>
-
-            <a
-              href={site.directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="directions_click"
-              data-event-location="mobile_nav"
-              className="btn btn-primary mt-6"
-            >
-              Get directions
-            </a>
+            <div className="mt-6 flex flex-col gap-3">
+              <a
+                href={site.phone.href}
+                data-event="phone_click"
+                data-event-location="mobile_nav"
+                className="t-nav inline-flex min-h-11 items-center tabular-nums"
+              >
+                {site.phone.display}
+              </a>
+              <a
+                href={site.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-event="instagram_click"
+                data-event-location="mobile_nav"
+                className="t-nav inline-flex min-h-11 items-center"
+              >
+                Instagram {site.instagram.handle}
+              </a>
+              <a
+                href={site.directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-event="directions_click"
+                data-event-location="mobile_nav"
+                className="btn mt-2 self-start"
+              >
+                Get directions
+              </a>
+            </div>
           </nav>
         </div>
       )}

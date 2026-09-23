@@ -10,8 +10,8 @@ import { Faq } from "@/components/sections/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { faqSchema } from "@/lib/faq";
 import { breadcrumbs } from "@/lib/seo";
-import { BandLine } from "@/components/motion/BandLine";
-import { ScaleReveal } from "@/components/motion/ScaleReveal";
+import { Squiggle } from "@/components/ui/Squiggle";
+import { Doodle } from "@/components/ui/Doodle";
 
 export const metadata: Metadata = {
   title: "Visit",
@@ -50,26 +50,30 @@ export default function VisitPage() {
     <>
       <JsonLd data={faqSchema()} />
       <JsonLd data={breadcrumbs([{ name: "Visit", path: "/visit" }])} />
-      <div className="wrap section pb-10">
-        <SplitHeading as="h1" onLoad className="t-hero max-w-[12ch]">
+
+      <div className="wrap section grid gap-6 md:grid-cols-12 md:gap-8">
+        <SplitHeading as="h1" onLoad className="t-display md:col-span-6 lg:col-span-5">
           Where to find us
         </SplitHeading>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-12 md:items-end">
-          <p className="t-body text-muted md:col-span-5">
+        <div aria-hidden="true" className="hidden justify-center lg:col-span-2 lg:flex">
+          <Doodle name="table" className="-mt-2 h-28 w-28" />
+        </div>
+
+        <Reveal onLoad travel={8} className="md:col-span-6 md:col-start-7 lg:col-span-5 lg:col-start-8">
+          <p className="t-body max-w-[48ch]">
             We are on Sierra College Blvd in Roseville, in Suite 100, with
             parking right out front. The coffee is on at seven, every day of
             the week.
           </p>
-
-          <div className="flex flex-col gap-3 sm:flex-row md:col-span-6 md:col-start-7 md:justify-end">
+          <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-3">
             <a
               href={site.directionsUrl}
               target="_blank"
               rel="noopener noreferrer"
               data-event="directions_click"
               data-event-location="visit_page_hero"
-              className="btn btn-primary"
+              className="btn"
             >
               Get directions
             </a>
@@ -77,116 +81,134 @@ export default function VisitPage() {
               href={site.phone.href}
               data-event="phone_click"
               data-event-location="visit_page_hero"
-              className="btn btn-secondary tabular-nums"
+              className="btn btn-ghost tabular-nums"
             >
               Call {site.phone.display}
             </a>
           </div>
+        </Reveal>
+      </div>
+
+      <div className="wrap">
+        <div className="print relative aspect-[4/5] sm:aspect-[16/10] lg:aspect-[2/1]">
+          <Photo
+            src={null}
+            fill
+            priority
+            sizes="100vw"
+            width={2400}
+            height={1200}
+            alt="The front of The Grove Coffee House on Sierra College Blvd"
+            brief="The storefront from the parking lot, so people recognise it on arrival. Wide, landscape."
+          />
         </div>
       </div>
 
-      {/* Full bleed band. The container breaks here on purpose. */}
-      <div className="relative h-[36svh] min-h-[260px] w-full overflow-hidden md:h-[48svh]">
-        <ScaleReveal>
-        <Photo
-          src={null}
-          fill
-          sizes="100vw"
-          width={2400}
-          height={1200}
-          alt="The front of The Grove Coffee House on Sierra College Blvd"
-          brief="The storefront from the parking lot, so people recognise it on arrival. Wide, landscape."
-        />
-        </ScaleReveal>
-      </div>
-
-      <section className="rule-top">
-        <div className="wrap section grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-6">
+      <section aria-label="Getting here and hours" className="mt-10 md:mt-14">
+        <div className="wrap">
+          <Squiggle />
+        </div>
+        <div className="wrap section grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-5">
             <h2 className="t-h2">Getting here</h2>
-            <Reveal className="measure">
-              <address className="mt-6 not-italic">
+            <Reveal>
+              <address className="mt-5 not-italic">
                 <span className="t-item block">{site.address.street}</span>
-                <span className="t-item block text-muted">
+                <span className="t-item mt-1 block">
                   {site.address.city}, {site.address.region} {site.address.postalCode}
                 </span>
               </address>
 
-              <h3 className="t-label mt-8 text-muted-strong">Parking</h3>
+              <h3 className="t-caps mt-7">Parking</h3>
               {/* TODO(andrew): confirm the parking situation and the plaza name
                   with the owners, then replace this with the specifics. */}
-              <p className="t-body mt-2 text-chalk">
+              <p className="t-body mt-1.5 max-w-[48ch]">
                 There is a parking lot in front of the retail center, and we are in
                 Suite 100.
               </p>
 
-              <h3 className="t-label mt-8 text-muted-strong">On two wheels</h3>
-              <p className="t-body mt-2 text-chalk">
+              <h3 className="t-caps mt-7">On two wheels</h3>
+              <p className="t-body mt-1.5 max-w-[48ch]">
                 Plenty of riders stop in off Sierra College Blvd. There is seating out
                 front, so you can sit where you can keep an eye on the bike.
               </p>
 
-              <h3 className="t-label mt-8 text-muted-strong">Accessibility</h3>
+              <h3 className="t-caps mt-7">Accessibility</h3>
               {/* TODO(andrew): confirm step free entry, accessible restroom, and
                   accessible parking with the owners before launch. Guessing at
                   an accessibility claim is worse than saying nothing, because a
                   wrong answer strands somebody in the car park. */}
-              <p className="t-body mt-2 text-chalk">
-                Give us a call on {site.phone.display} and we will tell you exactly
-                what the entrance and the seating are like before you make the
-                drive.
+              <p className="t-body mt-1.5 max-w-[48ch]">
+                Give us a call on{" "}
+                <a
+                  href={site.phone.href}
+                  data-event="phone_click"
+                  data-event-location="visit_accessibility"
+                  className="link-slide tabular-nums"
+                >
+                  {site.phone.display}
+                </a>{" "}
+                and we will tell you exactly what the entrance and the seating are
+                like before you make the drive.
               </p>
             </Reveal>
           </div>
 
-          <div className="lg:col-span-5 lg:col-start-8">
+          <div className="lg:col-span-6 lg:col-start-7">
             <h2 className="t-h2">Hours</h2>
-            <HoursList className="mt-6" />
-            <p className="mt-3 max-w-[46ch] text-[14px] leading-snug text-muted">{hoursCaveat}</p>
+            <HoursList className="mt-5" />
+            <p className="t-note mt-3 max-w-[52ch] text-ink-soft">{hoursCaveat}</p>
 
-            <div className="frame mt-8">
+            <div className="print mt-8">
               <iframe
                 src={site.mapEmbedUrl}
                 title={`Map showing ${site.name} at ${site.addressLine}`}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="h-[300px] w-full border-0 md:h-[420px]"
+                className="block h-[300px] w-full border-0 sepia-[.35] md:h-[400px]"
               />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="rule-top">
-        <div className="wrap section">
-          <div className="band">
-            <h2 className="t-label">Good for</h2>
-            <BandLine />
-            <span className="t-index text-muted-strong">04</span>
+      <section aria-labelledby="good-for-heading">
+        <div className="wrap">
+          <Squiggle />
+        </div>
+        <div className="wrap section grid gap-8 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <h2 id="good-for-heading" className="t-h2">
+              What the room is good for
+            </h2>
+            <Link href="/menu" className="btn mt-4">
+              See the menu
+            </Link>
           </div>
-          <Reveal as="ul" className="mt-8 list-none border-t border-chalk">
+
+          <Reveal
+            as="ul"
+            each={0.06}
+            className="grid list-none gap-x-12 gap-y-7 sm:grid-cols-2 lg:col-span-8 lg:gap-x-16"
+          >
             {goodFor.map((g, i) => (
-              <li
-                key={g.title}
-                className="grid grid-cols-[2.25rem_1fr] gap-x-3 border-b border-line py-5 md:grid-cols-[3rem_minmax(0,18rem)_minmax(0,1fr)] md:gap-x-8"
-              >
-                <span className="t-index pt-1 text-muted-strong">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="t-item">{g.title}</h3>
-                <p className="col-start-2 mt-2 text-[15px] leading-[1.6] text-muted md:col-start-3 md:mt-0.5">
-                  {g.body}
-                </p>
+              <li key={g.title}>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="t-item">{g.title}</h3>
+                  <span aria-hidden="true" className="t-price text-[14px]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <p className="t-body mt-1.5 max-w-[46ch]">{g.body}</p>
               </li>
             ))}
           </Reveal>
-
-          <Link href="/menu" className="btn btn-primary mt-10">
-            See the menu
-          </Link>
         </div>
       </section>
 
+      <div className="wrap">
+        <Squiggle />
+      </div>
       <Faq />
     </>
   );

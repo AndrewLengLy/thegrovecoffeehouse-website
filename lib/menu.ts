@@ -777,3 +777,19 @@ export const marqueePhrases = [
   "Room to work",
   "Stay as long as you like",
 ];
+
+/**
+ * The milk and extras lists, split into a name and a price for a menu column.
+ * "Oat milk, add $1" reads "Oat milk" and "+$1.00", "Whip cream, 45 cents"
+ * reads "+$0.45", and a milk with no charge reads "+$0".
+ */
+export function addOnLines(list: string[]): { name: string; price: string }[] {
+  return list.map((entry) => {
+    const [name, rest] = entry.split(/,\s*/, 2);
+    if (!rest) return { name, price: "+$0" };
+    const dollars = rest.match(/\$(\d+(?:\.\d+)?)/);
+    const cents = rest.match(/(\d+)\s*cents/);
+    const value = dollars ? Number(dollars[1]) : cents ? Number(cents[1]) / 100 : 0;
+    return { name, price: `+$${value.toFixed(2)}` };
+  });
+}

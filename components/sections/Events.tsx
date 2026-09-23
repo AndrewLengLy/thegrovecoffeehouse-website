@@ -1,98 +1,104 @@
 import { site } from "@/lib/site";
-import { recentEvents, formatEventDate, EVENT_KIND_LABEL } from "@/lib/events";
-import { SplitHeading } from "@/components/motion/SplitHeading";
+import { recentEvents, eventStamp, EVENT_KIND_LABEL } from "@/lib/events";
+import { Photo } from "@/components/ui/Photo";
 import { Reveal } from "@/components/motion/Reveal";
-import { BandLine } from "@/components/motion/BandLine";
+import { Doodle } from "@/components/ui/Doodle";
 
 /**
- * Things that happen here. Music nights, the birthday, a candle drop. Every row
- * is sourced to the shop's own Instagram post, and the section is honest about
- * the fact that the next one gets posted there first.
+ * Things that happen here, set the way the reference sets its next event: a
+ * square print on the left, and on the right the date stamp, a big italic
+ * title, a few lines and a tag to follow. The rest of what has been on lately
+ * sits under it as a short list.
+ *
+ * Every entry is sourced to the shop's own Instagram post, and the section is
+ * honest that the next one gets posted there first.
  */
 export function Events() {
+  const [latest, ...earlier] = recentEvents;
+
   return (
-    <section id="events" className="rule-top scroll-mt-2">
-      <div className="wrap section">
-        <div className="band">
-          <span className="t-label">Things that happen here</span>
-          <BandLine />
-          <span className="t-label text-muted-strong">Posted on Instagram first</span>
+    <section id="events" aria-labelledby="events-heading" className="relative scroll-mt-2">
+      <div className="wrap section grid gap-8 md:grid-cols-2 md:gap-10">
+        <div className="print aspect-square">
+          <Photo
+            src={null}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            width={1400}
+            height={1400}
+            alt="The room full of people during an evening at The Grove Coffee House"
+            brief="The room during a music night or the birthday weekend, full of people. Square crop."
+          />
         </div>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-12 md:items-end">
-          <SplitHeading as="h2" className="t-h2 md:col-span-6 lg:col-span-7">
-            Some evenings the room fills up
-          </SplitHeading>
-          <p className="t-body text-muted md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
-            Music nights, birthdays, and the occasional candle drop. Here is what
-            has been on lately, and where you will hear about the next one
-            first.
-          </p>
-        </div>
+        <div className="flex flex-col md:pl-4 lg:pl-8">
+          <h2 id="events-heading" className="t-caps">
+            Lately at The Grove
+            <span className="block">{eventStamp(latest)}</span>
+          </h2>
 
-        <Reveal as="ol" className="mt-10 list-none border-t border-chalk" each={0.06}>
-          {recentEvents.map((e) => {
-            const d = formatEventDate(e);
-            return (
-              <li
-                key={e.slug}
-                className="grid grid-cols-[4.5rem_1fr] gap-x-4 border-b border-line py-6 md:grid-cols-[6rem_minmax(0,20rem)_minmax(0,1fr)_auto] md:gap-x-8"
+          <Reveal travel={16} className="mt-10 md:mt-auto">
+            <h3 className="t-display">{latest.title}</h3>
+            <p className="t-body mt-3 max-w-[46ch]">{latest.blurb}</p>
+            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <a
+                href={latest.source}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-event="instagram_click"
+                data-event-location={`event_${latest.slug}`}
+                className="btn"
               >
-                <time dateTime={e.date} className="block">
-                  <span className="t-h3 block leading-none">{d.day}</span>
-                  <span className="t-label mt-1 block text-muted-strong">
-                    {d.month} {d.year}
-                  </span>
-                </time>
+                See the post
+              </a>
+              <a
+                href={site.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-event="instagram_click"
+                data-event-location="events_section"
+                className="btn btn-ghost"
+              >
+                Follow along
+              </a>
+            </div>
+          </Reveal>
 
-                <div>
-                  <span className="tag tag-rest">{EVENT_KIND_LABEL[e.kind]}</span>
-                  <h3 className="t-item mt-2">{e.title}</h3>
-                  {e.time && <p className="mt-1 text-[15px] text-muted">From {e.time}</p>}
-                </div>
-
-                <p className="col-span-2 col-start-1 mt-3 text-[15px] leading-[1.55] md:col-span-1 md:col-start-3 md:mt-0.5">
-                  {e.blurb}
-                </p>
-
-                <a
-                  href={e.source}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-event="instagram_click"
-                  data-event-location={`event_${e.slug}`}
-                  /* self-start: as a grid item the link would otherwise stretch
-                     to the full row height and hang its underline far below
-                     the words on a wide screen. */
-                  className="link-slide t-label col-start-2 mt-2 inline-flex min-h-[28px] items-center self-start justify-self-start text-muted-strong md:col-start-4 md:mt-0.5 md:justify-self-end"
+          <div className="mt-10 md:mb-auto md:mt-14">
+            <p className="t-caps">Also lately</p>
+            <ul className="mt-3 max-w-[34rem]">
+              {earlier.map((e) => (
+                <li
+                  key={e.slug}
+                  className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 border-t border-pencil/50 py-3 last:border-b"
                 >
-                  See the post
-                </a>
-              </li>
-            );
-          })}
-        </Reveal>
-
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[15px] text-muted">
-            We post the next one on Instagram before anywhere else, so follow
-            along there.
-          </p>
-          <a
-            href={site.instagram.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-event="instagram_click"
-            data-event-location="events_section"
-            className="btn btn-secondary"
-          >
-            {/* The handle is 22 characters of capitals, which breaks badly in
-                a phone width button. The short label says the same thing. */}
-            <span className="sm:hidden">Follow on Instagram</span>
-            <span className="hidden sm:inline">Follow {site.instagram.handle}</span>
-          </a>
+                  <div>
+                    <p className="t-note">
+                      {eventStamp(e)} <span aria-hidden="true">/</span> {EVENT_KIND_LABEL[e.kind]}
+                    </p>
+                    <h3 className="t-h3 mt-1 text-[21px]">{e.title}</h3>
+                  </div>
+                  <a
+                    href={e.source}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-event="instagram_click"
+                    data-event-location={`event_${e.slug}`}
+                    className="t-nav link-slide inline-flex min-h-8 items-center"
+                  >
+                    See the post
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
+
+      <Doodle
+        name="guitar"
+        className="absolute bottom-6 right-4 hidden h-24 w-24 md:block md:right-10 lg:h-28 lg:w-28"
+      />
     </section>
   );
 }

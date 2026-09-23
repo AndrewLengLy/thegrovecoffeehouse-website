@@ -86,7 +86,7 @@ export function Photo({
             ? "absolute inset-0 items-end justify-start pt-24 text-right "
             : "absolute inset-0 items-end justify-end text-right "
           : "relative items-start justify-end text-left ") +
-        (tone === "dark" ? "bg-deep text-chalk/75 " : "bg-panel text-muted-strong ") +
+        (tone === "dark" ? "text-paper/80 " : "bg-paper-deep text-ink-soft ") +
         className
       }
     >
@@ -96,22 +96,22 @@ export function Photo({
       {tone === "light" && (
         <GroveMark
           weight={1.4}
-          className="pointer-events-none absolute left-1/2 top-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 text-line-strong opacity-30"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 text-pencil opacity-40"
         />
       )}
-      <span className="t-label relative" style={{ fontSize: "10px" }}>
+      <span className="t-nav relative text-[10px]">
         Photograph needed
       </span>
       {/* On a small screen a full shot brief sitting behind the hero headline
           collides with it. The label stays, the detail waits for room. */}
       <span
         className={
-          "relative max-w-[36ch] text-[13px] leading-snug " + (fill ? "hidden md:block" : "")
+          "t-note relative max-w-[36ch] " + (fill ? "hidden md:block" : "")
         }
       >
         {brief}
       </span>
-      <span className={"relative text-[11px] tabular-nums " + (fill ? "hidden md:block" : "")}>
+      <span className={"t-note relative text-[11px] tabular-nums " + (fill ? "hidden md:block" : "")}>
         {width} x {height}
       </span>
     </div>

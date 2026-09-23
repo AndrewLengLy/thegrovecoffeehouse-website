@@ -74,7 +74,7 @@ export function MenuJumpBar({
   }, [active]);
 
   return (
-    <nav aria-label="Jump to a section" className="jumpbar" data-shown={shown} inert={!shown}>
+    <nav aria-label="Jump to a section" className="jumpbar paper" data-shown={shown} inert={!shown}>
       <div className="wrap">
         <ul
           ref={rowRef}
@@ -89,11 +89,9 @@ export function MenuJumpBar({
                   data-for={s.id}
                   aria-current={current ? "true" : undefined}
                   className={[
-                    "t-label inline-flex min-h-10 items-center whitespace-nowrap border-2 px-3",
+                    "t-nav inline-flex min-h-9 items-center whitespace-nowrap px-2.5",
                     "transition-colors duration-micro",
-                    current
-                      ? "border-chalk bg-chalk text-ground"
-                      : "border-transparent text-chalk hover:border-chalk",
+                    current ? "bg-brick text-paper" : "text-ink hover:text-brick",
                   ].join(" ")}
                 >
                   {s.label}

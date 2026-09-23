@@ -81,3 +81,18 @@ export function formatEventDate(e: GroveEvent): { day: string; month: string; ye
   }
   return { day, month: MONTHS[m - 1], year: String(y) };
 }
+
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+/** "2026.08.21 Friday", or "2026.08.21 to 08.24" for a run of days. Computed
+    in UTC from the ISO date so the server and the browser print the same day. */
+export function eventStamp(e: GroveEvent): string {
+  const [y, m, d] = e.date.split("-");
+  const start = `${y}.${m}.${d}`;
+  if (e.endDate) {
+    const [, em, ed] = e.endDate.split("-");
+    return `${start} to ${em}.${ed}`;
+  }
+  const day = new Date(Date.UTC(Number(y), Number(m) - 1, Number(d))).getUTCDay();
+  return `${start} ${WEEKDAYS[day]}`;
+}

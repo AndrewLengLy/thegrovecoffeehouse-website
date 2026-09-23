@@ -1,98 +1,50 @@
 import { Photo } from "@/components/ui/Photo";
-import { SplitHeading } from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
-import { ScaleReveal } from "@/components/motion/ScaleReveal";
 
 /**
- * The third space pitch. Reviews of this cafe keep mentioning the same things:
- * outlets, seating inside and out, people staying, cyclists stopping in. The
- * room is half of what is being sold, so it gets a section of its own.
+ * The room, as one wide print with the words set into its lower left corner,
+ * the way the reference runs its standing Friday feature. Reviews of this cafe
+ * keep mentioning the same things: outlets, seating inside and out, people
+ * staying, riders stopping in. The room is half of what is being sold.
  *
- * The facts sit in a ruled plate rather than a row of chips. Chips are software
- * furniture; a plate is what is screwed to the wall of a shop.
+ * The gradient is doing accessibility work. Paper type over an unknown
+ * photograph cannot be assumed to pass contrast, so the corner under the words
+ * is taken down to 80% wine, which clears AA over a near white photograph.
+ *
+ * TODO(andrew): once the real photograph is in, re-check the type against it.
  */
-
-const plate = [
-  ["Power", "Outlets you can reach"],
-  ["Seating", "Inside and outside"],
-  ["Laptops", "Welcome, all morning"],
-  ["Bikes", "Riders stop in. Park where you can see it"],
-];
-
 export function TheRoom() {
   return (
-    <section id="the-room" className="rule-top scroll-mt-2">
-      <div className="wrap section pb-0 md:pb-0">
-        <div className="grid gap-8 md:grid-cols-12">
-          <SplitHeading as="h2" className="t-h2 md:col-span-7">
-            Stay as long as you like
-          </SplitHeading>
-
-          <Reveal className="md:col-span-5 md:col-start-8">
-            <p className="t-body">
-              Settle in and stay. There are outlets, seating inside and out, and
-              nobody watching the clock. People spend whole mornings here
-              working and studying, or catching up with a friend. Riders come
-              in off Sierra College Blvd and sit outside where they can see
-              the bike.
-            </p>
-            <dl className="mt-7 border-t border-chalk">
-              {plate.map(([k, v]) => (
-                <div key={k} className="flex gap-4 border-b border-line py-2.5">
-                  <dt className="t-label w-[5.5rem] shrink-0 pt-[3px] text-muted-strong">{k}</dt>
-                  <dd className="text-[15px] leading-snug">{v}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-        </div>
-      </div>
-
-      {/* Full bleed. The container breaks here on purpose. */}
-      {/* On a phone the wide shot leads and the two portraits sit side by side
-          under it, instead of three full width frames stacked a screen and a
-          half deep. */}
-      <Reveal className="mt-12 grid grid-cols-2 gap-px bg-line md:mt-16 md:grid-cols-[1.6fr_1fr_1fr]">
-        <div className="relative col-span-2 aspect-[16/10] md:col-span-1 md:aspect-auto md:min-h-[420px]">
-          <ScaleReveal>
+    <section id="the-room" aria-labelledby="room-heading" className="scroll-mt-2">
+      <div className="wrap py-10 md:py-14">
+        <div className="print relative aspect-[4/5] sm:aspect-[16/10] lg:aspect-[1376/557]">
           <Photo
             src={null}
             fill
-            sizes="(min-width: 768px) 50vw, 100vw"
-            width={1600}
-            height={1000}
+            tone="dark"
+            sizes="100vw"
+            width={2400}
+            height={972}
             alt="Seating inside The Grove Coffee House with people working at tables"
             brief="Wide shot of the interior seating, ideally with people working. Show the outlets and the light."
           />
-          </ScaleReveal>
-        </div>
-        <div className="relative aspect-[4/5] md:aspect-auto">
-          <ScaleReveal>
-          <Photo
-            src={null}
-            fill
-            sizes="(min-width: 768px) 25vw, 100vw"
-            width={900}
-            height={1100}
-            alt="Outdoor seating at the front of The Grove Coffee House"
-            brief="The outdoor seating out front. Portrait crop."
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[linear-gradient(to_top_right,rgb(58_16_14/0.82),rgb(58_16_14/0.45)_38%,transparent_65%)]"
           />
-          </ScaleReveal>
+          <Reveal travel={16} className="absolute bottom-0 left-0 max-w-[36rem] p-5 text-paper md:p-8">
+            <h2 id="room-heading" className="t-feature">
+              Stay as long as you like
+            </h2>
+            <p className="t-caps mt-3">Outlets, seats inside and out, no clock</p>
+            <p className="t-body mt-2 max-w-[48ch]">
+              Settle in and stay. People spend whole mornings here working and
+              studying, or catching up with a friend. Riders come in off Sierra
+              College Blvd and sit outside where they can see the bike.
+            </p>
+          </Reveal>
         </div>
-        <div className="relative aspect-[4/5] md:aspect-auto">
-          <ScaleReveal>
-          <Photo
-            src={null}
-            fill
-            sizes="(min-width: 768px) 25vw, 100vw"
-            width={900}
-            height={1100}
-            alt="A drink and a plate on a table at The Grove Coffee House"
-            brief="A drink and food on a table in the room, shot at the table. Portrait crop."
-          />
-          </ScaleReveal>
-        </div>
-      </Reveal>
+      </div>
     </section>
   );
 }

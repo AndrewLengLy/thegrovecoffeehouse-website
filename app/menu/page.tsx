@@ -10,15 +10,18 @@ import {
   itemsInCategory,
   menuCaveat,
   milkOptions,
+  addOnLines,
 } from "@/lib/menu";
 import { MenuRow } from "@/components/ui/MenuRow";
+import { MenuBlock } from "@/components/ui/MenuBlock";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitHeading } from "@/components/motion/SplitHeading";
 import { TrackMenuView } from "@/components/ConversionEvents";
 import { JsonLd } from "@/components/JsonLd";
 import { absolute, breadcrumbs } from "@/lib/seo";
-import { BandLine } from "@/components/motion/BandLine";
 import { MenuJumpBar } from "@/components/ui/MenuJumpBar";
+import { Squiggle } from "@/components/ui/Squiggle";
+import { Doodle } from "@/components/ui/Doodle";
 
 export const metadata: Metadata = {
   title: "Menu",
@@ -68,34 +71,34 @@ export default function MenuPage() {
       <JsonLd data={menuSchema()} />
       <JsonLd data={breadcrumbs([{ name: "Menu", path: "/menu" }])} />
 
-      <div className="wrap section pb-8 md:pb-10">
-        <SplitHeading as="h1" onLoad className="t-hero max-w-[11ch]">
-          The whole board
-        </SplitHeading>
-
-        <div className="mt-8 grid gap-6 md:grid-cols-12">
-          <p className="t-body text-muted md:col-span-5">{menuCaveat}</p>
-
-          {/* Jump links. A menu you have to hunt through is halfway back to the
-              problem this page exists to solve. */}
-          <nav id="menu-index" aria-label="Menu sections" className="md:col-span-6 md:col-start-7">
-            <ul className="border-t border-chalk">
-              {CATEGORY_ORDER.map((c) => (
-                <li key={c}>
-                  <a
-                    href={`#${c}`}
-                    className="group flex items-baseline justify-between gap-4 border-b border-line py-2.5 transition-colors duration-micro hover:text-ember"
-                  >
-                    <span className="t-label">{CATEGORY_LABEL[c]}</span>
-                    <span className="t-index text-muted-strong">
-                      {String(itemsInCategory(c).length).padStart(2, "0")}
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+      <div className="wrap section relative grid gap-10 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-5">
+          <SplitHeading as="h1" onLoad className="t-display">
+            The whole board
+          </SplitHeading>
+          <p className="t-body mt-4 max-w-[46ch]">{menuCaveat}</p>
+          <Doodle name="drinks" className="mt-8 hidden h-24 w-24 lg:block" />
         </div>
+
+        {/* Jump links. A menu you have to hunt through is halfway back to the
+            problem this page exists to solve. */}
+        <nav id="menu-index" aria-label="Menu sections" className="lg:col-span-6 lg:col-start-7">
+          <ul className="border-t border-pencil/50">
+            {CATEGORY_ORDER.map((c) => (
+              <li key={c}>
+                <a
+                  href={`#${c}`}
+                  className="flex min-h-11 items-baseline justify-between gap-4 border-b border-pencil/50 py-2.5 transition-colors duration-micro hover:text-brick"
+                >
+                  <span className="t-h3 text-[21px]">{CATEGORY_LABEL[c]}</span>
+                  <span className="t-price text-[14px]">
+                    {String(itemsInCategory(c).length).padStart(2, "0")}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
       <MenuJumpBar
@@ -111,23 +114,28 @@ export default function MenuPage() {
         const items = itemsInCategory(category);
         if (items.length === 0) return null;
 
-        /* scroll-mt-12 on top of the page's 5rem scroll padding clears the
-           header and the jump bar together. */
+        /* scroll-mt-12 on top of the page's scroll padding clears the header
+           and the jump bar together. */
         return (
-          <section key={category} id={category} className="rule-top scroll-mt-12">
-            <div className="wrap py-10 md:py-14">
-              <div className="band">
-                <h2 className="t-label">{CATEGORY_LABEL[category]}</h2>
-                <BandLine />
-                <span className="t-index text-muted-strong">
-                  {String(items.length).padStart(2, "0")}
-                </span>
+          <section key={category} id={category} aria-labelledby={`${category}-heading`} className="scroll-mt-12">
+            <div className="wrap">
+              <Squiggle />
+            </div>
+            <div className="wrap section grid gap-8 lg:grid-cols-12">
+              <div className="lg:col-span-4">
+                <h2 id={`${category}-heading`} className="t-h2">
+                  {CATEGORY_LABEL[category]}
+                </h2>
+                <p className="t-body mt-3 max-w-[38ch]">{CATEGORY_BLURB[category]}</p>
               </div>
-              <p className="t-body measure mt-4 text-muted">{CATEGORY_BLURB[category]}</p>
 
-              <Reveal as="ul" className="mt-8 list-none">
-                {items.map((item, i) => (
-                  <MenuRow key={item.slug} item={item} index={i} />
+              <Reveal
+                as="ul"
+                each={0.06}
+                className="grid list-none gap-x-12 gap-y-7 sm:grid-cols-2 lg:col-span-8 lg:gap-x-16"
+              >
+                {items.map((item) => (
+                  <MenuRow key={item.slug} item={item} />
                 ))}
               </Reveal>
             </div>
@@ -136,79 +144,58 @@ export default function MenuPage() {
       })}
 
       {/* Straight off the bottom of the board in the shop. */}
-      <section id="menu-end" className="rule-top">
-        <div className="wrap py-10 md:py-14">
-          <div className="grid gap-8 md:grid-cols-12">
-            <div className="md:col-span-4">
-              <div className="band">
-                <h2 className="t-label">Milk</h2>
-                <BandLine />
-              </div>
-              <ul className="mt-4">
-                {milkOptions.map((m) => (
-                  <li key={m} className="border-b border-line py-2 text-[15px]">
-                    {m}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="md:col-span-4 md:col-start-6">
-              <div className="band">
-                <h2 className="t-label">Extras</h2>
-                <BandLine />
-              </div>
-              <ul className="mt-4">
-                {extras.map((e) => (
-                  <li key={e} className="border-b border-line py-2 text-[15px]">
-                    {e}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="md:col-span-3 md:col-start-10">
-              <div className="band">
-                <h2 className="t-label">Roasted by</h2>
-                <BandLine />
-              </div>
-              <p className="t-item mt-4">Chocolate Fish Coffee Roasters</p>
-              <p className="mt-2 text-[15px] text-muted">Sacramento</p>
-            </div>
+      <section id="menu-end" aria-label="Milk, extras and roaster">
+        <div className="wrap">
+          <Squiggle />
+        </div>
+        <div className="wrap section grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-16">
+          <MenuBlock title="Milk options" headingLevel="h2" lines={addOnLines(milkOptions)} />
+          <MenuBlock title="Extras" headingLevel="h2" lines={addOnLines(extras)} />
+          <div>
+            <h2 className="t-h3 text-[21px]">Roasted by</h2>
+            <p className="t-item mt-4">{site.roaster.name}</p>
+            <p className="t-note mt-1">{site.roaster.location}</p>
           </div>
         </div>
       </section>
 
-      <section className="on-green">
-        <div className="wrap section">
-          <div className="grid gap-8 md:grid-cols-12 md:items-end">
-            <h2 className="t-h2 md:col-span-6">Not sure what to order?</h2>
-            <p className="t-body text-chalk/90 md:col-span-5 md:col-start-8">
+      <section aria-labelledby="order-heading" className="relative">
+        <div className="wrap">
+          <Squiggle />
+        </div>
+        <div className="wrap section grid gap-6 lg:grid-cols-12 lg:items-end">
+          <h2 id="order-heading" className="t-display lg:col-span-5">
+            Not sure what to order?
+          </h2>
+          <div className="lg:col-span-5 lg:col-start-8">
+            <p className="t-body max-w-[46ch]">
               Tell whoever is on bar what you usually go for and how sweet you like
               it, and they will find you something. It is the best part of
               ordering in person.
             </p>
-          </div>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={site.directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="directions_click"
-              data-event-location="menu_footer"
-              className="btn btn-onphoto"
-            >
-              Get directions
-            </a>
-            <a
-              href={site.phone.href}
-              data-event="phone_click"
-              data-event-location="menu_footer"
-              className="btn btn-secondary tabular-nums"
-            >
-              {site.phone.display}
-            </a>
-            <Link href="/visit" className="btn btn-secondary">
-              Hours and parking
-            </Link>
+            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <a
+                href={site.directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-event="directions_click"
+                data-event-location="menu_footer"
+                className="btn"
+              >
+                Get directions
+              </a>
+              <a
+                href={site.phone.href}
+                data-event="phone_click"
+                data-event-location="menu_footer"
+                className="btn btn-ghost tabular-nums"
+              >
+                {site.phone.display}
+              </a>
+              <Link href="/visit" className="btn btn-ghost">
+                Hours and parking
+              </Link>
+            </div>
           </div>
         </div>
       </section>

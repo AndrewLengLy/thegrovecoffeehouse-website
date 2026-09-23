@@ -1,12 +1,10 @@
-import { Announcement } from "@/components/sections/Announcement";
 import { Hero } from "@/components/sections/Hero";
-import { Marquee } from "@/components/sections/Marquee";
-import { SeasonalSection } from "@/components/sections/SeasonalSection";
+import { MenuPreview } from "@/components/sections/MenuPreview";
 import { TheRoom } from "@/components/sections/TheRoom";
 import { Events } from "@/components/sections/Events";
-import { TheBeans } from "@/components/sections/TheBeans";
-import { VisitBlock } from "@/components/sections/VisitBlock";
-import { marqueePhrases } from "@/lib/menu";
+import { Favorites } from "@/components/sections/Favorites";
+import { FromTheGrove } from "@/components/sections/FromTheGrove";
+import { Squiggle } from "@/components/ui/Squiggle";
 import { events } from "@/lib/events";
 import { JsonLd } from "@/components/JsonLd";
 import { absolute, businessNode, postalAddress } from "@/lib/seo";
@@ -41,14 +39,26 @@ export default function Home() {
       {eventSchema().map((d, i) => (
         <JsonLd key={i} data={d} />
       ))}
-      <Announcement />
       <Hero />
-      <Marquee phrases={marqueePhrases} />
-      <SeasonalSection />
+      <Rule />
+      <MenuPreview />
+      <Rule />
       <TheRoom />
+      <Rule />
       <Events />
-      <TheBeans />
-      <VisitBlock />
+      <Rule />
+      <Favorites />
+      <Rule />
+      <FromTheGrove />
     </>
+  );
+}
+
+/** The hand drawn break between sections, inside the page gutter. */
+function Rule() {
+  return (
+    <div className="wrap">
+      <Squiggle />
+    </div>
   );
 }

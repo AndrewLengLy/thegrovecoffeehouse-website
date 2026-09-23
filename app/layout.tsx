@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Big_Shoulders, IBM_Plex_Mono, Work_Sans } from "next/font/google";
+import { Courier_Prime, EB_Garamond, Hanken_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 
 import "./globals.css";
 import { site } from "@/lib/site";
+import { Announcement } from "@/components/sections/Announcement";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
@@ -12,33 +13,33 @@ import { JsonLd } from "@/components/JsonLd";
 import { absolute, businessNode, isIndexable, openingHours } from "@/lib/seo";
 import { menu } from "@/lib/menu";
 
-/* A condensed signage face, a warm grotesque, and a mono. All three are self
-   hosted by next/font and subset to latin, so there is no third party request
-   and no layout shift when they land.
+/* An old style serif, a typewriter mono, and a plain grotesque. All three are
+   self hosted by next/font and subset to latin, so there is no third party
+   request and no layout shift when they land.
 
-   Big Shoulders was drawn for public signage, which is exactly the register
-   this shop wants: painted, condensed, set large. Work Sans carries the
-   reading copy without the flatness of the usual default. IBM Plex Mono is the
-   texture of this build: every label, caption, price and button sits in it, so
-   the small type reads as typed and pinned up rather than set. It is loaded at
-   two weights only, because that is all the design uses. */
-const shoulders = Big_Shoulders({
+   EB Garamond stands in for the Caslon the reference is set in: an old style
+   face whose italic carries every title on the site and whose roman carries
+   the reading copy. Courier Prime is the typewriter, for prices, buttons and
+   navigation. Hanken Grotesk sets item names and labels in small capitals. */
+const garamond = EB_Garamond({
   subsets: ["latin"],
+  style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-shoulders",
+  variable: "--font-garamond",
 });
 
-const work = Work_Sans({
+const courier = Courier_Prime({
   subsets: ["latin"],
+  weight: ["400"],
   display: "swap",
-  variable: "--font-work",
+  variable: "--font-courier",
 });
 
-const plexMono = IBM_Plex_Mono({
+const hanken = Hanken_Grotesk({
   subsets: ["latin"],
   weight: ["400", "500"],
   display: "swap",
-  variable: "--font-plex-mono",
+  variable: "--font-hanken",
 });
 
 export const metadata: Metadata = {
@@ -72,8 +73,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1f1e1b",
-  colorScheme: "dark",
+  themeColor: "#f2ecd9",
+  colorScheme: "light",
 };
 
 /** LocalBusiness with the CafeOrCoffeeShop subtype, plus the WebSite node.
@@ -121,7 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
        whole point of it, and React would otherwise flag the difference. */
     <html
       lang="en"
-      className={`${shoulders.variable} ${work.variable} ${plexMono.variable}`}
+      className={`${garamond.variable} ${courier.variable} ${hanken.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -137,10 +138,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <JsonLd key={i} data={d} />
         ))}
       </head>
-      <body>
+      <body className="paper">
         <a href="#main" className="sr-only skip-link">
           Skip to content
         </a>
+        <Announcement />
         <Header />
         <main id="main">{children}</main>
         <Footer />

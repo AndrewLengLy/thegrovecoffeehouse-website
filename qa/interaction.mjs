@@ -11,71 +11,51 @@ const browser = await puppeteer.launch({
 const results = [];
 const check = (name, pass, detail = "") => { results.push({ name, pass, detail }); };
 
-/* ---------- 1. The signature pinned horizontal pass ---------- */
+/* ---------- 1. The hand drawn lines draw in, and the strip closes ---------- */
 {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
   await page.goto(BASE + "/", { waitUntil: "networkidle0" });
   await page.evaluate(() => document.fonts.ready);
-  await new Promise(r => setTimeout(r, 1500));
+  await new Promise(r => setTimeout(r, 1200));
 
-  const before = await page.evaluate(() => {
-    document.documentElement.style.scrollBehavior = "auto";
-    const t = document.querySelector("[data-rail-section] [data-rail-item]")?.parentElement;
-    return { x: t ? t.getBoundingClientRect().left : null,
-             pinned: document.querySelector("[data-rail-section]")?.dataset.pinned ?? null };
+  const drawn = () => page.evaluate(() => {
+    const all = [...document.querySelectorAll("[data-draw]")];
+    const below = all.filter(el => el.getBoundingClientRect().top > innerHeight * 1.5);
+    return { total: all.length, drawn: all.filter(el => el.dataset.drawn === "true").length,
+             belowDrawn: below.filter(el => el.dataset.drawn === "true").length, below: below.length };
   });
 
-  // Scroll deep into the pinned range.
+  // A drawing far down the page must wait for the reader, or there is nothing
+  // left to watch by the time they reach it.
+  const before = await drawn();
+  check("drawings below the fold wait to be drawn", before.below > 0 && before.belowDrawn === 0, JSON.stringify(before));
+
   await page.evaluate(async () => {
-    const sec = document.querySelector("[data-rail-section]");
-    const top = window.scrollY + sec.getBoundingClientRect().top;
-    for (let i = 0; i <= 30; i++) { window.scrollTo(0, top + i * 90); await new Promise(r => setTimeout(r, 40)); }
-    await new Promise(r => setTimeout(r, 900));
+    document.documentElement.style.scrollBehavior = "auto";
+    for (let y = 0; y <= document.body.scrollHeight; y += 400) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 60)); }
+    await new Promise(r => setTimeout(r, 600));
   });
+  const after = await drawn();
+  check("every drawing is drawn once scrolled past", after.total > 5 && after.drawn === after.total, JSON.stringify(after));
 
-  const after = await page.evaluate(() => {
-    const t = document.querySelector("[data-rail-section] [data-rail-item]")?.parentElement;
-    return { x: t ? t.getBoundingClientRect().left : null };
-  });
+  // Once drawn, every stroke must end visible, not stuck at its hidden dash
+  // offset. The longest drawing is 1.6s plus a stagger of about 2s.
+  await new Promise(r => setTimeout(r, 4000));
+  const worst = await page.evaluate(() =>
+    Math.max(...[...document.querySelectorAll('[data-draw] .draw')]
+      .map(p => Math.abs(parseFloat(getComputedStyle(p).strokeDashoffset))))
+  );
+  check("every drawn stroke ends fully visible", worst < 0.001, String(worst));
 
-  check("rail pins at 1440", before.pinned === "true", `data-pinned=${before.pinned}`);
-  check("rail scrubs horizontally", after.x !== null && before.x !== null && after.x < before.x - 100,
-        `left ${Math.round(before.x)} -> ${Math.round(after.x)}`);
-
-  // The check that was missing. A pin can scrub perfectly sideways while the
-  // whole fixed section sits thousands of pixels above the viewport, which is
-  // exactly what a transformed ancestor does to position: fixed. So: while
-  // pinned, at least one card must actually be on screen.
-  const visible = await page.evaluate(() => {
-    const sec = document.querySelector("[data-rail-section]");
-    const r = sec.getBoundingClientRect();
-    const cards = [...document.querySelectorAll("[data-rail-item]")].map(c => c.getBoundingClientRect());
-    const onScreen = cards.filter(c => c.left < innerWidth && c.right > 0 && c.top < innerHeight && c.bottom > 0).length;
-    return { pos: getComputedStyle(sec).position, secTop: Math.round(r.top), onScreen, total: cards.length };
-  });
-  check("pinned rail is actually on screen",
-        visible.pos === "fixed" && visible.secTop >= -10 && visible.secTop <= innerHeightGuess(visible) && visible.onScreen > 0,
-        JSON.stringify(visible));
-  function innerHeightGuess() { return 900; }
-
-  // Keyboard reachability: focusing a far card should bring it into view.
-  const focusJump = await page.evaluate(async () => {
-    const items = [...document.querySelectorAll("[data-rail-item]")];
-    const last = items[items.length - 1];
-    const btn = document.createElement("button");
-    btn.textContent = "probe"; last.appendChild(btn);
-    const yBefore = window.scrollY;
-    btn.focus();
-    await new Promise(r => setTimeout(r, 400));
-    const rect = last.getBoundingClientRect();
-    const res = { yBefore, yAfter: window.scrollY, left: Math.round(rect.left), vw: innerWidth };
-    btn.remove();
-    return res;
-  });
-  check("focus inside pinned rail scrolls it into view",
-        focusJump.yAfter !== focusJump.yBefore && focusJump.left < focusJump.vw,
-        JSON.stringify(focusJump));
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await new Promise(r => setTimeout(r, 700));
+  const closeBtn = await page.$("xpath/.//button[span[text()='Close announcement']]");
+  const hadStrip = !!closeBtn;
+  if (closeBtn) await closeBtn.click();
+  await new Promise(r => setTimeout(r, 300));
+  const stripGone = !(await page.$("xpath/.//button[span[text()='Close announcement']]"));
+  check("announcement strip closes", hadStrip && stripGone);
   await page.close();
 }
 
@@ -166,7 +146,7 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
   await page.close();
 }
 
-/* ---------- 5. Phone: the rail swipes, the thumb bar comes and goes ---------- */
+/* ---------- 5. Phone: the thumb bar comes and goes ---------- */
 {
   const page = await browser.newPage();
   await page.setViewport({ width: 375, height: 800, isMobile: true, hasTouch: true });
@@ -180,24 +160,8 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
   const bar = () => page.evaluate(() => document.querySelector('aside[aria-label="Quick actions"]')?.dataset.visible);
   check("thumb bar hidden over the hero", (await bar()) === "false");
 
-  const rail = await page.evaluate(() => {
-    const v = document.querySelector("[data-rail-viewport]");
-    const cards = [...document.querySelectorAll("[data-rail-item]")].map(c => c.getBoundingClientRect());
-    return { scrollable: v.scrollWidth > v.clientWidth + 100, overflowX: getComputedStyle(v).overflowX,
-             oneRow: cards.every(r => Math.abs(r.top - cards[0].top) < 2), top: v.getBoundingClientRect().top + scrollY };
-  });
-  check("rail is one sideways row on a phone, not a stacked column",
-        rail.scrollable && rail.oneRow && rail.overflowX === "auto", JSON.stringify(rail));
-
-  await scroll(rail.top - 200);
-  const nextBtn = await page.$("xpath/.//button[span[text()='Next drink']]");
-  const x0 = await page.$eval("[data-rail-viewport]", v => v.scrollLeft);
-  await nextBtn.click();
-  await new Promise(r => setTimeout(r, 900));
-  const x1 = await page.$eval("[data-rail-viewport]", v => v.scrollLeft);
-  const counter = await page.$eval("[data-rail-controls] p", p => p.textContent.replace(/\s/g, ""));
-  check("next button advances the rail one card", x1 > x0 + 150 && counter.startsWith("02"), `${x0} -> ${x1}, ${counter}`);
-
+  const menuTop = await page.$eval("#board-heading", el => el.getBoundingClientRect().top + scrollY);
+  await scroll(menuTop);
   check("thumb bar shows once past the hero", (await bar()) === "true");
   await scroll(999999);
   check("thumb bar leaves when the footer is on screen", (await bar()) === "false");
@@ -241,7 +205,6 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
   await page.setViewport({ width: 1440, height: 900 });
   await page.goto(BASE + "/", { waitUntil: "domcontentloaded" });
   await new Promise(r => setTimeout(r, 800));
-  const noJs = await page.evaluate ? null : null;
   // evaluate needs JS; check via content instead
   const html = await page.content();
   const hasHeadline = html.includes("Coffee runs, matcha dates, long mornings.");

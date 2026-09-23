@@ -71,7 +71,7 @@ for (const width of WIDTHS) {
       });
 
       // Anything that ended up invisible after motion should have settled.
-      const stuck = [...document.querySelectorAll("[data-reveal-group] > *, [data-rail-item], [data-split]")]
+      const stuck = [...document.querySelectorAll("[data-reveal-group] > *, [data-reveal], [data-split]")]
         .filter((e) => parseFloat(getComputedStyle(e).opacity) < 0.95)
         .map((e) => e.tagName + "." + String(e.className).slice(0, 50));
 
@@ -106,8 +106,29 @@ for (const width of WIDTHS) {
         })
         .map((e) => `${e.tagName} "${(e.textContent || "").trim().slice(0, 28)}" ${Math.round(e.getBoundingClientRect().width)}x${Math.round(e.getBoundingClientRect().height)}`);
 
+      // Nothing in the header may sit on top of anything else in it. A link
+      // that should be hidden at this width but is not lands on the name.
+      const headerBits = [...document.querySelectorAll("header a, header button, header p")]
+        .filter((e) => !e.closest(".sr-only") && !e.closest("#mobile-nav"))
+        .map((e) => ({ e, r: e.getBoundingClientRect() }))
+        .filter(({ r }) => r.width > 1 && r.height > 1);
+      const collisions = [];
+      for (let i = 0; i < headerBits.length; i++) {
+        for (let j = i + 1; j < headerBits.length; j++) {
+          const a = headerBits[i], b = headerBits[j];
+          if (a.e.contains(b.e) || b.e.contains(a.e)) continue;
+          const overlapX = Math.min(a.r.right, b.r.right) - Math.max(a.r.left, b.r.left);
+          const overlapY = Math.min(a.r.bottom, b.r.bottom) - Math.max(a.r.top, b.r.top);
+          if (overlapX > 2 && overlapY > 2) {
+            const label = (e) => `${e.tagName} "${(e.textContent || e.getAttribute("aria-label") || "").trim().slice(0, 20)}"`;
+            collisions.push(`${label(a.e)} x ${label(b.e)}`);
+          }
+        }
+      }
+
       return {
         scrollW: de.scrollWidth, clientW: vw,
+        collisions: collisions.slice(0, 6),
         horizontalOverflow: de.scrollWidth > vw + 1,
         overflowers: overflowers.slice(0, 8),
         stuck: stuck.slice(0, 8),
@@ -136,6 +157,7 @@ for (const r of report) {
   if (r.stuck.length) problems.push(`STUCK-INVISIBLE: ${r.stuck.join(" | ")}`);
   if (r.h1Count !== 1) problems.push(`H1 COUNT ${r.h1Count}`);
   if (r.imgsNoAlt.length) problems.push(`IMG NO ALT: ${r.imgsNoAlt.join(",")}`);
+  if (r.collisions.length) problems.push(`HEADER OVERLAP: ${r.collisions.join(" | ")}`);
   if (r.smallTargets.length) problems.push(`SMALL TARGET: ${r.smallTargets.join(" | ")}`);
   if (r.errors.length) problems.push(`CONSOLE: ${r.errors.join(" | ")}`);
   // heading order
