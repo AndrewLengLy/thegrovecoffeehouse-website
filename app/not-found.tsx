@@ -7,14 +7,14 @@ export default function NotFound() {
   return (
     <section className="wrap section grid gap-6 overflow-x-clip md:grid-cols-12 md:gap-8">
       <div className="md:col-span-7 lg:col-span-6">
-        <p className="t-nav text-ink-soft">404, not found</p>
-        <h1 className="t-display mt-3">We cannot find that page</h1>
-        <p className="t-body mt-4 max-w-[46ch]">
+        <p className="t-caps">404, not found</p>
+        <h1 className="t-display mt-6 text-[clamp(42px,6vw,104px)]">We cannot find that page</h1>
+        <p className="t-statement mt-8 max-w-[30ch]">
           It has either moved or never existed. Most people are here for the
           menu, so that is a good place to start.
         </p>
 
-        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+        <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
           <Link href="/menu" className="btn">
             See the menu
           </Link>

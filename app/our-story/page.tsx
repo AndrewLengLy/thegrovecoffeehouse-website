@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { site } from "@/lib/site";
 import { Photo } from "@/components/ui/Photo";
 import { Reveal } from "@/components/motion/Reveal";
-import { SplitHeading } from "@/components/motion/SplitHeading";
+import { PageHead } from "@/components/ui/PageHead";
+import { Frame } from "@/components/motion/Frame";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbs } from "@/lib/seo";
-import { Squiggle } from "@/components/ui/Squiggle";
 import { Doodle } from "@/components/ui/Doodle";
 
 export const metadata: Metadata = {
@@ -46,46 +47,51 @@ export default function OurStoryPage() {
     <>
       <JsonLd data={breadcrumbs([{ name: "Our story", path: "/our-story" }])} />
 
-      <div className="wrap section grid gap-6 md:grid-cols-12 md:gap-8">
-        <SplitHeading as="h1" onLoad className="t-display md:col-span-6 lg:col-span-5">
-          Three years on Sierra College Blvd
-        </SplitHeading>
+      <PageHead label="Our story" title="Three years on Sierra College Blvd">
+        <p className="t-statement">
+          We opened in the summer of 2023, and this August we turned three. It
+          is still just us: one family, one room on Sierra College Blvd.
+        </p>
+        <p className="t-body mt-5 max-w-[48ch]">
+          Three years of coffee runs, matcha dates, study sessions and catch
+          ups, and a lot of familiar faces.
+        </p>
+      </PageHead>
 
-        <div aria-hidden="true" className="hidden justify-center lg:col-span-2 lg:flex">
-          <Doodle name="sapling" className="-mt-2 h-28 w-28" />
+      {/* An offset pair. The room stands in on the left until the owners send
+          the photograph of themselves the right hand slot is waiting for. */}
+      <div className="wrap grid gap-8 md:grid-cols-12 md:gap-x-8">
+        <figure className="md:col-span-7">
+          <Frame className="aspect-[4/3] w-full">
+            <Image
+              src="/photos/grove-interior.jpg"
+              alt="Inside The Grove Coffee House: olive green chairs at warm wood tables under a red ceiling grid, with plants on the shelves and big front windows"
+              fill
+              priority
+              sizes="(min-width: 768px) 58vw, 100vw"
+              className="object-cover"
+            />
+          </Frame>
+          <figcaption className="t-script mt-3 text-[22px] leading-none text-grove">The room</figcaption>
+        </figure>
+        <div className="md:col-span-4 md:col-start-9 md:mt-40">
+          <Frame className="aspect-[3/4] w-full" drift={10}>
+            <Photo
+              src={null}
+              fill
+              sizes="(min-width: 768px) 33vw, 100vw"
+              width={1200}
+              height={1600}
+              alt="The family who own and run The Grove Coffee House, behind the counter"
+              brief="The owners and staff, in the room, working. Candid rather than posed. This is the most important photograph on the site after the hero."
+              doodle="table"
+            />
+          </Frame>
         </div>
-
-        <Reveal onLoad travel={8} className="md:col-span-6 md:col-start-7 lg:col-span-5 lg:col-start-8">
-          <p className="t-body max-w-[48ch]">
-            We opened in the summer of 2023, and this August we turned three.
-            Three years of coffee runs, matcha dates, study sessions and catch
-            ups, and a lot of familiar faces. It is still just us: one family,
-            one room on Sierra College Blvd.
-          </p>
-        </Reveal>
       </div>
 
-      <div className="wrap">
-        <div className="print relative aspect-[4/5] sm:aspect-[16/10] lg:aspect-[2/1]">
-          <Photo
-            src={null}
-            fill
-            priority
-            sizes="100vw"
-            width={2400}
-            height={1200}
-            alt="The family who own and run The Grove Coffee House, behind the counter"
-            brief="The owners and staff, in the room, working. Candid rather than posed. This is the most important photograph on the site after the hero."
-            doodle="table"
-          />
-        </div>
-      </div>
-
-      <section aria-labelledby="more-heading" className="mt-10 md:mt-14">
-        <div className="wrap">
-          <Squiggle />
-        </div>
-        <div className="wrap section grid gap-6 md:grid-cols-12 md:gap-8">
+      <section aria-labelledby="more-heading">
+        <div className="wrap section grid gap-6 md:grid-cols-12 md:gap-x-8">
           <h2 id="more-heading" className="t-h2 md:col-span-5">
             More than a coffee shop
           </h2>
@@ -108,15 +114,12 @@ export default function OurStoryPage() {
       </section>
 
       <section aria-labelledby="board-heading">
-        <div className="wrap">
-          <Squiggle />
-        </div>
-        <div className="wrap section grid gap-6 md:grid-cols-12 md:gap-8">
+        <div className="wrap section grid gap-6 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-5">
             <h2 id="board-heading" className="t-h2">
               There is a lot on the board
             </h2>
-            <Doodle name="guitar" className="mt-8 hidden h-28 w-28 md:block" />
+            <Doodle name="guitar" className="mt-10 hidden h-28 w-28 md:block" />
           </div>
           <Reveal className="md:col-span-6 md:col-start-7">
             <p className="t-body max-w-[52ch]">
@@ -138,10 +141,7 @@ export default function OurStoryPage() {
       </section>
 
       <section aria-labelledby="roaster-heading">
-        <div className="wrap">
-          <Squiggle />
-        </div>
-        <div className="wrap section grid gap-6 md:grid-cols-12 md:gap-8">
+        <div className="wrap section grid gap-6 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-5">
             <h2 id="roaster-heading" className="t-h2">
               Who roasts for us
@@ -158,7 +158,7 @@ export default function OurStoryPage() {
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
               <a href={site.roaster.url} target="_blank" rel="noopener noreferrer" className="btn">
-                Visit {site.roaster.name}
+                Visit Chocolate Fish
               </a>
               <a
                 href={site.directionsUrl}

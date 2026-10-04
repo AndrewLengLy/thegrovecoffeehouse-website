@@ -3,67 +3,69 @@
 /* ============================================================
    The Grove Coffee House.
 
-   Direction: The Grove's own menu board and room. The board in the
-   shop is a green script "The Grove Coffee House" beside a coffee
-   stain and a sketch of beans, every item and price in red typewriter
-   capitals between red rules, and the matcha list on a wash of green
-   watercolour. The room is cream walls, olive green chairs, warm wood
-   tables and a red ceiling grid. The site is set the same way: script
-   titles in the logo's green, the board's red typewriter for items,
-   prices, labels and buttons, a warm serif for reading, and green
-   line drawings in the margins.
+   Direction: an editorial safari lodge site laid over The Grove's own
+   menu board. From the lodge: a full bleed photograph under a huge,
+   thin, upper case serif; tiny labels in capitals over long, light
+   statements; an asymmetric twelve column grid with photographs set
+   in offset pairs that drift at different speeds; a scatter of small
+   prints around a centred heading; and a field of olive to end on.
 
-   Photography is matted inside the page gutter rather than bled to
-   the edge, so every photograph reads as a print laid on the paper.
+   From the board in the shop: the green script of the name, every
+   item and price in red typewriter capitals with a dotted leader
+   between them, the matcha list on a wash of green watercolour, and
+   the green line drawings. The olive is the room's own, the colour of
+   its chairs.
    ============================================================ */
 
 @theme {
   /* ---- Paper ----
-     The cream of the walls. */
-  --color-paper: #f2ecd9;       /* the page */
-  --color-paper-deep: #e8dfc6;  /* an inset, and an empty photograph slot */
+     A clean warm cream, lighter and less yellow than a sheet of stock,
+     with a sand step for panels and empty photograph slots. */
+  --color-paper: #f4efe7;
+  --color-paper-deep: #e6e1d3;
+  --color-sand: #e6e1d3;
 
   /* ---- Ink ----
-     A deep green carries the reading copy. On paper it is 8.4:1, so it
-     holds at any size. The soft step is for meta and notes, 5.0:1. */
+     The deep green of the logo carries every word. 9.4:1 on paper. The
+     soft step is for meta and notes, 5.4:1. */
   --color-ink: #1f453a;
   --color-ink-soft: #4a6a5f;
 
-  /* The logo's green, from the board. 4.6:1 on paper, so it passes AA
-     even as body text, and every title is set in it. */
+  /* The logo's green, from the board. 4.9:1 on paper. Quotes and the
+     name. */
   --color-grove: #2e7560;
 
-  /* The board's thin red rules, softened for the hand drawn rule
-     between sections. Decorative only, never the only thing that
-     separates two controls. */
-  --color-pencil: #c9877c;
+  /* A hairline between rows. Decorative only. */
+  --color-pencil: #c9c2b0;
+
+  /* ---- Olive ----
+     The chairs. The intro panel, the open menu and the footer. Paper on
+     it is 5.3:1. */
+  --color-olive: #56662a;
+  --color-olive-deep: #45531f;
 
   /* ---- Red ----
-     The board's red, and the ceiling grid's. Items, prices, labels and
-     buttons. Paper text on it is 5.0:1 and it is 5.0:1 as text on paper. */
+     The board's red and the ceiling grid's. Buttons, tags and the strip
+     across the top. Paper text on it is 5.0:1. */
   --color-brick: #b53530;
   --color-brick-hover: #1f453a;
-  /* Red as text: heads and prices. The board red drops under 4.5:1 once
-     the matcha wash sits behind it, and this holds 6.4:1 on paper and
-     4.9:1 on the thickest part of the wash. */
+  /* Red as text: board heads and prices. 6.6:1 on paper, and 4.9:1 on
+     the thickest part of the matcha wash, where board red would fail. */
   --color-brick-deep: #9c2b27;
 
-  /* Drawings only. Never text. A little brighter than the logo so a
-     thin line still reads as green. */
+  /* Drawings only. Never text. */
   --color-doodle: #3d8a70;
 
-  /* The board's coffee stain and its watercolour matcha wash.
-     Decoration only. */
+  /* The board's coffee stain and matcha wash. Decoration only. */
   --color-stain: #8b5a2b;
   --color-matcha: #a9c79a;
 
-  /* The footer field, the green of the chairs taken down to a deep
-     forest. Paper on it is 8.4:1. */
+  /* The deep green of the logo as a field, behind the hero photograph. */
   --color-forest: #1f453a;
 
   /* Type */
   --font-script: var(--font-damion), "Brush Script MT", cursive;
-  --font-serif: var(--font-garamond), "Iowan Old Style", Georgia, serif;
+  --font-serif: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
   --font-mono: var(--font-courier), "Courier New", ui-monospace, monospace;
   --font-sans: var(--font-serif);
 
@@ -91,7 +93,7 @@
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
     /* Header.tsx measures itself and publishes --header-h. */
-    scroll-padding-top: calc(var(--header-h, 84px) + 16px);
+    scroll-padding-top: calc(var(--header-h, 72px) + 16px);
     background-color: var(--color-paper);
   }
 
@@ -99,7 +101,8 @@
     color: var(--color-ink);
     font-family: var(--font-serif);
     font-size: 17px;
-    line-height: 1.35;
+    line-height: 1.45;
+    font-optical-sizing: auto;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -111,7 +114,9 @@
     outline: none;
   }
   .on-forest :focus-visible,
-  .on-brick :focus-visible {
+  .on-olive :focus-visible,
+  .on-brick :focus-visible,
+  .on-photo :focus-visible {
     outline-color: var(--color-paper);
   }
 
@@ -128,23 +133,19 @@
 }
 
 @layer components {
-  /* ---------- Paper ----------
-     Two layers of noise tinted toward the ink: a fine fibre and a
-     broad mottle. They scroll with the page, the way a texture on a
-     sheet of stock does, rather than sitting fixed like lens dust. */
+  /* ---------- Fields ---------- */
   .paper {
     background-color: var(--color-paper);
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .37 0 0 0 0 .25 0 0 0 0 .16 .16 0 0 0 -.02'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23f)'/%3E%3C/svg%3E"),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .45 0 0 0 0 .3 .12 0 0 0 -.03'/%3E%3C/filter%3E%3Crect width='700' height='700' filter='url(%23m)'/%3E%3C/svg%3E");
-    background-size: 240px 240px, 700px 700px;
   }
-
-  /* The footer's forest carries the same fibre, lighter. */
+  .on-sand {
+    background-color: var(--color-sand);
+  }
+  .on-olive {
+    background-color: var(--color-olive);
+    color: var(--color-paper);
+  }
   .on-forest {
     background-color: var(--color-forest);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .04 0 0 0 0 .12 0 0 0 0 .09 .22 0 0 0 -.04'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23f)'/%3E%3C/svg%3E");
-    background-size: 240px 240px;
     color: var(--color-paper);
   }
   .on-brick {
@@ -152,36 +153,57 @@
     color: var(--color-paper);
   }
 
-  /* ---------- Titles ----------
-     The script of the logo on the board, in the logo's green. Damion
-     is a lighter pen than the board's, so a hairline stroke in the same
-     colour thickens it to match without the blur of faux bold. */
+  /* ---------- Display ----------
+     Fraunces, thin, with its soft axis turned half way up so the serifs
+     round off the way the lodge's display face does. Set in capitals,
+     tight, and very large. */
 
   .t-display {
-    font-family: var(--font-script);
-    font-weight: 400;
-    font-size: clamp(46px, 3.2vw + 22px, 78px);
-    line-height: 1.02;
-    color: var(--color-grove);
-    -webkit-text-stroke: 0.012em currentColor;
+    font-family: var(--font-serif);
+    font-weight: 250;
+    font-variation-settings: "SOFT" 50;
+    font-size: clamp(42px, 6.6vw + 8px, 128px);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
   }
 
-  /* Over a photograph or on the forest. */
+  /* Over a photograph. The same face, a touch smaller. */
   .t-feature {
-    font-family: var(--font-script);
-    font-weight: 400;
-    font-size: clamp(38px, 1.6vw + 26px, 54px);
-    line-height: 1.04;
-    -webkit-text-stroke: 0.012em currentColor;
+    font-family: var(--font-serif);
+    font-weight: 250;
+    font-variation-settings: "SOFT" 50;
+    font-size: clamp(36px, 3vw + 18px, 72px);
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  /* A long light sentence that opens a section, the lodge's signature. */
+  .t-statement {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-variation-settings: "SOFT" 50;
+    font-size: clamp(25px, 1.2vw + 18px, 38px);
+    line-height: 1.14;
+    letter-spacing: -0.012em;
+  }
+  .t-statement-lg {
+    font-family: var(--font-serif);
+    font-weight: 270;
+    font-variation-settings: "SOFT" 50;
+    font-size: clamp(30px, 2.4vw + 16px, 54px);
+    line-height: 1.08;
+    letter-spacing: -0.018em;
   }
 
   .t-h2 {
-    font-family: var(--font-script);
-    font-weight: 400;
-    font-size: clamp(36px, 1.2vw + 27px, 48px);
-    line-height: 1.04;
-    color: var(--color-grove);
-    -webkit-text-stroke: 0.012em currentColor;
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-variation-settings: "SOFT" 50;
+    font-size: clamp(30px, 1.3vw + 22px, 44px);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
   }
 
   /* A section head on the board: red typewriter capitals, spaced out,
@@ -189,32 +211,40 @@
   .t-board {
     font-family: var(--font-mono);
     font-weight: 400;
-    font-size: 19px;
+    font-size: 17px;
     line-height: 1.15;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-brick-deep);
   }
 
-  /* A category head on the menu, or a card title. */
+  /* A card title, or a category on the menu. */
   .t-h3 {
     font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 400;
-    font-size: 23px;
-    line-height: 1.12;
+    font-weight: 350;
+    font-variation-settings: "SOFT" 50;
+    font-size: 22px;
+    line-height: 1.14;
+    letter-spacing: -0.008em;
   }
 
   .t-body {
     font-family: var(--font-serif);
     font-size: 17px;
-    line-height: 1.35;
-    letter-spacing: -0.005em;
+    line-height: 1.45;
   }
 
-  /* ---------- Small type ---------- */
+  /* The name, in the board's script. Captions and the wordmark only. */
+  .t-script {
+    font-family: var(--font-script);
+    font-weight: 400;
+    -webkit-text-stroke: 0.012em currentColor;
+  }
 
-  /* Item names, in the board's typewriter capitals. */
+  /* ---------- Small type ----------
+     The lodge labels everything in tiny capitals. Here those capitals
+     are the board's typewriter. */
+
   .t-item {
     font-family: var(--font-mono);
     font-weight: 400;
@@ -224,17 +254,15 @@
     text-transform: uppercase;
   }
 
-  /* Labels. The same typewriter, smaller and spaced. */
   .t-caps {
     font-family: var(--font-mono);
     font-weight: 400;
-    font-size: 13.5px;
+    font-size: 13px;
     line-height: 1.25;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
-  /* Prices. Typewriter figures. */
   .t-price {
     font-family: var(--font-mono);
     font-weight: 400;
@@ -244,27 +272,23 @@
     white-space: nowrap;
   }
 
-  /* Notes under an item, the fine print. */
   .t-note {
     font-family: var(--font-mono);
     font-weight: 400;
     font-size: 12.5px;
-    line-height: 1.35;
+    line-height: 1.4;
   }
 
-  /* Navigation and utility links. */
   .t-nav {
     font-family: var(--font-mono);
     font-weight: 400;
     font-size: 13px;
     line-height: 1.3;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
   }
 
-  /* ---------- Layout ----------
-     Full width with a gutter, the way the reference sets it. The cap
-     only stops a very wide monitor from stretching a menu row across
-     two metres of glass. */
+  /* ---------- Layout ---------- */
 
   .wrap {
     width: 100%;
@@ -278,76 +302,158 @@
     }
   }
 
+  /* The lodge breathes. Sections are separated by space, not rules. */
   .section {
-    padding-block: 44px;
+    padding-block: 64px;
   }
   @media (min-width: 768px) {
     .section {
-      padding-block: 56px;
+      padding-block: 88px;
+    }
+  }
+  @media (min-width: 1280px) {
+    .section {
+      padding-block: 112px;
     }
   }
 
+  /* A hairline, where a list needs one. */
+  .rule {
+    border: 0;
+    border-top: 1px solid var(--color-pencil);
+  }
+
   /* ---------- Buttons ----------
-     A small red tag with typewriter capitals, square, no border. The
-     reference's tag is 16px tall. This one is 26px so it meets the
-     WCAG 2.2 target size, which it does without looking any bigger
-     than a printed label. */
+     The lodge's pair: a small label chip, and beside it, with a hair of
+     space between, a square of the same colour holding an arrow. Here
+     the chip is the board's red with typewriter capitals. The square is
+     drawn by the chip's own pseudo elements, so it is part of the link
+     and every existing button gets it without new markup. */
 
   .btn {
+    --btn-h: 32px;
+    --btn-bg: var(--color-brick);
+    --btn-fg: var(--color-paper);
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
-    min-height: 26px;
-    padding: 3px 8px 2px;
-    border-radius: 0;
+    gap: 0.5rem;
+    min-height: var(--btn-h);
+    margin-right: calc(var(--btn-h) + 3px);
+    padding: 3px 11px 2px;
+    border-radius: 2px;
     font-family: var(--font-mono);
     font-weight: 400;
-    font-size: 14px;
+    font-size: 13.5px;
     line-height: 1.1;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
     text-align: center;
     white-space: nowrap;
-    background-color: var(--color-brick);
-    color: var(--color-paper);
+    background-color: var(--btn-bg);
+    color: var(--btn-fg);
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     transition:
       background-color var(--duration-micro) var(--ease-standard),
       color var(--duration-micro) var(--ease-standard);
   }
+  /* The square. */
+  .btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(100% + 3px);
+    width: var(--btn-h);
+    border-radius: 2px;
+    background-color: var(--btn-bg);
+    transition: background-color var(--duration-micro) var(--ease-standard);
+  }
+  /* The arrow in it, in the label's colour. */
+  .btn::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: calc(100% + 3px + var(--btn-h) / 2 - 6px);
+    width: 12px;
+    height: 12px;
+    margin-top: -6px;
+    background-color: var(--btn-fg);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1 6h9.2M6.6 2.2 10.4 6 6.6 9.8' fill='none' stroke='black' stroke-width='1.3'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1 6h9.2M6.6 2.2 10.4 6 6.6 9.8' fill='none' stroke='black' stroke-width='1.3'/%3E%3C/svg%3E") center / contain no-repeat;
+    transition:
+      translate var(--duration-fast) var(--ease-out-quart),
+      background-color var(--duration-micro) var(--ease-standard);
+  }
   .btn:active {
     translate: 0 1px;
   }
 
-  /* The quieter one: ink on paper with an underline, for a second action
-     beside a tag. */
-  .btn-ghost {
-    background-color: transparent;
-    color: var(--color-ink);
-    padding-inline: 2px;
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
+  .btn-lg {
+    --btn-h: 44px;
+    padding-inline: 16px;
+    font-size: 14px;
   }
 
-  /* On the forest field or over a photograph. */
+  /* No square: an icon button, or a chip in a tight row. */
+  .btn-bare {
+    margin-right: 0;
+  }
+  .btn-bare::before,
+  .btn-bare::after {
+    content: none;
+  }
+
+  /* Sand, for a second action on the paper. */
+  .btn-sand {
+    --btn-bg: var(--color-sand);
+    --btn-fg: var(--color-ink);
+  }
+
+  /* Cream, over a photograph or on the olive. */
   .btn-light {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
+    --btn-bg: var(--color-paper);
+    --btn-fg: var(--color-ink);
+  }
+
+  /* The quiet one: an underlined link with no chip and no square. */
+  .btn-ghost {
+    --btn-bg: transparent;
+    --btn-fg: currentColor;
+    margin-right: 0;
+    padding-inline: 2px;
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+  }
+  .btn-ghost::before,
+  .btn-ghost::after {
+    content: none;
   }
 
   @media (hover: hover) {
     .btn:hover {
-      background-color: var(--color-brick-hover);
+      --btn-bg: var(--color-brick-hover);
+    }
+    .btn:hover::before {
+      translate: 2px 0;
+    }
+    .btn-sand:hover,
+    .btn-light:hover {
+      --btn-bg: var(--color-brick);
+      --btn-fg: var(--color-paper);
     }
     .btn-ghost:hover {
-      background-color: transparent;
+      --btn-bg: transparent;
       color: var(--color-brick);
     }
-    .btn-light:hover {
-      background-color: var(--color-brick);
-      color: var(--color-paper);
+    .on-photo .btn-ghost:hover,
+    .on-olive .btn-ghost:hover {
+      color: var(--color-matcha);
     }
   }
 
@@ -357,6 +463,7 @@
     display: inline-flex;
     align-items: center;
     padding: 2px 5px 1px;
+    border-radius: 2px;
     font-family: var(--font-mono);
     font-size: 12px;
     line-height: 1.2;
@@ -387,8 +494,8 @@
   }
 
   /* ---------- Photographs ----------
-     Every print carries a little film grain, so a clean digital file
-     sits on the paper the way the reference's film scans do. */
+     A little film grain on every print, so phone photographs sit with
+     the lodge's film scans. */
 
   .print {
     position: relative;
@@ -400,7 +507,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.22;
+    opacity: 0.14;
     mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
     background-size: 180px 180px;
@@ -408,7 +515,106 @@
 }
 
 /* ============================================================
-   Hand drawn things. Squiggle.tsx and Doodle.tsx.
+   Header
+
+   Over the home page photograph the header is see through, with
+   paper type. Once the photograph is behind it, or on any other page,
+   it is solid paper with ink type. While the menu is open it takes
+   the olive of the panel under it.
+   ============================================================ */
+
+.site-header {
+  transition:
+    transform 400ms var(--ease-in-out-quart),
+    background-color 300ms var(--ease-standard),
+    color 300ms var(--ease-standard),
+    box-shadow 300ms var(--ease-standard);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--color-pencil) 70%, transparent);
+}
+.site-header[data-theme="over"] {
+  background-color: transparent;
+  color: var(--color-paper);
+  box-shadow: none;
+}
+.site-header[data-theme="open"] {
+  background-color: var(--color-olive);
+  color: var(--color-paper);
+  box-shadow: none;
+}
+.site-header[data-theme="over"] :focus-visible,
+.site-header[data-theme="open"] :focus-visible {
+  outline-color: var(--color-paper);
+}
+
+/* ============================================================
+   Hero intro
+
+   The first time the home page opens in a visit, it starts as a field
+   of olive with the name on it and a small window of the photograph
+   in the middle. The window opens out to fill the screen, then the
+   headline rises line by line. HeroIntro.tsx runs it.
+
+   The hidden states below only apply once the head script has marked
+   the document, so with JavaScript off the hero simply renders. The
+   head script also marks a document that has already seen the intro
+   in this visit, and then none of this applies. If the script that
+   runs the intro never arrives, the failsafe lets everything go at
+   3.2s.
+   ============================================================ */
+
+.js-motion:not(.intro-seen) [data-hero] [data-hero-window] {
+  clip-path: inset(30% 37% 30% 37%);
+  animation: hero-failsafe-window 1ms linear 3200ms forwards;
+}
+.js-motion:not(.intro-seen) [data-hero] [data-hero-line] {
+  transform: translateY(105%);
+  animation: hero-failsafe-line 1ms linear 3200ms forwards;
+}
+.js-motion:not(.intro-seen) [data-hero] [data-hero-fade] {
+  opacity: 0;
+  animation: hero-failsafe-fade 1ms linear 3200ms forwards;
+}
+.js-motion:not(.intro-seen) [data-hero] [data-hero-mark] {
+  opacity: 1;
+}
+[data-hero-mark] {
+  opacity: 0;
+}
+@keyframes hero-failsafe-window {
+  to {
+    clip-path: inset(0);
+  }
+}
+@keyframes hero-failsafe-line {
+  to {
+    transform: none;
+  }
+}
+@keyframes hero-failsafe-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-motion [data-hero] [data-hero-window] {
+    clip-path: none !important;
+  }
+  .js-motion [data-hero] [data-hero-line] {
+    transform: none !important;
+  }
+  .js-motion [data-hero] [data-hero-fade] {
+    opacity: 1 !important;
+  }
+  .js-motion [data-hero] [data-hero-mark] {
+    opacity: 0 !important;
+  }
+}
+
+/* ============================================================
+   Hand drawn things. Doodle.tsx.
 
    Every stroke is drawn with pathLength="1", so one dash the length
    of the path can be pulled back to draw it in. The drawing starts
@@ -433,8 +639,6 @@
   transition: opacity 0.6s var(--ease-standard) 1.2s;
 }
 
-/* Once drawn, the reference's drawings keep moving a little. Leaves
-   sway, steam rises, notes bob. */
 @keyframes doodle-sway {
   0%, 100% { transform: rotate(-4deg); }
   50% { transform: rotate(4deg); }
@@ -484,7 +688,7 @@
 }
 
 /* ============================================================
-   Motion. Unchanged behaviour, see parabox-motion.
+   Motion. See parabox-motion.
    ============================================================ */
 
 .js-motion [data-reveal],
@@ -540,16 +744,16 @@
 .jumpbar {
   position: fixed;
   inset-inline: 0;
-  top: var(--header-h, 84px);
+  top: var(--header-h, 72px);
   z-index: 30;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-pencil) 60%, transparent);
+  border-bottom: 1px solid var(--color-pencil);
   transition:
     transform var(--duration-base) var(--ease-in-out-quart),
     opacity var(--duration-fast) var(--ease-standard),
     visibility var(--duration-fast) var(--ease-standard);
 }
 html[data-header="hidden"] .jumpbar {
-  transform: translateY(calc(-1 * var(--header-h, 84px)));
+  transform: translateY(calc(-1 * var(--header-h, 72px)));
 }
 .jumpbar[data-shown="false"] {
   opacity: 0;
@@ -559,23 +763,22 @@ html[data-header="hidden"] .jumpbar {
 /* ============================================================
    Photograph placeholders
 
-   A slot waiting for a print is a deeper sheet with a loose wash of
-   the board's matcha green pooled in it and a line drawing on top,
-   so it reads as an illustration on the page rather than an image
-   that failed. The dark tone sits behind light type.
+   A slot waiting for a print is a sand panel with a loose wash of the
+   board's matcha pooled in it and a line drawing on top, so it reads
+   as an illustration rather than an image that failed.
    ============================================================ */
 
 [data-photo-placeholder][data-tone="light"] {
   background-image:
-    radial-gradient(ellipse 55% 45% at 30% 35%, rgb(169 199 154 / 0.55), transparent 70%),
-    radial-gradient(ellipse 45% 40% at 70% 70%, rgb(169 199 154 / 0.4), transparent 72%),
-    radial-gradient(ellipse 30% 25% at 78% 22%, rgb(139 90 43 / 0.08), transparent 70%);
+    radial-gradient(ellipse 55% 45% at 30% 35%, rgb(169 199 154 / 0.5), transparent 70%),
+    radial-gradient(ellipse 45% 40% at 70% 70%, rgb(169 199 154 / 0.36), transparent 72%),
+    radial-gradient(ellipse 30% 25% at 78% 22%, rgb(139 90 43 / 0.06), transparent 70%);
 }
 [data-photo-placeholder][data-tone="dark"] {
-  background-color: #1f453a;
+  background-color: #45531f;
   background-image:
     radial-gradient(ellipse 60% 55% at 75% 25%, rgb(169 199 154 / 0.22), transparent 70%),
-    radial-gradient(ellipse 50% 45% at 20% 80%, rgb(181 53 48 / 0.18), transparent 70%);
+    radial-gradient(ellipse 50% 45% at 20% 80%, rgb(181 53 48 / 0.16), transparent 70%);
 }
 
 /* ============================================================
@@ -632,4 +835,25 @@ html[data-header="hidden"] .jumpbar {
   background-color: var(--color-paper);
   color: var(--color-ink);
   box-shadow: 0 0 0 2px var(--color-brick);
+}
+
+/* The header waits for the intro too, then fades in over the photograph. */
+.js-motion:not(.intro-seen) .site-header[data-theme="over"] {
+  opacity: 0;
+  animation: hero-failsafe-fade 1ms linear 3200ms forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js-motion .site-header[data-theme="over"] {
+    opacity: 1 !important;
+  }
+}
+
+/* The open menu fades in. Opacity only. */
+@keyframes panel-in {
+  from {
+    opacity: 0;
+  }
+}
+.panel-in {
+  animation: panel-in 320ms var(--ease-out-quart) both;
 }

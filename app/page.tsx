@@ -1,11 +1,11 @@
 import { Hero } from "@/components/sections/Hero";
+import { Welcome } from "@/components/sections/Welcome";
 import { MenuPreview } from "@/components/sections/MenuPreview";
+import { Quote } from "@/components/sections/Quote";
+import { Favorites } from "@/components/sections/Favorites";
 import { TheRoom } from "@/components/sections/TheRoom";
 import { Events } from "@/components/sections/Events";
-import { Favorites } from "@/components/sections/Favorites";
 import { FromInstagram } from "@/components/sections/FromInstagram";
-import { FromTheGrove } from "@/components/sections/FromTheGrove";
-import { Squiggle } from "@/components/ui/Squiggle";
 import { events } from "@/lib/events";
 import { JsonLd } from "@/components/JsonLd";
 import { absolute, businessNode, postalAddress } from "@/lib/seo";
@@ -34,34 +34,24 @@ function to24(t: string) {
   return `${String(hh).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
+/* The order follows the lodge's own home page: the photograph, a welcome with
+   an offset pair, the board where the lodges would be, a quotation, a row of
+   tall prints, the story with its pair, a list, the scattered prints, and the
+   olive field. Sections are separated by space alone. */
 export default function Home() {
   return (
     <>
       {eventSchema().map((d, i) => (
         <JsonLd key={i} data={d} />
       ))}
-      {/* The hero ends on its own torn paper edge, so no drawn rule here. */}
       <Hero />
+      <Welcome />
       <MenuPreview />
-      <Rule />
-      <TheRoom />
-      <Rule />
-      <Events />
-      <Rule />
-      <FromInstagram />
-      <Rule />
+      <Quote />
       <Favorites />
-      <Rule />
-      <FromTheGrove />
+      <TheRoom />
+      <Events />
+      <FromInstagram />
     </>
-  );
-}
-
-/** The hand drawn break between sections, inside the page gutter. */
-function Rule() {
-  return (
-    <div className="wrap">
-      <Squiggle />
-    </div>
   );
 }

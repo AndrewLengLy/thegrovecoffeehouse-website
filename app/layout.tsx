@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Courier_Prime, Damion, EB_Garamond } from "next/font/google";
+import { Courier_Prime, Damion, Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 
 import "./globals.css";
@@ -13,14 +13,16 @@ import { JsonLd } from "@/components/JsonLd";
 import { absolute, businessNode, isIndexable, openingHours } from "@/lib/seo";
 import { menu } from "@/lib/menu";
 
-/* A script, a typewriter mono, and an old style serif, the three voices of the
-   menu board in the shop. All three are self hosted by next/font and subset to
-   latin, so there is no third party request and no layout shift when they land.
+/* A script, a typewriter mono, and a thin soft serif. All three are self hosted
+   by next/font and subset to latin, so there is no third party request and no
+   layout shift when they land.
 
    Damion is the closest free match to the green script of the logo on the
-   board: the same slant, the same even pen, the looped G. It sets the name and
-   every title. Courier Prime is the board's red typewriter, for items, prices,
-   labels, buttons and navigation. EB Garamond carries the reading copy. */
+   board, and it sets the name. Courier Prime is the board's red typewriter, for
+   items, prices, labels, buttons and navigation. Fraunces carries everything
+   else: its variable weight goes down to a hairline for the huge capitals at
+   the top of a page, and its soft axis rounds the serifs the way the display
+   face of the lodge site this direction borrows from does. */
 const damion = Damion({
   subsets: ["latin"],
   weight: "400",
@@ -28,11 +30,12 @@ const damion = Damion({
   variable: "--font-damion",
 });
 
-const garamond = EB_Garamond({
+const fraunces = Fraunces({
   subsets: ["latin"],
   style: ["normal", "italic"],
+  axes: ["opsz", "SOFT"],
   display: "swap",
-  variable: "--font-garamond",
+  variable: "--font-fraunces",
 });
 
 const courier = Courier_Prime({
@@ -73,7 +76,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f2ecd9",
+  themeColor: "#f4efe7",
   colorScheme: "light",
 };
 
@@ -122,16 +125,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
        whole point of it, and React would otherwise flag the difference. */
     <html
       lang="en"
-      className={`${damion.variable} ${garamond.variable} ${courier.variable}`}
+      className={`${damion.variable} ${fraunces.variable} ${courier.variable}`}
       suppressHydrationWarning
     >
       <head>
         {/* Marks the document before first paint so initial hidden states only
             ever apply when JavaScript is actually running. With JavaScript off,
-            the class never lands and every section renders normally. */}
+            the class never lands and every section renders normally. It also
+            marks a visit that has already watched the hero intro, so the
+            photograph is simply there the second time. Storage can throw in a
+            private window, and then the intro just plays again. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: "document.documentElement.classList.add('js-motion')",
+            __html:
+              "var d=document.documentElement;d.classList.add('js-motion');" +
+              "try{if(sessionStorage.getItem('grove-intro'))d.classList.add('intro-seen')}catch(e){}",
           }}
         />
         {structuredData().map((d, i) => (

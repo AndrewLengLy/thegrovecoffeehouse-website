@@ -15,6 +15,9 @@ const ROUTES = (process.env.ROUTES ?? "/,/menu,/visit,/our-story,/definitely-not
 const browser = await puppeteer.launch({
   executablePath: CHROME,
   headless: "shell",
+  // Twenty full page captures of pages with clipped, parallaxed photographs
+  // can outlast the 30s default late in a run.
+  protocolTimeout: 180000,
   userDataDir: join(tmpdir(), "grove-qa", "chrome-qa"),
   args: ["--no-first-run", "--no-default-browser-check", "--disable-features=Translate"],
 });

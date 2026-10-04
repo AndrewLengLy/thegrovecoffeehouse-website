@@ -15,13 +15,11 @@ import {
 import { MenuRow } from "@/components/ui/MenuRow";
 import { MenuBlock } from "@/components/ui/MenuBlock";
 import { Reveal } from "@/components/motion/Reveal";
-import { SplitHeading } from "@/components/motion/SplitHeading";
 import { TrackMenuView } from "@/components/ConversionEvents";
 import { JsonLd } from "@/components/JsonLd";
 import { absolute, breadcrumbs } from "@/lib/seo";
 import { MenuJumpBar } from "@/components/ui/MenuJumpBar";
-import { Squiggle } from "@/components/ui/Squiggle";
-import { Doodle } from "@/components/ui/Doodle";
+import { PageHead } from "@/components/ui/PageHead";
 import { Wash } from "@/components/ui/Wash";
 
 export const metadata: Metadata = {
@@ -72,27 +70,23 @@ export default function MenuPage() {
       <JsonLd data={menuSchema()} />
       <JsonLd data={breadcrumbs([{ name: "Menu", path: "/menu" }])} />
 
-      <div className="wrap section relative grid gap-10 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-5">
-          <SplitHeading as="h1" onLoad className="t-display">
-            The whole board
-          </SplitHeading>
-          <p className="t-body mt-4 max-w-[46ch]">{menuCaveat}</p>
-          <Doodle name="drinks" className="mt-8 hidden h-24 w-24 lg:block" />
-        </div>
+      <PageHead label="Menu" title="The whole board" />
 
-        {/* Jump links. A menu you have to hunt through is halfway back to the
-            problem this page exists to solve. */}
-        <nav id="menu-index" aria-label="Menu sections" className="lg:col-span-6 lg:col-start-7">
-          <ul className="border-t border-pencil/50">
+      {/* The caveat on the left and the way in on the right. A menu you have
+          to hunt through is halfway back to the problem this page exists to
+          solve. */}
+      <div className="wrap grid gap-10 pb-16 md:grid-cols-12 md:gap-x-8 md:pb-24">
+        <p className="t-body max-w-[40ch] md:col-span-4">{menuCaveat}</p>
+        <nav id="menu-index" aria-label="Menu sections" className="md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-7">
+          <ul className="border-t border-pencil">
             {CATEGORY_ORDER.map((c) => (
               <li key={c}>
                 <a
                   href={`#${c}`}
-                  className="flex min-h-11 items-baseline justify-between gap-4 border-b border-pencil/50 py-2.5 transition-colors duration-micro hover:text-brick"
+                  className="group flex min-h-11 items-baseline justify-between gap-4 border-b border-pencil py-3 transition-colors duration-micro hover:text-brick"
                 >
-                  <span className="t-h3 text-[21px]">{CATEGORY_LABEL[c]}</span>
-                  <span className="t-price text-[14px]">
+                  <span className="t-h3 text-[24px] md:text-[28px]">{CATEGORY_LABEL[c]}</span>
+                  <span className="t-price text-[14px] text-brick-deep">
                     {String(itemsInCategory(c).length).padStart(2, "0")}
                   </span>
                 </a>
@@ -120,9 +114,9 @@ export default function MenuPage() {
         return (
           <section key={category} id={category} aria-labelledby={`${category}-heading`} className="scroll-mt-12 overflow-x-clip">
             <div className="wrap">
-              <Squiggle />
+              <hr className="rule" />
             </div>
-            <div className="wrap section grid gap-8 lg:grid-cols-12">
+            <div className="wrap grid gap-8 py-14 md:py-20 lg:grid-cols-12">
               {/* Matcha heads its section on a wash of green, the way it does
                   on the board. Only behind the heading: the resting drinks in
                   the list are set in the soft ink, which the wash would take
@@ -154,29 +148,27 @@ export default function MenuPage() {
       {/* Straight off the bottom of the board in the shop. */}
       <section id="menu-end" aria-label="Milk, extras and roaster">
         <div className="wrap">
-          <Squiggle />
+          <hr className="rule" />
         </div>
-        <div className="wrap section grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-16">
+        <div className="wrap grid gap-10 py-14 sm:grid-cols-2 md:py-20 lg:grid-cols-3 lg:gap-16">
           <MenuBlock title="Milk options" headingLevel="h2" lines={addOnLines(milkOptions)} />
           <MenuBlock title="Extras" headingLevel="h2" lines={addOnLines(extras)} />
           <div>
-            <h2 className="t-h3 text-[21px]">Roasted by</h2>
+            <h2 className="t-board">Roasted by</h2>
             <p className="t-item mt-4">{site.roaster.name}</p>
             <p className="t-note mt-1">{site.roaster.location}</p>
           </div>
         </div>
       </section>
 
-      <section aria-labelledby="order-heading" className="relative">
-        <div className="wrap">
-          <Squiggle />
-        </div>
-        <div className="wrap section grid gap-6 lg:grid-cols-12 lg:items-end">
-          <h2 id="order-heading" className="t-display lg:col-span-5">
+      <section aria-labelledby="order-heading" className="on-sand relative">
+        <div className="wrap section grid gap-8 md:grid-cols-12 md:gap-x-8">
+          <p className="t-caps md:col-span-3">Ordering</p>
+          <div className="md:col-span-8 md:col-start-5 lg:col-span-6 lg:col-start-7">
+          <h2 id="order-heading" className="t-statement-lg">
             Not sure what to order?
           </h2>
-          <div className="lg:col-span-5 lg:col-start-8">
-            <p className="t-body max-w-[46ch]">
+            <p className="t-body mt-5 max-w-[46ch]">
               Tell whoever is on bar what you usually go for and how sweet you like
               it, and they will find you something. It is the best part of
               ordering in person.

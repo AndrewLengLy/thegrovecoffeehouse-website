@@ -28,7 +28,8 @@ export function MobileActionBar() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    const footer = document.querySelector("footer");
+    // The site footer, not a quotation's or a card's.
+    const footer = document.querySelector("body > footer");
     const io = footer
       ? new IntersectionObserver(([entry]) => setFooterInView(entry.isIntersecting), {
           rootMargin: "0px 0px -40px 0px",
@@ -51,7 +52,7 @@ export function MobileActionBar() {
       inert={!visible}
       data-visible={visible}
       className={[
-        "paper fixed inset-x-0 bottom-0 z-40 border-t border-pencil/60 lg:hidden",
+        "paper fixed inset-x-0 bottom-0 z-40 border-t border-pencil lg:hidden",
         "pb-[max(0.625rem,env(safe-area-inset-bottom))] pt-2.5",
         "transition-[transform,visibility] duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
         visible ? "visible translate-y-0" : "invisible translate-y-full",
@@ -67,7 +68,7 @@ export function MobileActionBar() {
           href={site.phone.href}
           data-event="phone_click"
           data-event-location="mobile_bar"
-          className="btn btn-light h-11 w-11 shrink-0 p-0 shadow-[inset_0_0_0_1px_var(--color-ink)]"
+          className="btn btn-bare btn-sand h-11 w-11 shrink-0 p-0"
         >
           <PhoneIcon />
           <span className="sr-only">Call {site.phone.display}</span>
@@ -78,7 +79,7 @@ export function MobileActionBar() {
           rel="noopener noreferrer"
           data-event="directions_click"
           data-event-location="mobile_bar"
-          className="btn min-h-11 shrink-0 px-4"
+          className="btn btn-bare min-h-11 shrink-0 px-4"
         >
           <ArrowIcon />
           Directions

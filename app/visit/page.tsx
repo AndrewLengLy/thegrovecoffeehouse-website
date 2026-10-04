@@ -5,13 +5,12 @@ import { site, hoursCaveat } from "@/lib/site";
 import { HoursList } from "@/components/ui/HoursList";
 import { Photo } from "@/components/ui/Photo";
 import { Reveal } from "@/components/motion/Reveal";
-import { SplitHeading } from "@/components/motion/SplitHeading";
+import { PageHead } from "@/components/ui/PageHead";
+import { Frame } from "@/components/motion/Frame";
 import { Faq } from "@/components/sections/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { faqSchema } from "@/lib/faq";
 import { breadcrumbs } from "@/lib/seo";
-import { Squiggle } from "@/components/ui/Squiggle";
-import { Doodle } from "@/components/ui/Doodle";
 
 export const metadata: Metadata = {
   title: "Visit",
@@ -51,65 +50,49 @@ export default function VisitPage() {
       <JsonLd data={faqSchema()} />
       <JsonLd data={breadcrumbs([{ name: "Visit", path: "/visit" }])} />
 
-      <div className="wrap section grid gap-6 md:grid-cols-12 md:gap-8">
-        <SplitHeading as="h1" onLoad className="t-display md:col-span-6 lg:col-span-5">
-          Where to find us
-        </SplitHeading>
-
-        <div aria-hidden="true" className="hidden justify-center lg:col-span-2 lg:flex">
-          <Doodle name="table" className="-mt-2 h-28 w-28" />
+      <PageHead label="Visit" title="Where to find us">
+        <p className="t-statement">
+          We are on Sierra College Blvd in Roseville, in Suite 100, with parking
+          right out front. The coffee is on at seven, every day of the week.
+        </p>
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <a
+            href={site.directionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-event="directions_click"
+            data-event-location="visit_page_hero"
+            className="btn btn-lg"
+          >
+            Get directions
+          </a>
+          <a
+            href={site.phone.href}
+            data-event="phone_click"
+            data-event-location="visit_page_hero"
+            className="btn btn-ghost min-h-11 tabular-nums"
+          >
+            Call {site.phone.display}
+          </a>
         </div>
+      </PageHead>
 
-        <Reveal onLoad travel={8} className="md:col-span-6 md:col-start-7 lg:col-span-5 lg:col-start-8">
-          <p className="t-body max-w-[48ch]">
-            We are on Sierra College Blvd in Roseville, in Suite 100, with
-            parking right out front. The coffee is on at seven, every day of
-            the week.
-          </p>
-          <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-3">
-            <a
-              href={site.directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="directions_click"
-              data-event-location="visit_page_hero"
-              className="btn"
-            >
-              Get directions
-            </a>
-            <a
-              href={site.phone.href}
-              data-event="phone_click"
-              data-event-location="visit_page_hero"
-              className="btn btn-ghost tabular-nums"
-            >
-              Call {site.phone.display}
-            </a>
-          </div>
-        </Reveal>
-      </div>
-
+      {/* The map is this page's photograph: wide, and toned toward the paper
+          so it sits with the rest of the site. */}
       <div className="wrap">
-        <div className="print relative aspect-[4/5] sm:aspect-[16/10] lg:aspect-[2/1]">
-          <Photo
-            src={null}
-            fill
-            priority
-            sizes="100vw"
-            width={2400}
-            height={1200}
-            alt="The front of The Grove Coffee House on Sierra College Blvd"
-            brief="The storefront from the parking lot, so people recognise it on arrival. Wide, landscape."
-            doodle="sapling"
+        <div className="print">
+          <iframe
+            src={site.mapEmbedUrl}
+            title={`Map showing ${site.name} at ${site.addressLine}`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="block h-[360px] w-full border-0 grayscale-[.4] sepia-[.25] md:h-[520px]"
           />
         </div>
       </div>
 
-      <section aria-label="Getting here and hours" className="mt-10 md:mt-14">
-        <div className="wrap">
-          <Squiggle />
-        </div>
-        <div className="wrap section grid gap-10 lg:grid-cols-12 lg:gap-8">
+      <section aria-label="Getting here and hours">
+        <div className="wrap section grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
             <h2 className="t-h2">Getting here</h2>
             <Reveal>
@@ -160,23 +143,23 @@ export default function VisitPage() {
             <HoursList className="mt-5" />
             <p className="t-note mt-3 max-w-[52ch] text-ink-soft">{hoursCaveat}</p>
 
-            <div className="print mt-8">
-              <iframe
-                src={site.mapEmbedUrl}
-                title={`Map showing ${site.name} at ${site.addressLine}`}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="block h-[300px] w-full border-0 sepia-[.35] md:h-[400px]"
+            <Frame className="mt-12 aspect-[4/3] w-full">
+              <Photo
+                src={null}
+                fill
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                width={1600}
+                height={1200}
+                alt="The front of The Grove Coffee House on Sierra College Blvd"
+                brief="The storefront from the parking lot, so people recognise it on arrival. Landscape."
+                doodle="sapling"
               />
-            </div>
+            </Frame>
           </div>
         </div>
       </section>
 
       <section aria-labelledby="good-for-heading">
-        <div className="wrap">
-          <Squiggle />
-        </div>
         <div className="wrap section grid gap-8 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <h2 id="good-for-heading" className="t-h2">
@@ -208,7 +191,7 @@ export default function VisitPage() {
       </section>
 
       <div className="wrap">
-        <Squiggle />
+        <hr className="rule" />
       </div>
       <Faq />
     </>

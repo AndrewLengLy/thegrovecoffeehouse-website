@@ -208,7 +208,14 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
   await page.goto(BASE + "/", { waitUntil: "networkidle0" });
   await new Promise(r => setTimeout(r, 2200));
 
+  // The prints are scattered round a heading below the fold now, so bring the
+  // first one to the middle of the screen and let its drift settle first.
   const card = await page.$("[data-pin]");
+  await card.evaluate((el) => {
+    document.documentElement.style.scrollBehavior = "auto";
+    el.scrollIntoView({ block: "center" });
+  });
+  await new Promise(r => setTimeout(r, 800));
   const bb = await card.boundingBox();
   const cx = bb.x + bb.width / 2, cy = bb.y + bb.height / 2;
   await page.mouse.move(cx, cy);
@@ -243,8 +250,7 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
       bubbles: true, pointerId: 7, pointerType: "touch", isPrimary: true, clientX: x + dx, clientY: y + dy,
     }));
     fire("pointerdown", 0, 0);
-    // Leftward: this print sits against the right edge of the banner, and
-    // the drag correctly stops there.
+    // Leftward, into the open paper beside it.
     for (let i = 1; i <= 8; i++) fire("pointermove", -i * 10, i * 2);
     fire("pointerup", -80, 16);
     await new Promise(r => setTimeout(r, 50));
@@ -264,7 +270,9 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
   await new Promise(r => setTimeout(r, 800));
   // evaluate needs JS; check via content instead
   const html = await page.content();
-  const hasHeadline = html.includes("Coffee runs, matcha dates, long mornings.");
+  // The headline is set one line per span, so match its text, not its markup.
+  const text = html.replace(/<!--.*?-->/g, "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ");
+  const hasHeadline = text.includes("Coffee runs, matcha dates, long mornings.");
   const hasMenuLink = html.includes('href="/menu"');
   check("content present with JavaScript disabled", hasHeadline && hasMenuLink);
   await page.close();

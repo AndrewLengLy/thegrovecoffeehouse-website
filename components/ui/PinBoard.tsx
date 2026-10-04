@@ -2,48 +2,86 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { Doodle, type DoodleName } from "@/components/ui/Doodle";
 
 /**
- * Photographs pinned up like prints, each one free to be picked up and moved.
+ * Small prints scattered round a heading, the way the lodge scatters its
+ * wildlife round "Preserving Life's Balance", each drifting at its own speed
+ * as the page moves. Here they can also be picked up and moved, which is the
+ * part that is The Grove's: press on one and it straightens and comes to the
+ * front; drag it anywhere inside its section and it stays where it was put.
  *
- * Press on a print and it straightens and comes to the front; drag it anywhere
- * inside its section and let go, and it stays where it was put. The move is
- * the CSS `translate` property on the card, which composes with the reveal's
- * transform on the figure and the card's own `rotate`, so none of the three
- * fight over one property.
+ * A print is either one of the shop's photographs or, where there is no
+ * photograph, a sand tile with one of the board's green drawings on it.
  *
- * On a touch screen the card allows vertical panning (`touch-action: pan-y`),
- * so a finger dragged up or down still scrolls the page, and one moved sideways
- * picks the print up. The prints are decoration on top of content the page
- * already carries, so they are not keyboard stops.
+ * The move is the CSS `translate` property on the card, and the drift is a
+ * transform on the figure around it, so the two never fight over one
+ * property. On a touch screen the card allows vertical panning
+ * (`touch-action: pan-y`), so a finger dragged up or down still scrolls the
+ * page, and one moved sideways picks the print up. The prints are decoration
+ * on top of content the page already carries, so they are not keyboard stops.
  */
 
 export type Pin = {
-  src: string;
+  /** A photograph, or null for a drawn tile. */
+  src: string | null;
   alt: string;
   width: number;
   height: number;
-  /** Degrees. Each print sits a little crooked, the way it would be pinned. */
-  tilt: number;
+  /** Degrees. Zero sits square, the lodge's way. */
+  tilt?: number;
+  /** The drawing on a tile without a photograph. */
+  doodle?: DoodleName;
+  /** A word or two under the print, in the board's script. */
   caption?: string;
   sizes: string;
   priority?: boolean;
-  /** Classes placing the figure: absolute in a collage, or a grid cell. */
+  /** Classes placing the figure: absolute in a scatter, or a grid cell. */
   place: string;
+  /** How far it drifts against the scroll, in px each way. */
+  drift?: number;
 };
 
 export function PinBoard({ pins }: { pins: Pin[] }) {
+  const scope = useRef<HTMLDivElement>(null);
   // Stacking order. The last print touched is on top.
   const [order, setOrder] = useState(() => pins.map((_, i) => i));
   const lift = (i: number) =>
     setOrder((o) => (o[o.length - 1] === i ? o : [...o.filter((x) => x !== i), i]));
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // The scatter is packed tighter on a narrow screen, so it drifts less.
+        const k = window.innerWidth < 1024 ? 0.35 : 1;
+        scope.current?.querySelectorAll<HTMLElement>("[data-drift]").forEach((fig) => {
+          const d = (Number(fig.dataset.drift) || 0) * k;
+          if (!d) return;
+          gsap.fromTo(
+            fig,
+            { y: d },
+            {
+              y: -d,
+              ease: "none",
+              scrollTrigger: { trigger: fig.closest("section") ?? fig, start: "top bottom", end: "bottom top", scrub: true },
+            },
+          );
+        });
+      });
+      return () => mm.revert();
+    },
+    { scope },
+  );
+
   return (
-    <>
+    /* `contents`, so each figure is placed by the section's own layout. */
+    <div ref={scope} className="contents">
       {pins.map((p, i) => (
-        <DragPrint key={p.src} p={p} z={10 + order.indexOf(i)} onLift={() => lift(i)} />
+        <DragPrint key={p.src ?? p.doodle ?? i} p={p} z={10 + order.indexOf(i)} onLift={() => lift(i)} />
       ))}
-    </>
+    </div>
   );
 }
 
@@ -112,7 +150,7 @@ function DragPrint({ p, z, onLift }: { p: Pin; z: number; onLift: () => void }) 
   }
 
   return (
-    <figure className={p.place} style={{ zIndex: z }}>
+    <figure className={p.place} style={{ zIndex: z }} data-drift={p.drift ?? 0}>
       <div
         ref={card}
         data-pin
@@ -120,33 +158,38 @@ function DragPrint({ p, z, onLift }: { p: Pin; z: number; onLift: () => void }) 
         onPointerMove={move}
         onPointerUp={up}
         onPointerCancel={up}
-        style={{ ["--tilt" as string]: held ? "0deg" : `${p.tilt}deg` }}
+        style={{ ["--tilt" as string]: held ? "0deg" : `${p.tilt ?? 0}deg` }}
         className={
-          "relative touch-pan-y select-none bg-paper p-2 transition-[rotate,scale,box-shadow] duration-base ease-out-quart sm:p-2.5 " +
+          "relative touch-pan-y select-none transition-[rotate,scale,box-shadow] duration-base ease-out-quart " +
           "rotate-[var(--tilt)] " +
           (held
-            ? "scale-[1.05] cursor-grabbing shadow-[0_34px_50px_-14px_rgb(0_0_0/0.6)]"
-            : "cursor-grab shadow-[0_22px_40px_-14px_rgb(0_0_0/0.55)] lg:hover:scale-[1.02]")
+            ? "scale-[1.06] cursor-grabbing shadow-[0_30px_50px_-18px_rgb(31_69_58/0.45)]"
+            : "cursor-grab shadow-none lg:hover:scale-[1.03]")
         }
       >
-        {/* A strip of tape holding it up. */}
-        <span
-          aria-hidden="true"
-          className="absolute -top-3 left-1/2 z-10 h-6 w-16 -translate-x-1/2 -rotate-3 bg-matcha/70 mix-blend-multiply sm:w-20"
-        />
-        <div className="relative overflow-hidden" style={{ aspectRatio: `${p.width} / ${p.height}` }}>
-          <Image
-            src={p.src}
-            alt={p.alt}
-            fill
-            priority={p.priority}
-            sizes={p.sizes}
-            draggable={false}
-            className="pointer-events-none object-cover"
-          />
+        <div
+          className={`relative overflow-hidden ${p.src ? "print" : "on-sand"}`}
+          style={{ aspectRatio: `${p.width} / ${p.height}` }}
+        >
+          {p.src ? (
+            <Image
+              src={p.src}
+              alt={p.alt}
+              fill
+              priority={p.priority}
+              sizes={p.sizes}
+              draggable={false}
+              className="pointer-events-none object-cover"
+            />
+          ) : (
+            <Doodle
+              name={p.doodle ?? "cup"}
+              className="pointer-events-none absolute left-1/2 top-1/2 h-[64%] w-[64%] -translate-x-1/2 -translate-y-1/2"
+            />
+          )}
         </div>
         {p.caption && (
-          <figcaption className="px-1 pt-1.5 font-[family-name:var(--font-script)] text-[20px] leading-none text-grove sm:text-[24px]">
+          <figcaption className="t-script pointer-events-none pt-2 text-[19px] leading-none text-grove sm:text-[21px]">
             {p.caption}
           </figcaption>
         )}

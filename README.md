@@ -17,8 +17,10 @@ npm run build      # production build
 | `lib/site.ts` | Every business fact. Address, phone, hours, links, geo, conversion event names. Nothing is hardcoded elsewhere. |
 | `lib/menu.ts` | The menu, as typed data. The signature system. Add and remove items here and every surface updates. |
 | `lib/events.ts` | Things that have happened at the shop, each sourced to an Instagram post. Feeds the home page Events section. |
-| `components/motion/` | The GSAP wrappers. `Reveal` is the workhorse, `SplitHeading` is the masked headline. |
-| `components/ui/PinBoard.tsx` | The pinned photo prints in the hero and the Instagram board. Each can be dragged anywhere in its section and stays where it is dropped; on touch, a sideways drag picks it up and a vertical one still scrolls. |
+| `components/motion/` | The GSAP wrappers. `Reveal` is the workhorse, `SplitHeading` is the masked headline, `Frame` opens a photograph upward on first view and drifts it against the scroll. |
+| `components/sections/HeroIntro.tsx` | The home page opening: an olive field with the name and a small window of the hero photograph that opens out to fill the screen, once per visit. The starting states live in `globals.css` so they paint before JavaScript runs, with a 3.2s failsafe. |
+| `components/ui/PinBoard.tsx` | The prints scattered round the Instagram heading, each drifting at its own speed. Each can be dragged anywhere in its section and stays where it is dropped; on touch, a sideways drag picks it up and a vertical one still scrolls. |
+| `components/ui/PageHead.tsx` | How every inner page opens: a small label, the title in huge thin capitals, the opening lines in the right half. |
 | `lib/open-status.ts` | "Open now, until 5 PM", worked out in Roseville's time zone in the browser. Feeds the hero plate, the phone action bar and the Today marker in `HoursList`. |
 | `components/layout/MobileActionBar.tsx` | The phone thumb bar: open status, call, directions. Appears past the hero, leaves at the footer. |
 | `components/ui/MenuJumpBar.tsx` | The sticky section bar on `/menu`. Takes over from the page index once it scrolls away and follows the header up and down. |
@@ -107,7 +109,16 @@ version for the dark footer. Drop the paths into `site.logo` in `lib/site.ts` an
 swaps everywhere. Until then the site sets the name the way the board does: "The Grove Coffee
 House" in Damion (the closest free match to the board's script) in the board's green, with the
 sketch of beans beside it. The rest of the site takes the board's other marks too: red
-typewriter items and prices, a coffee stain, and a watercolour wash under the matcha list.
+typewriter items and prices, and a watercolour wash under the matcha list.
+
+**The design direction (October 2026).** An editorial lodge layout, modelled on
+tengilemalamala.com, laid over the board: a full bleed photograph under thin upper case
+Fraunces, small typewriter labels over long light statements, an asymmetric twelve column grid
+with offset photograph pairs, a scatter of prints round a centred heading, chip and arrow
+buttons, and an olive footer, the colour of the chairs. Every photograph is the shop's own
+(Instagram and the joe.coffee listing). The two biggest gaps are a wide photograph of the room
+of at least 2400px, which would let the room run full bleed, and photographs of the drinks in
+the favorites row.
 
 `/our-story` is now shippable. It says only things that are true: family owned and independent,
 the name, the seasonal board, the range of drinks that genuinely are on it, and the roaster. It

@@ -54,7 +54,7 @@ export function Wordmark({
           /* Large, it wraps onto a second line on a phone the way the board
              sets it, "The Grove Coffee" over "House". */
           (large
-            ? "text-[50px] leading-[1.02] sm:text-[64px] md:text-[80px]"
+            ? "text-[clamp(52px,9.2vw,172px)] leading-[1.02]"
             : "whitespace-nowrap text-[24px] leading-none sm:text-[27px] md:text-[31px]")
         }
       >
@@ -64,7 +64,7 @@ export function Wordmark({
         className={
           "shrink-0 " +
           (onDark ? "text-paper/75 " : "text-ink ") +
-          (large ? "h-12 w-[4.5rem] md:h-16 md:w-24" : "hidden h-7 w-10 sm:block")
+          (large ? "hidden h-[0.6em] w-[0.9em] text-[clamp(52px,9.2vw,172px)] sm:block" : "hidden h-7 w-10 sm:block")
         }
       />
     </span>

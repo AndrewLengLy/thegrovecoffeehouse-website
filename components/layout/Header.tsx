@@ -6,6 +6,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
 import { site } from "@/lib/site";
 import { Wordmark } from "@/components/ui/Wordmark";
+import { OpenStatus } from "@/components/ui/OpenStatus";
 
 const links = [
   { href: "/menu", label: "Menu" },
@@ -14,11 +15,16 @@ const links = [
   { href: "/visit", label: "Visit" },
 ];
 
+type Theme = "over" | "solid" | "open";
+
 export function Header() {
   const pathname = usePathname();
 
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
+  /* Over the home page photograph until it has scrolled away. The server
+     knows the path, so the first paint is already right. */
+  const [overHero, setOverHero] = useState(pathname === "/");
 
   const headerRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -48,6 +54,30 @@ export function Header() {
     return () => mm.revert();
   });
 
+  /* Whether the header is sitting on the hero photograph. Read from the page
+     rather than the path, so it is true exactly while the photograph is under
+     it and false the moment it has scrolled past. */
+  useEffect(() => {
+    let frame = 0;
+    const measure = () => {
+      const hero = document.querySelector("[data-hero]");
+      const h = headerRef.current?.offsetHeight ?? 72;
+      setOverHero(!!hero && hero.getBoundingClientRect().bottom > h + 1);
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(measure);
+    };
+    measure();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
+
   const close = useCallback(() => {
     setOpen(false);
     toggleRef.current?.focus();
@@ -60,11 +90,12 @@ export function Header() {
   if (lastPath !== pathname) {
     setLastPath(pathname);
     setOpen(false);
+    setOverHero(pathname === "/");
   }
 
   /* The header's height changes with the width and when the fonts swap in, so
      it is measured and published on <html>, where the menu jump bar, the
-     mobile panel and scroll-padding-top all read it. */
+     mobile panel, the hero and scroll-padding-top all read it. */
   useLayoutEffect(() => {
     const el = headerRef.current;
     if (!el) return;
@@ -133,61 +164,50 @@ export function Header() {
     };
   }, [open]);
 
+  const theme: Theme = open ? "open" : overHero ? "over" : "solid";
+  const light = theme !== "solid";
+
   /* No display here. Each use sets its own, because a shared inline-flex
      beats a caller's `hidden` in the cascade and puts desktop-only links in
      the phone header on top of the name. */
   const navLink =
-    "t-nav min-h-8 items-center transition-colors duration-micro hover:text-brick " +
-    "aria-[current=page]:underline aria-[current=page]:decoration-1 aria-[current=page]:underline-offset-[5px]";
+    "t-nav min-h-8 items-center transition-opacity duration-micro hover:opacity-60 " +
+    "aria-[current=page]:underline aria-[current=page]:decoration-1 aria-[current=page]:underline-offset-[6px]";
 
-  /* Laid out the way the reference lays out its header: the name, a two line
-     italic note beside it, the navigation straight after in typewriter
-     capitals, and the two practical links pushed to the far right. */
+  /* Laid out the way the lodge lays out its header: the name in the middle,
+     with small capitals out to either side. On a phone the name moves to the
+     left and the menu opens over the page. */
   return (
     <header
       ref={headerRef}
+      data-theme={theme}
       className={[
-        "paper sticky top-0 z-50",
-        "transition-transform duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)]",
+        "site-header sticky top-0 z-50",
         tucked ? "-translate-y-full" : "translate-y-0",
       ].join(" ")}
     >
-      <div className="wrap flex items-center justify-between gap-6 py-3 md:py-4">
-        <div className="flex min-w-0 items-center gap-5 xl:gap-6">
-          <Link href="/" aria-label={`${site.name}, home`} className="shrink-0">
-            <Wordmark title={null} />
-          </Link>
-          <p className="hidden text-[14px] italic leading-[1.15] 2xl:block">
-            Coffee runs &amp; matcha dates.
-            <br />
-            Roseville, EST 2023
-          </p>
-
-          <nav aria-label="Main" className="ml-2 hidden items-center gap-6 xl:flex 2xl:ml-8 2xl:gap-7">
-            {links.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`${navLink} inline-flex`}
-                aria-current={pathname === l.href ? "page" : undefined}
-              >
-                {l.label}
-              </Link>
-            ))}
-            <a
-              href={site.instagram.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="instagram_click"
-              data-event-location="header"
+      <div className="wrap grid grid-cols-[1fr_auto] items-center gap-6 py-3 md:py-4 xl:grid-cols-[1fr_auto_1fr]">
+        <nav aria-label="Main" className="hidden items-center gap-7 xl:flex">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
               className={`${navLink} inline-flex`}
+              aria-current={pathname === l.href ? "page" : undefined}
             >
-              Instagram
-            </a>
-          </nav>
-        </div>
+              {l.label}
+            </Link>
+          ))}
+        </nav>
 
-        <div className="flex shrink-0 items-center gap-6">
+        <Link href="/" aria-label={`${site.name}, home`} className="justify-self-start xl:justify-self-center">
+          <Wordmark title={null} onDark={light} />
+        </Link>
+
+        <div className="flex items-center justify-end gap-6">
+          <p className="t-note hidden whitespace-nowrap 2xl:block">
+            <OpenStatus fallback="Open 7 AM, every day" />
+          </p>
           <a
             href={site.phone.href}
             data-event="phone_click"
@@ -202,7 +222,7 @@ export function Header() {
             rel="noopener noreferrer"
             data-event="directions_click"
             data-event-location="header"
-            className={`${navLink} hidden xl:inline-flex`}
+            className={`btn hidden xl:inline-flex ${light ? "btn-light" : ""}`}
           >
             Directions
           </a>
@@ -213,10 +233,18 @@ export function Header() {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-nav"
-            className="t-nav inline-flex min-h-11 items-center gap-2 xl:hidden"
+            className="t-nav inline-flex min-h-11 items-center gap-2.5 xl:hidden"
           >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
             <span aria-hidden="true">{open ? "Close" : "Menu"}</span>
+            <span aria-hidden="true" className="relative block h-2.5 w-5">
+              <span
+                className={`absolute inset-x-0 top-0 h-px bg-current transition-transform duration-base ${open ? "translate-y-[5px] rotate-45" : ""}`}
+              />
+              <span
+                className={`absolute inset-x-0 bottom-0 h-px bg-current transition-transform duration-base ${open ? "-translate-y-[4px] -rotate-45" : ""}`}
+              />
+            </span>
           </button>
         </div>
       </div>
@@ -226,52 +254,65 @@ export function Header() {
         <div
           id="mobile-nav"
           ref={panelRef}
-          className="paper fixed inset-x-0 bottom-0 z-50 overflow-y-auto xl:hidden"
-          style={{ top: "var(--header-h, 84px)" }}
+          className="on-olive panel-in fixed inset-x-0 bottom-0 z-50 overflow-y-auto xl:hidden"
+          style={{ top: "var(--header-h, 72px)" }}
         >
-          <nav aria-label="Main" className="wrap flex flex-col py-6">
-            {links.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                onClick={close}
-                aria-current={pathname === l.href ? "page" : undefined}
-                className="t-display border-b border-pencil/40 py-4 aria-[current=page]:text-brick"
-                style={{ fontSize: "40px" }}
-              >
-                {l.label}
-              </Link>
-            ))}
+          <nav aria-label="Main" className="wrap flex min-h-full flex-col pb-10 pt-8">
+            <ul>
+              {links.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    onClick={close}
+                    aria-current={pathname === l.href ? "page" : undefined}
+                    className="block py-2 text-[46px] font-[260] leading-[1.05] tracking-[-0.02em] [font-variation-settings:'SOFT'_50] aria-[current=page]:text-matcha sm:text-[56px]"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-            <div className="mt-6 flex flex-col gap-3">
-              <a
-                href={site.phone.href}
-                data-event="phone_click"
-                data-event-location="mobile_nav"
-                className="t-nav inline-flex min-h-11 items-center tabular-nums"
-              >
-                {site.phone.display}
-              </a>
-              <a
-                href={site.instagram.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-event="instagram_click"
-                data-event-location="mobile_nav"
-                className="t-nav inline-flex min-h-11 items-center"
-              >
-                Instagram {site.instagram.handle}
-              </a>
-              <a
-                href={site.directionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-event="directions_click"
-                data-event-location="mobile_nav"
-                className="btn mt-2 self-start"
-              >
-                Get directions
-              </a>
+            <div className="mt-auto grid gap-8 pt-12 sm:grid-cols-2">
+              <div>
+                <p className="t-caps">Find us</p>
+                <a
+                  href={site.directionsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-event="directions_click"
+                  data-event-location="mobile_nav"
+                  className="mt-3 block text-[17px] leading-snug"
+                >
+                  {site.address.street}
+                  <br />
+                  {site.address.city}, {site.address.region} {site.address.postalCode}
+                </a>
+                <p className="t-note mt-3">
+                  <OpenStatus fallback="Open 7 AM, every day" />
+                </p>
+              </div>
+              <div className="flex flex-col items-start gap-1">
+                <p className="t-caps">Say hello</p>
+                <a
+                  href={site.phone.href}
+                  data-event="phone_click"
+                  data-event-location="mobile_nav"
+                  className="mt-2 inline-flex min-h-11 items-center text-[17px] tabular-nums"
+                >
+                  {site.phone.display}
+                </a>
+                <a
+                  href={site.instagram.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-event="instagram_click"
+                  data-event-location="mobile_nav"
+                  className="inline-flex min-h-11 items-center text-[17px]"
+                >
+                  Instagram {site.instagram.handle}
+                </a>
+              </div>
             </div>
           </nav>
         </div>

@@ -1,94 +1,83 @@
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
-import { SplitHeading } from "@/components/motion/SplitHeading";
-import { Reveal } from "@/components/motion/Reveal";
 import { OpenStatus } from "@/components/ui/OpenStatus";
-import { Doodle } from "@/components/ui/Doodle";
-import { PinBoard, type Pin } from "@/components/ui/PinBoard";
+import { HeroIntro } from "@/components/sections/HeroIntro";
 
 /**
- * The opening banner.
+ * The opening photograph, bled to every edge the way the lodge site opens on
+ * its river, with the headline in thin capitals across it and stepped in line
+ * by line. The header sits over it, see through, until it scrolls away.
  *
- * A field of forest green, the chairs' colour, with the room's red ceiling grid
- * drawn faintly across it. The headline is the board's script at full size in
- * cream, and on the right three of the shop's own photographs are pinned up
- * like prints that can be picked up and moved: the summer lineup against the
- * block wall, the Snick-err Treat that opened the fall board, and the room
- * itself. The banner ends on a torn paper edge into the page below.
+ * The photograph is the shop's own, from their Instagram on 12 July 2026: the
+ * summer lineup on a ledge against the block wall outside, a matcha with dried
+ * jasmine at the front. It is the largest file they have published, and the
+ * dark wall gives the words somewhere to sit. On a phone the whole portrait
+ * frame shows; wider, it is cropped to the row of cups.
  *
- * Every photograph here is the shop's own. The two drinks are from their
- * Instagram (12 July and 22 September 2026); the room is from their joe.coffee
- * listing and is only 800px square, so it is the smallest print in the stack.
+ * The gradient is doing accessibility work. Paper type over the pale concrete
+ * at the foot of the frame would fail, so the lower half is taken down far
+ * enough that the paragraph clears 4.5:1 over the lightest part of the ledge.
+ *
+ * Under the photograph is a field of olive with the name on it in the board's
+ * script. Only the intro ever shows it (HeroIntro.tsx).
  */
-const prints: Pin[] = [
-  {
-    src: "/photos/drinks-lineup.jpg",
-    alt: "A row of The Grove's iced drinks lined up on a ledge against a dark block wall, a matcha with dried jasmine flowers at the front",
-    width: 1350,
-    height: 1800,
-    tilt: -4,
-    sizes: "(min-width: 1024px) 380px, 58vw",
-    priority: true,
-    place: "absolute left-0 top-0 w-[58%] lg:left-[2%]",
-  },
-  {
-    src: "/photos/snick-err-treat.jpg",
-    alt: "The Snick-err Treat, an iced drink under cold foam and crushed peanuts, on a wood board with Snickers bars and coffee beans",
-    width: 1441,
-    height: 1800,
-    tilt: 5,
-    caption: "New for fall",
-    sizes: "(min-width: 1024px) 300px, 46vw",
-    place: "absolute right-0 top-[10%] w-[46%]",
-  },
-  {
-    src: "/photos/grove-interior.jpg",
-    alt: "Inside The Grove Coffee House: olive green chairs at warm wood tables under a red ceiling grid, with plants on the shelves and big front windows",
-    width: 800,
-    height: 800,
-    tilt: 3,
-    caption: "Pull up a chair",
-    sizes: "(min-width: 1024px) 300px, 48vw",
-    /* Kept left of the Snick-err print so it never covers that caption. */
-    place: "absolute bottom-6 left-[3%] w-[48%]",
-  },
-];
-
 export function Hero() {
   return (
-    <section className="on-forest relative overflow-hidden">
-      {/* The red ceiling grid of the room, faint, fading out toward the words. */}
-      <div
+    <section
+      data-hero
+      aria-labelledby="hero-heading"
+      className="on-photo relative -mt-[var(--header-h,72px)] h-[100svh] min-h-[620px] overflow-hidden bg-olive text-paper"
+    >
+      <p
+        data-hero-mark
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgb(181_53_48/0.38)_1.5px,transparent_1.5px),linear-gradient(90deg,rgb(181_53_48/0.38)_1.5px,transparent_1.5px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_75%_90%_at_85%_20%,black,transparent_75%)] md:[background-size:88px_88px]"
-      />
+        className="t-script absolute inset-x-0 top-[19%] text-center text-[34px] leading-none text-paper sm:text-[44px]"
+      >
+        The Grove Coffee House
+      </p>
 
-      <div className="wrap relative grid gap-10 pb-16 pt-8 sm:gap-12 md:pt-14 lg:min-h-[640px] lg:grid-cols-12 lg:items-center lg:gap-8 lg:pb-24 lg:pt-12">
-        <div className="relative lg:col-span-7">
-          <Link
-            href="/menu#snick-err-treat"
-            className="t-caps inline-flex min-h-8 items-center gap-2.5 text-matcha transition-colors duration-micro hover:text-paper"
-          >
-            <span className="tag tag-season">New</span>
-            The Snick-err Treat is on the fall board
-          </Link>
+      <div data-hero-window className="absolute inset-0 overflow-hidden">
+        <div data-hero-image className="absolute inset-0 will-change-transform">
+          <Image
+            src="/photos/drinks-lineup.jpg"
+            alt="A row of The Grove's iced drinks lined up on a ledge against a dark block wall, a matcha with dried jasmine flowers at the front"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[50%_62%] md:object-[50%_68%]"
+          />
+        </div>
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[linear-gradient(to_top,rgb(14_30_24/0.86)_0%,rgb(14_30_24/0.62)_34%,rgb(14_30_24/0.22)_68%,rgb(14_30_24/0.38)_100%)] md:bg-[linear-gradient(to_top,rgb(14_30_24/0.82)_0%,rgb(14_30_24/0.5)_40%,rgb(14_30_24/0.2)_75%,rgb(14_30_24/0.36)_100%)]"
+        />
+      </div>
 
-          <SplitHeading
-            as="h1"
-            onLoad
-            className="t-display mt-4 max-w-[13ch] text-[clamp(54px,6.4vw,118px)] leading-[0.98] text-paper sm:mt-5"
-          >
-            Coffee runs, matcha dates, long mornings.
-          </SplitHeading>
+      <div className="wrap relative flex h-full flex-col justify-end pb-16 pt-[calc(var(--header-h,72px)+32px)] md:pb-20">
+        <h1
+          id="hero-heading"
+          className="t-display text-[clamp(38px,10.4vw,164px)] leading-[0.9] md:text-[clamp(64px,8.6vw,164px)]"
+        >
+          <Line>Coffee runs,</Line>{" "}
+          <Line className="md:pl-[22%]">matcha dates,</Line>{" "}
+          <Line className="md:pl-[9%]">long mornings.</Line>
+        </h1>
 
-          <Reveal onLoad travel={8} each={0.05} className="mt-5 sm:mt-6">
-            <p className="t-body max-w-[44ch] text-[18px] text-paper/90 md:text-[19px]">
-              A seasonal board we change with the weather, real food all day, and
-              beans roasted just down the road in Sacramento. Pull up a chair and
-              stay a while.
+        <div className="mt-8 grid gap-6 md:mt-12 md:grid-cols-12 md:items-end">
+          <p data-hero-fade className="t-caps hidden md:col-span-4 md:block">
+            Family owned on Sierra College Blvd
+            <br />
+            Roseville, California
+          </p>
+          <div className="md:col-span-6 md:col-start-7 lg:col-span-4 lg:col-start-8">
+            <p data-hero-fade className="max-w-[40ch] text-[17px] leading-[1.4] md:text-[18px]">
+              A seasonal board we change with the weather, real food all day,
+              and beans roasted just down the road in Sacramento. Pull up a
+              chair and stay a while.
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4">
-              <Link href="/menu" className="btn btn-light min-h-12 px-5 text-[15px]">
+            <div data-hero-fade className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-4">
+              <Link href="/menu" className="btn btn-light btn-lg">
                 See the menu
               </Link>
               <a
@@ -97,49 +86,32 @@ export function Hero() {
                 rel="noopener noreferrer"
                 data-event="directions_click"
                 data-event-location="hero"
-                className="btn btn-ghost min-h-12 text-[15px] text-paper hover:text-matcha"
+                className="btn btn-ghost min-h-11 text-[14px]"
               >
                 Get directions
               </a>
             </div>
-            <p className="t-note mt-5 text-matcha">
+            <p data-hero-fade className="t-note mt-5">
               <OpenStatus fallback="Open 7 AM, every day" />
             </p>
-          </Reveal>
-
-          <Doodle name="beans" className="absolute -bottom-16 right-4 hidden h-24 w-24 text-paper/70 lg:block" />
+          </div>
         </div>
-
-        {/* The prints, pinned inside a fixed box so the stack keeps its
-            composition at every width. They can be dragged anywhere in the
-            banner. */}
-        <Reveal
-          onLoad
-          travel={24}
-          className="relative mx-auto h-[420px] w-full max-w-[520px] sm:h-[600px] lg:col-span-5 lg:h-[620px] lg:max-w-none"
-        >
-          <PinBoard pins={prints} />
-          {/* On a phone the stack leaves its lower right corner open. */}
-          <Doodle name="beans" className="absolute bottom-8 right-4 h-20 w-20 text-paper/70 lg:hidden" />
-          <p className="t-note absolute bottom-0 right-0 text-matcha">
-            Go on, move the photos around.
-          </p>
-        </Reveal>
       </div>
 
-      {/* A torn paper edge into the page. */}
-      <svg
-        aria-hidden="true"
-        focusable="false"
-        viewBox="0 0 1440 40"
-        preserveAspectRatio="none"
-        className="absolute inset-x-0 -bottom-px block h-6 w-full text-paper md:h-9"
-      >
-        <path
-          fill="currentColor"
-          d="M0 40V22l38-6 44 9 51-11 36 7 58-12 47 10 33-4 61 9 42-13 55 8 39-5 63 12 48-9 36 4 57-11 44 9 52-6 39 8 61-10 45 7 34-5 58 11 46-8 41 5 55-10 38 6 49-7 42 9 54-11 37 7L1440 20V40z"
-        />
-      </svg>
+      <HeroIntro />
     </section>
+  );
+}
+
+/** One line of the headline inside its own mask, so it can rise into view.
+    The mask is padded so the commas and the tops of the capitals are never
+    shaved by the tight line height. */
+function Line({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <span className={`block overflow-hidden pb-[0.1em] pt-[0.04em] -mb-[0.1em] ${className}`}>
+      <span data-hero-line className="block">
+        {children}
+      </span>
+    </span>
   );
 }
