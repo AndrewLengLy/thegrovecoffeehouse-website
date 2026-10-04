@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { itemsInCategory, milkOptions, addOnLines, type MenuItem } from "@/lib/menu";
 import { MenuBlock, type MenuLine } from "@/components/ui/MenuBlock";
-import { Slideshow } from "@/components/ui/Slideshow";
+import { site } from "@/lib/site";
 import { Reveal } from "@/components/motion/Reveal";
 import { Doodle } from "@/components/ui/Doodle";
 
 /**
- * The board, printed. A short introduction and a portrait print on the left,
- * then the menu itself in two columns, the way the reference opens its menu on
- * the home page rather than hiding it a click away. Everything here reads from
+ * The board, printed. A short introduction on the left, then the menu itself
+ * in two columns set the way the board in the shop sets it, matcha on its wash
+ * of green, rather than hiding it a click away. Everything here reads from
  * lib/menu.ts, so it can never disagree with the menu page.
  */
 
@@ -30,7 +30,7 @@ export function MenuPreview() {
   const matcha = itemsInCategory("matcha").filter(onBoard).slice(0, 5);
 
   return (
-    <section id="seasonal" aria-labelledby="board-heading" className="relative scroll-mt-2">
+    <section id="seasonal" aria-labelledby="board-heading" className="relative scroll-mt-2 overflow-x-clip">
       <div className="wrap section grid gap-10 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-3">
           <h2 id="board-heading" className="t-h2">
@@ -41,41 +41,35 @@ export function MenuPreview() {
             favorites people drive here for, and a seasonal board we change
             with the weather.
           </p>
-          <Slideshow
-            className="mt-5 aspect-[336/444] w-full max-w-[420px]"
-            sizes="(min-width: 1024px) 22vw, (min-width: 640px) 420px, 100vw"
-            slides={[
-              {
-                src: null,
-                alt: "A drink from the seasonal board at The Grove, held up in the light",
-                brief: "Portrait shot of one drink from the current seasonal board, held in hand. Natural light.",
-                width: 1000,
-                height: 1320,
-              },
-            ]}
-          />
           <Link href="/menu" className="btn mt-5">
             See the whole menu
           </Link>
+          <Doodle name="drinks" className="mt-8 hidden h-36 w-36 lg:block" />
+          <p className="t-note mt-8 max-w-[34ch] text-ink-soft">
+            Roasted by {site.roaster.name}, {site.roaster.location}.
+          </p>
         </div>
 
         <Reveal className="grid gap-10 sm:grid-cols-2 sm:gap-x-10 lg:col-span-8 lg:col-start-5 lg:gap-x-16">
           <div className="flex flex-col gap-10">
-            <MenuBlock title="Coffee" lines={coffee.map((i) => line(i))} />
+            {/* What is new leads, above the everyday list. */}
             <MenuBlock title="Fall specials" lines={seasonal.map((i) => line(i, true))} />
-            <MenuBlock title="Milk options" lines={addOnLines(milkOptions)} />
+            {/* The everyday list waits for the menu page on a phone. */}
+            <MenuBlock title="Coffee" className="hidden sm:block" lines={coffee.map((i) => line(i))} />
+            {/* On a phone the preview is already long, and the menu page has these. */}
+            <MenuBlock title="Milk options" className="hidden sm:block" lines={addOnLines(milkOptions)} />
           </div>
           <div className="flex flex-col gap-10">
             <MenuBlock title="The favorites" lines={favorites.map((i) => line(i, true))} />
-            <MenuBlock title="Matcha" lines={matcha.map((i) => line(i, true))} />
+            <MenuBlock title="Matcha" wash lines={matcha.map((i) => line(i, true))} />
           </div>
         </Reveal>
-      </div>
 
-      <Doodle
-        name="drinks"
-        className="absolute -bottom-6 right-4 h-20 w-20 md:right-12 md:h-24 md:w-24"
-      />
+        {/* A way on at the foot of the lists, where a phone reader ends up. */}
+        <Link href="/menu" className="btn min-h-11 justify-self-start px-4 sm:hidden">
+          Coffee, tea and the whole menu
+        </Link>
+      </div>
     </section>
   );
 }

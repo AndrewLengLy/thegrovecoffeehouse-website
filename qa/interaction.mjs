@@ -19,8 +19,10 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
   await page.evaluate(() => document.fonts.ready);
   await new Promise(r => setTimeout(r, 1200));
 
+  // Only drawings actually laid out at this width. One shown only on phones
+  // is display: none here and can never scroll into view.
   const drawn = () => page.evaluate(() => {
-    const all = [...document.querySelectorAll("[data-draw]")];
+    const all = [...document.querySelectorAll("[data-draw]")].filter((el) => el.getClientRects().length > 0);
     const below = all.filter(el => el.getBoundingClientRect().top > innerHeight * 1.5);
     return { total: all.length, drawn: all.filter(el => el.dataset.drawn === "true").length,
              belowDrawn: below.filter(el => el.dataset.drawn === "true").length, below: below.length };
@@ -44,6 +46,7 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
   await new Promise(r => setTimeout(r, 4000));
   const worst = await page.evaluate(() =>
     Math.max(...[...document.querySelectorAll('[data-draw] .draw')]
+      .filter(p => p.closest("[data-draw]").getClientRects().length > 0)
       .map(p => Math.abs(parseFloat(getComputedStyle(p).strokeDashoffset))))
   );
   check("every drawn stroke ends fully visible", worst < 0.001, String(worst));
@@ -195,6 +198,60 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
   check("jump bar drops below the header when it returns", up.header === "shown" && up.top >= 60, JSON.stringify(up));
   await scroll(999999);
   check("jump bar leaves once the categories end", (await state()).shown === "false");
+  await page.close();
+}
+
+/* ---------- 8. The pinned prints can be picked up and moved ---------- */
+{
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1440, height: 900 });
+  await page.goto(BASE + "/", { waitUntil: "networkidle0" });
+  await new Promise(r => setTimeout(r, 2200));
+
+  const card = await page.$("[data-pin]");
+  const bb = await card.boundingBox();
+  const cx = bb.x + bb.width / 2, cy = bb.y + bb.height / 2;
+  await page.mouse.move(cx, cy);
+  await page.mouse.down();
+  await page.mouse.move(cx - 160, cy + 50, { steps: 10 });
+  await page.mouse.up();
+  const moved = await page.$eval("[data-pin]", e => e.style.translate);
+  check("a print follows the mouse and stays where it is dropped", moved === "-160px 50px", moved);
+
+  // Thrown far off the page, it stops at the edge of its own section.
+  const bb2 = await card.boundingBox();
+  await page.mouse.move(bb2.x + 20, bb2.y + 20);
+  await page.mouse.down();
+  await page.mouse.move(-4000, bb2.y + 20, { steps: 6 });
+  await page.mouse.up();
+  const kept = await page.evaluate(() => {
+    const c = document.querySelector("[data-pin]").getBoundingClientRect();
+    const s = document.querySelector("[data-pin]").closest("section").getBoundingClientRect();
+    return { cardLeft: Math.round(c.left), sectionLeft: Math.round(s.left) };
+  });
+  check("a print cannot be dragged out of its section", kept.cardLeft >= kept.sectionLeft - 1, JSON.stringify(kept));
+
+  // Touch. Headless shell will not take CDP touch input, so the pointer events
+  // a finger produces are dispatched directly. What this proves is the card's
+  // own handling; `touch-action: pan-y` is what hands vertical swipes back to
+  // the page, and it is asserted as a computed style.
+  const touch = await page.evaluate(async () => {
+    const el = document.querySelectorAll("[data-pin]")[1];
+    const r = el.getBoundingClientRect();
+    const x = r.left + r.width / 2, y = r.top + r.height / 2;
+    const fire = (type, dx, dy) => el.dispatchEvent(new PointerEvent(type, {
+      bubbles: true, pointerId: 7, pointerType: "touch", isPrimary: true, clientX: x + dx, clientY: y + dy,
+    }));
+    fire("pointerdown", 0, 0);
+    // Leftward: this print sits against the right edge of the banner, and
+    // the drag correctly stops there.
+    for (let i = 1; i <= 8; i++) fire("pointermove", -i * 10, i * 2);
+    fire("pointerup", -80, 16);
+    await new Promise(r => setTimeout(r, 50));
+    return { translate: el.style.translate, touchAction: getComputedStyle(el).touchAction };
+  });
+  check("a sideways touch drag moves a print", touch.translate === "-80px 16px", touch.translate);
+  check("vertical swipes over a print still scroll the page", touch.touchAction === "pan-y", touch.touchAction);
   await page.close();
 }
 

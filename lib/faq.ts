@@ -8,7 +8,7 @@ import { site, hours } from "@/lib/site";
 export const faq: { q: string; a: string }[] = [
   {
     q: "What are your hours?",
-    a: `${hours[0].label}, ${hours[0].time}. ${hours[1].label}, ${hours[1].time}. We close two hours earlier on the weekend than we do on weekdays, and holiday hours can change, so give us a call on ${site.phone.display} if you are coming on one.`,
+    a: `${hours[0].label}, ${hours[0].time}. ${hours[1].label}, ${hours[1].time}. We close two hours earlier on Sundays, and holiday hours can change, so give us a call on ${site.phone.display} if you are coming on one.`,
   },
   {
     q: "Where exactly are you?",

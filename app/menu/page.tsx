@@ -22,6 +22,7 @@ import { absolute, breadcrumbs } from "@/lib/seo";
 import { MenuJumpBar } from "@/components/ui/MenuJumpBar";
 import { Squiggle } from "@/components/ui/Squiggle";
 import { Doodle } from "@/components/ui/Doodle";
+import { Wash } from "@/components/ui/Wash";
 
 export const metadata: Metadata = {
   title: "Menu",
@@ -117,16 +118,23 @@ export default function MenuPage() {
         /* scroll-mt-12 on top of the page's scroll padding clears the header
            and the jump bar together. */
         return (
-          <section key={category} id={category} aria-labelledby={`${category}-heading`} className="scroll-mt-12">
+          <section key={category} id={category} aria-labelledby={`${category}-heading`} className="scroll-mt-12 overflow-x-clip">
             <div className="wrap">
               <Squiggle />
             </div>
             <div className="wrap section grid gap-8 lg:grid-cols-12">
-              <div className="lg:col-span-4">
-                <h2 id={`${category}-heading`} className="t-h2">
+              {/* Matcha heads its section on a wash of green, the way it does
+                  on the board. Only behind the heading: the resting drinks in
+                  the list are set in the soft ink, which the wash would take
+                  under AA. */}
+              <div className="relative lg:col-span-4">
+                {category === "matcha" && (
+                  <Wash className="absolute -inset-x-6 -inset-y-6 h-[calc(100%+3rem)] w-[calc(100%+3rem)] max-w-[30rem]" />
+                )}
+                <h2 id={`${category}-heading`} className="t-h2 relative">
                   {CATEGORY_LABEL[category]}
                 </h2>
-                <p className="t-body mt-3 max-w-[38ch]">{CATEGORY_BLURB[category]}</p>
+                <p className="t-body relative mt-3 max-w-[38ch]">{CATEGORY_BLURB[category]}</p>
               </div>
 
               <Reveal

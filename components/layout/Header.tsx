@@ -153,17 +153,17 @@ export function Header() {
       ].join(" ")}
     >
       <div className="wrap flex items-center justify-between gap-6 py-3 md:py-4">
-        <div className="flex min-w-0 items-center gap-5 lg:gap-7">
+        <div className="flex min-w-0 items-center gap-5 xl:gap-6">
           <Link href="/" aria-label={`${site.name}, home`} className="shrink-0">
             <Wordmark title={null} />
           </Link>
-          <p className="hidden text-[14px] italic leading-[1.15] sm:block">
+          <p className="hidden text-[14px] italic leading-[1.15] 2xl:block">
             Coffee runs &amp; matcha dates.
             <br />
             Roseville, EST 2023
           </p>
 
-          <nav aria-label="Main" className="ml-4 hidden items-center gap-6 lg:flex xl:ml-10 xl:gap-7">
+          <nav aria-label="Main" className="ml-2 hidden items-center gap-6 xl:flex 2xl:ml-8 2xl:gap-7">
             {links.map((l) => (
               <Link
                 key={l.href}
@@ -192,7 +192,7 @@ export function Header() {
             href={site.phone.href}
             data-event="phone_click"
             data-event-location="header"
-            className={`${navLink} hidden tabular-nums lg:inline-flex`}
+            className={`${navLink} hidden tabular-nums xl:inline-flex`}
           >
             {site.phone.display}
           </a>
@@ -202,7 +202,7 @@ export function Header() {
             rel="noopener noreferrer"
             data-event="directions_click"
             data-event-location="header"
-            className={`${navLink} hidden lg:inline-flex`}
+            className={`${navLink} hidden xl:inline-flex`}
           >
             Directions
           </a>
@@ -213,7 +213,7 @@ export function Header() {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-nav"
-            className="t-nav inline-flex min-h-11 items-center gap-2 lg:hidden"
+            className="t-nav inline-flex min-h-11 items-center gap-2 xl:hidden"
           >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
             <span aria-hidden="true">{open ? "Close" : "Menu"}</span>
@@ -226,7 +226,7 @@ export function Header() {
         <div
           id="mobile-nav"
           ref={panelRef}
-          className="paper fixed inset-x-0 bottom-0 z-50 overflow-y-auto lg:hidden"
+          className="paper fixed inset-x-0 bottom-0 z-50 overflow-y-auto xl:hidden"
           style={{ top: "var(--header-h, 84px)" }}
         >
           <nav aria-label="Main" className="wrap flex flex-col py-6">

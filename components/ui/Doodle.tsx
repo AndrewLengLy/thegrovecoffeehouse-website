@@ -14,9 +14,10 @@ import { useDrawOnView } from "@/components/ui/useDrawOnView";
  *   table   a bistro table for two, with a sprig in a vase
  *   guitar  a guitar and two notes, for music night
  *   sapling a little potted tree
+ *   beans   a scatter of coffee beans, as sketched beside the name on the board
  */
 
-export type DoodleName = "cup" | "drinks" | "table" | "guitar" | "sapling";
+export type DoodleName = "cup" | "drinks" | "table" | "guitar" | "sapling" | "beans";
 
 type Stroke = { d: string; w?: number; cls?: string };
 
@@ -216,12 +217,38 @@ function Sapling() {
   );
 }
 
+/* Each bean is an oval with the crease through it, drawn around its own
+   centre so it can be turned. */
+const BEAN = ["M-24 0a24 16 0 1 0 48 0a24 16 0 1 0-48 0", "M-20 3C-10-6 8 6 20-3"];
+
+function Bean({ x, y, turn, start, cls }: { x: number; y: number; turn: number; start: number; cls?: string }) {
+  return (
+    <g transform={`translate(${x} ${y}) rotate(${turn})`}>
+      <g className={cls}>
+        <Lines start={start} strokes={[{ d: BEAN[0] }, { d: BEAN[1], w: 1.6 }]} />
+      </g>
+    </g>
+  );
+}
+
+function Beans() {
+  return (
+    <>
+      <Bean x={50} y={98} turn={-28} start={0} />
+      <Bean x={98} y={70} turn={16} start={2} cls="bob" />
+      <Bean x={112} y={118} turn={-8} start={4} />
+      <Bean x={70} y={136} turn={34} start={6} cls="bob-late" />
+    </>
+  );
+}
+
 const DRAWINGS: Record<DoodleName, () => React.JSX.Element> = {
   cup: Cup,
   drinks: Drinks,
   table: Table,
   guitar: Guitar,
   sapling: Sapling,
+  beans: Beans,
 };
 
 export function Doodle({ name, className = "" }: { name: DoodleName; className?: string }) {

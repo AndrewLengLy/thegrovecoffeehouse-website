@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Courier_Prime, EB_Garamond, Hanken_Grotesk } from "next/font/google";
+import { Courier_Prime, Damion, EB_Garamond } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 
 import "./globals.css";
@@ -13,14 +13,21 @@ import { JsonLd } from "@/components/JsonLd";
 import { absolute, businessNode, isIndexable, openingHours } from "@/lib/seo";
 import { menu } from "@/lib/menu";
 
-/* An old style serif, a typewriter mono, and a plain grotesque. All three are
-   self hosted by next/font and subset to latin, so there is no third party
-   request and no layout shift when they land.
+/* A script, a typewriter mono, and an old style serif, the three voices of the
+   menu board in the shop. All three are self hosted by next/font and subset to
+   latin, so there is no third party request and no layout shift when they land.
 
-   EB Garamond stands in for the Caslon the reference is set in: an old style
-   face whose italic carries every title on the site and whose roman carries
-   the reading copy. Courier Prime is the typewriter, for prices, buttons and
-   navigation. Hanken Grotesk sets item names and labels in small capitals. */
+   Damion is the closest free match to the green script of the logo on the
+   board: the same slant, the same even pen, the looped G. It sets the name and
+   every title. Courier Prime is the board's red typewriter, for items, prices,
+   labels, buttons and navigation. EB Garamond carries the reading copy. */
+const damion = Damion({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-damion",
+});
+
 const garamond = EB_Garamond({
   subsets: ["latin"],
   style: ["normal", "italic"],
@@ -33,13 +40,6 @@ const courier = Courier_Prime({
   weight: ["400"],
   display: "swap",
   variable: "--font-courier",
-});
-
-const hanken = Hanken_Grotesk({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-  variable: "--font-hanken",
 });
 
 export const metadata: Metadata = {
@@ -122,7 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
        whole point of it, and React would otherwise flag the difference. */
     <html
       lang="en"
-      className={`${garamond.variable} ${courier.variable} ${hanken.variable}`}
+      className={`${damion.variable} ${garamond.variable} ${courier.variable}`}
       suppressHydrationWarning
     >
       <head>

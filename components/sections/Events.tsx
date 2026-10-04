@@ -2,7 +2,6 @@ import { site } from "@/lib/site";
 import { recentEvents, eventStamp, EVENT_KIND_LABEL } from "@/lib/events";
 import { Photo } from "@/components/ui/Photo";
 import { Reveal } from "@/components/motion/Reveal";
-import { Doodle } from "@/components/ui/Doodle";
 
 /**
  * Things that happen here, set the way the reference sets its next event: a
@@ -19,7 +18,7 @@ export function Events() {
   return (
     <section id="events" aria-labelledby="events-heading" className="relative scroll-mt-2">
       <div className="wrap section grid gap-8 md:grid-cols-2 md:gap-10">
-        <div className="print aspect-square">
+        <div className="print aspect-[4/3] sm:aspect-square">
           <Photo
             src={null}
             fill
@@ -28,6 +27,7 @@ export function Events() {
             height={1400}
             alt="The room full of people during an evening at The Grove Coffee House"
             brief="The room during a music night or the birthday weekend, full of people. Square crop."
+            doodle="guitar"
           />
         </div>
 
@@ -94,11 +94,6 @@ export function Events() {
           </div>
         </div>
       </div>
-
-      <Doodle
-        name="guitar"
-        className="absolute bottom-6 right-4 hidden h-24 w-24 md:block md:right-10 lg:h-28 lg:w-28"
-      />
     </section>
   );
 }

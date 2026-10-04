@@ -18,7 +18,7 @@ npm run build      # production build
 | `lib/menu.ts` | The menu, as typed data. The signature system. Add and remove items here and every surface updates. |
 | `lib/events.ts` | Things that have happened at the shop, each sourced to an Instagram post. Feeds the home page Events section. |
 | `components/motion/` | The GSAP wrappers. `Reveal` is the workhorse, `SplitHeading` is the masked headline. |
-| `components/sections/SeasonalRail.tsx` | The one signature scroll moment. Pinned horizontal pass above 1024px; below that, a native swipe with snap points, a progress rule and previous and next buttons. |
+| `components/ui/PinBoard.tsx` | The pinned photo prints in the hero and the Instagram board. Each can be dragged anywhere in its section and stays where it is dropped; on touch, a sideways drag picks it up and a vertical one still scrolls. |
 | `lib/open-status.ts` | "Open now, until 5 PM", worked out in Roseville's time zone in the browser. Feeds the hero plate, the phone action bar and the Today marker in `HoursList`. |
 | `components/layout/MobileActionBar.tsx` | The phone thumb bar: open status, call, directions. Appears past the hero, leaves at the footer. |
 | `components/ui/MenuJumpBar.tsx` | The sticky section bar on `/menu`. Takes over from the page index once it scrolls away and follows the header up and down. |
@@ -41,9 +41,10 @@ hard gate, not an afterthought.
 node qa/interaction.mjs
 ```
 
-The pinned rail, keyboard reachability inside it, mobile nav focus containment and Escape
-handling, the skip link, the hidden reward, the phone rail and thumb bar, the menu jump bar,
-and that content is still present with JavaScript disabled.
+The hand drawn lines drawing in, the closable announcement strip, mobile nav focus containment
+and Escape handling, the skip link, the hidden reward, the phone thumb bar, the menu jump bar,
+dragging the pinned prints (mouse, touch, and staying inside their section), and that content
+is still present with JavaScript disabled.
 
 ```bash
 node qa/axe.mjs
@@ -53,13 +54,6 @@ axe-core against WCAG 2.1 and 2.2 AA on every route at two widths.
 
 Every browser gate reads `BASE` (default `http://localhost:3000`) and `CHROME` (default: the
 macOS Google Chrome path), so point them at whichever server and browser you have.
-
-One thing that will look like a bug and is not: a full-page screenshot of `/` shows a tall
-blank band under the seasonal rail. That is the ScrollTrigger pin spacer. Full-page capture
-sets the viewport to the whole document, so the rail pins at the top of its scroll range and
-the rest of the range is empty. To see the rail as a visitor does, screenshot the viewport at
-successive scroll positions inside the pin range instead. `qa/interaction.mjs` asserts the
-pinned section is actually on screen while scrolling, which is the check that matters.
 
 ```bash
 node qa/seo.mjs
@@ -93,14 +87,14 @@ Search the codebase for `TODO(andrew)`. What is genuinely still open:
 | Item | Status |
 | --- | --- |
 | The domain | Needed. Drives `metadataBase`, the sitemap, robots and every canonical. |
-| Real photography | Needed. Every slot is a labelled placeholder holding the right ratio. |
+| Real photography | **Partly in.** `public/photos/` holds the shop's own shots: the drinks lineup and three summer close-ups (Instagram, 12 July 2026), the Snick-err Treat (22 September), the fall trio (23 September), and the room (joe.coffee listing, 800px; its EXIF says it came through Google, so confirm it is theirs). They fill the hero, a draggable "Fresh from our Instagram" board and the story card. Three drink-looking photos from the 30 June post were left out: they are Z's Creations candles, not drinks. Every other slot is an illustrated placeholder; its shot brief is in `data-brief` and printed under `next dev`. Tell the owners their photos are on the site. |
 | The food menu | Needed. Their drinks board carries no food at all, so food has no prices. |
 | The owners' story | Needed before the middle of `/our-story` can be written. |
 | The logo file | Needed. See below. |
 | Accessibility of the entrance | Needed. The page currently points people at the phone rather than guess. |
 | Drink prices | Transcribed from a photo of their board. Confirm against the current one. |
 | Weekday closing time | **Resolved.** Every source agrees: 7 to 5. |
-| Saturday closing time | **In conflict.** Brief and joe.coffee say 3 PM; the shop's own Instagram bio says 5 PM. Shipping 3 PM (the safer error) until the owners confirm. |
+| Saturday closing time | **Resolved to 5 PM.** The shop's own Instagram bio read "Monday - Saturday 7am - 5pm, Sunday - 7am - 3pm" on 23 September 2026, and the owner written source wins over the brief and joe.coffee's 3 PM. |
 | Instagram handle | **Resolved, and corrected.** The brief's `@thegrovecoffeehouse` is a church coffee stand in Maryland. The cafe is `@thegrovecoffeehouse916`. |
 | Events | **Sourced.** Three real events from the shop's own posts live in `lib/events.ts`, each linked to its post. Ask whether music night is becoming regular. |
 | Summer board | **Sourced.** Eight summer 2026 drinks from their own post are in `lib/menu.ts`, no prices. Confirm which are still pouring. |
@@ -110,8 +104,10 @@ Search the codebase for `TODO(andrew)`. What is genuinely still open:
 branch and beans. What we do not have is a file. Ask the client for an SVG, or the original
 Illustrator or EPS, or failing that a PNG on transparent at 1200px or wider, plus a reversed
 version for the dark footer. Drop the paths into `site.logo` in `lib/site.ts` and the wordmark
-swaps everywhere. Until then the site sets the name in its own signage face rather than
-shipping a photograph of the framed board from inside the shop.
+swaps everywhere. Until then the site sets the name the way the board does: "The Grove Coffee
+House" in Damion (the closest free match to the board's script) in the board's green, with the
+sketch of beans beside it. The rest of the site takes the board's other marks too: red
+typewriter items and prices, a coffee stain, and a watercolour wash under the matcha list.
 
 `/our-story` is now shippable. It says only things that are true: family owned and independent,
 the name, the seasonal board, the range of drinks that genuinely are on it, and the roaster. It

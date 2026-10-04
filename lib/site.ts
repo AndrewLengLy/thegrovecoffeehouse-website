@@ -150,34 +150,32 @@ export type HoursRow = {
 };
 
 /**
- * TODO(andrew): SATURDAY IS IN CONFLICT. The brief and joe.coffee both say
- * Saturday 7:00 to 15:00. The shop's own Instagram bio (@thegrovecoffeehouse916)
- * says "Monday - Saturday 7am - 5pm, Sunday 7am - 3pm". Those two directory
- * sources likely both trace to Google, so they are not independent, and the
- * bio is owner written. Shipping the EARLIER close for Saturday until confirmed,
- * because sending somebody to a locked door at 4pm is the worse mistake.
- * Weekdays 7:00 to 17:00 and Sunday 7:00 to 15:00 are agreed by every source.
+ * From the shop's own Instagram bio (@thegrovecoffeehouse916), which the owners
+ * write and which read "Monday - Saturday 7am - 5pm, Sunday - 7am - 3pm" on
+ * 23 September 2026. The brief and joe.coffee still say Saturday closes at
+ * 3pm; both are directory copies that likely trace to an old Google listing,
+ * so the owners' own line wins. Andrew chose it on 23 September 2026.
  */
 export const hours: HoursRow[] = [
   {
-    label: "Monday to Friday",
+    label: "Monday to Saturday",
     time: "7:00 AM to 5:00 PM",
-    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
     opens: "07:00",
     closes: "17:00",
   },
   {
-    label: "Saturday and Sunday",
+    label: "Sunday",
     time: "7:00 AM to 3:00 PM",
-    days: ["Saturday", "Sunday"],
+    days: ["Sunday"],
     opens: "07:00",
     closes: "15:00",
   },
 ];
 
-/** Stated plainly because the weekend difference is the thing people get wrong. */
+/** Stated plainly because the early Sunday close is the thing people get wrong. */
 export const hoursCaveat =
-  "We close two hours earlier on the weekend than we do on weekdays. Holiday hours can change, so give us a call if you are coming on one.";
+  "We close two hours earlier on Sundays. Holiday hours can change, so give us a call if you are coming on one.";
 
 /* ------------------------------------------------------------------ */
 /* Navigation                                                          */

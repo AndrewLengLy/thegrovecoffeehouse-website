@@ -3,6 +3,7 @@ import { MenuPreview } from "@/components/sections/MenuPreview";
 import { TheRoom } from "@/components/sections/TheRoom";
 import { Events } from "@/components/sections/Events";
 import { Favorites } from "@/components/sections/Favorites";
+import { FromInstagram } from "@/components/sections/FromInstagram";
 import { FromTheGrove } from "@/components/sections/FromTheGrove";
 import { Squiggle } from "@/components/ui/Squiggle";
 import { events } from "@/lib/events";
@@ -39,13 +40,15 @@ export default function Home() {
       {eventSchema().map((d, i) => (
         <JsonLd key={i} data={d} />
       ))}
+      {/* The hero ends on its own torn paper edge, so no drawn rule here. */}
       <Hero />
-      <Rule />
       <MenuPreview />
       <Rule />
       <TheRoom />
       <Rule />
       <Events />
+      <Rule />
+      <FromInstagram />
       <Rule />
       <Favorites />
       <Rule />

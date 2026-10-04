@@ -2,8 +2,8 @@ import type { MenuItem } from "@/lib/menu";
 import { SEASON_LABEL } from "@/lib/menu";
 
 /**
- * One line on the printed menu: the name in grotesque capitals with the price
- * in typewriter figures at a fixed column, an italic line of what it tastes
+ * One line on the printed menu: the name in the board's typewriter capitals
+ * with the price in red at a fixed column, an italic line of what it tastes
  * like, and the fine print of what is in it.
  *
  * An item with no price is not a bug. It is a drink customers have named that
@@ -26,7 +26,7 @@ export function MenuRow({ item }: { item: MenuItem; index?: number }) {
         {resting && <span className="tag tag-rest">Back next season</span>}
       </div>
 
-      <span className="t-price">
+      <span className={`t-price ${resting ? "" : "text-brick-deep"}`}>
         {item.price ? `$${item.price}` : resting ? null : "Ask"}
       </span>
 

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { Doodle } from "@/components/ui/Doodle";
+import { CoffeeStain } from "@/components/ui/CoffeeStain";
 
 export default function NotFound() {
   return (
-    <section className="wrap section grid gap-6 md:grid-cols-12 md:gap-8">
+    <section className="wrap section grid gap-6 overflow-x-clip md:grid-cols-12 md:gap-8">
       <div className="md:col-span-7 lg:col-span-6">
         <p className="t-nav text-ink-soft">404, not found</p>
         <h1 className="t-display mt-3">We cannot find that page</h1>
@@ -46,8 +47,9 @@ export default function NotFound() {
         </p>
       </div>
 
-      <div aria-hidden="true" className="flex items-center justify-center md:col-span-4 md:col-start-9">
-        <Doodle name="cup" className="h-36 w-36 md:h-48 md:w-48" />
+      <div aria-hidden="true" className="relative flex items-center justify-center md:col-span-4 md:col-start-9">
+        <CoffeeStain className="absolute h-40 w-56 md:h-52 md:w-72" />
+        <Doodle name="cup" className="relative h-36 w-36 md:h-48 md:w-48" />
       </div>
     </section>
   );

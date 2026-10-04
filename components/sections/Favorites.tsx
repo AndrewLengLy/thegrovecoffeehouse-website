@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { menu, type MenuItem } from "@/lib/menu";
 import { Photo } from "@/components/ui/Photo";
+import type { DoodleName } from "@/components/ui/Doodle";
 import { Reveal } from "@/components/motion/Reveal";
 
 /**
@@ -10,6 +11,10 @@ import { Reveal } from "@/components/motion/Reveal";
  * nobody else nearby has is these.
  */
 const SLUGS = ["gulab-jamun-latte", "baklava-latte", "biscoff-banana-matcha", "spanish-latte"];
+
+/* Until each drink has its photograph, each card gets a different drawing so
+   the row does not read as four copies of one empty frame. */
+const DRAWN: DoodleName[] = ["cup", "beans", "drinks", "sapling"];
 
 const picks = SLUGS.map((s) => menu.find((i) => i.slug === s)).filter(
   (i): i is MenuItem => Boolean(i),
@@ -29,7 +34,7 @@ export function Favorites() {
         </div>
 
         <Reveal as="ul" className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 md:gap-x-6 lg:grid-cols-4">
-          {picks.map((item) => (
+          {picks.map((item, i) => (
             <li key={item.slug} className="text-center">
               <Link href={`/menu#${item.slug}`} className="group block">
                 <div className="print aspect-square">
@@ -41,6 +46,7 @@ export function Favorites() {
                     height={1000}
                     alt={`${item.name} at The Grove Coffee House`}
                     brief={`${item.name}, on a table in the shop, shot from a little above. Square.`}
+                    doodle={DRAWN[i % DRAWN.length]}
                   />
                 </div>
                 <h3 className="t-item mt-3 group-hover:text-brick">{item.name}</h3>

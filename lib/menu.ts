@@ -26,7 +26,11 @@
  * There is no food on that board at all, so the food section below is still
  * review sourced and still has no prices. TODO(andrew): get the food menu.
  *
- * THE FALL 2026 BOARD IS NOT IN HERE.
+ * THE FALL 2026 BOARD IS ONLY PARTLY IN HERE.
+ *
+ * Update 23 September 2026: their posts of the 22nd and 23rd name four fall
+ * drinks: the Snick-err Treat (now the featured drink), Witches Brew, Basic
+ * Witch and Sweater Weather. They head the seasonal list.
  *
  * On 17 September 2026 the shop posted a teaser reel, "Fall Menu Loading",
  * saying the fall menu released on the 18th. They never published the lineup.
@@ -118,6 +122,52 @@ export const CATEGORY_ORDER: Category[] = [
 
 export const menu: MenuItem[] = [
   /* ---------------- Seasonal ---------------- */
+  /* The first confirmed drink on the fall 2026 board: their own post on
+     22 September 2026, "No tricks, just Snick-err Treats", with photographs.
+     What is in it is only what those photographs show, and it has no price
+     until the board or the owners give one. */
+  {
+    slug: "snick-err-treat",
+    name: "Snick-err Treat",
+    category: "seasonal",
+    season: "fall",
+    available: true,
+    oneLiner: "No tricks, just treats.",
+    whatsInIt: "Iced and creamy under a thick cold foam, finished with crushed peanuts. Inspired by the candy bar.",
+  },
+  /* Three more from their post of 23 September 2026, "Serving spells by the
+     cup: Witches Brew, Basic Witch, Sweater Weather", photographed together
+     with their names on the picture. Again only what the photograph shows, and
+     no prices yet.
+     TODO(andrew): ask whether Witches Brew is last fall's Elphaba's Brew under
+     a new name, and whether Elphaba's Brew and Apple Hill are back this year. */
+  {
+    slug: "witches-brew",
+    name: "Witches Brew",
+    category: "seasonal",
+    season: "fall",
+    available: true,
+    oneLiner: "Serving spells by the cup.",
+    whatsInIt: "Iced, with a swirl of green through it under a thick cold foam.",
+  },
+  {
+    slug: "basic-witch",
+    name: "Basic Witch",
+    category: "seasonal",
+    season: "fall",
+    available: true,
+    oneLiner: "Every fall needs one.",
+    whatsInIt: "Iced and golden brown, poured over plenty of ice.",
+  },
+  {
+    slug: "sweater-weather",
+    name: "Sweater Weather",
+    category: "seasonal",
+    season: "fall",
+    available: true,
+    oneLiner: "Cozy, even over ice.",
+    whatsInIt: "Iced and creamy under a thick caramel colored foam.",
+  },
   {
     slug: "elphabas-brew",
     name: "Elphaba's Brew",
@@ -748,14 +798,12 @@ export const extras = ["Extra shot, $1.75", "Whip cream, 45 cents", "Syrup, 95 c
 /**
  * The one line at the top of the home page.
  *
- * TODO(andrew): name the featured drink again as soon as we have the fall
- * lineup. Set FEATURED_SLUG to its slug and the line writes itself. Until then
- * the fallback says only what their own post says, which is that fall is here,
- * because naming a drink nobody has seen on the board is how somebody drives
- * out for a cup that is not being poured. See the fall note at the top of this
- * file.
+ * Named only when the drink is confirmed on the current board, because naming a
+ * drink nobody has seen there is how somebody drives out for a cup that is not
+ * being poured. The Snick-err Treat is: the shop posted it on 22 September 2026.
+ * Set to null and the line falls back to saying fall is here.
  */
-const FEATURED_SLUG: string | null = null;
+const FEATURED_SLUG: string | null = "snick-err-treat";
 
 const featured = FEATURED_SLUG ? menu.find((i) => i.slug === FEATURED_SLUG) : null;
 

@@ -8,7 +8,7 @@ import { useOpenStatus } from "@/lib/open-status";
  * capitals, the times in typewriter figures, a pencil rule between them.
  *
  * The time never wraps and always sits on the right. The label is the part
- * allowed to break, so on a narrow phone "Saturday and Sunday" goes to two
+ * allowed to break, so on a narrow phone "Monday to Saturday" goes to two
  * lines instead of pushing the time under itself on one row but not the other.
  *
  * Today's row is marked once the browser knows what day it is in Roseville.
@@ -17,11 +17,11 @@ export function HoursList({
   tone = "paper",
   className = "",
 }: {
-  tone?: "paper" | "wine";
+  tone?: "paper" | "forest";
   className?: string;
 }) {
   const status = useOpenStatus();
-  const rule = tone === "wine" ? "border-paper/30" : "border-pencil/50";
+  const rule = tone === "forest" ? "border-paper/30" : "border-pencil/50";
 
   return (
     <dl className={`border-t ${rule} ${className}`}>

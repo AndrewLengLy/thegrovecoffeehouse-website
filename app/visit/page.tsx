@@ -100,6 +100,7 @@ export default function VisitPage() {
             height={1200}
             alt="The front of The Grove Coffee House on Sierra College Blvd"
             brief="The storefront from the parking lot, so people recognise it on arrival. Wide, landscape."
+            doodle="sapling"
           />
         </div>
       </div>
@@ -119,7 +120,7 @@ export default function VisitPage() {
                 </span>
               </address>
 
-              <h3 className="t-caps mt-7">Parking</h3>
+              <h3 className="t-caps mt-7 text-brick-deep">Parking</h3>
               {/* TODO(andrew): confirm the parking situation and the plaza name
                   with the owners, then replace this with the specifics. */}
               <p className="t-body mt-1.5 max-w-[48ch]">
@@ -127,13 +128,13 @@ export default function VisitPage() {
                 Suite 100.
               </p>
 
-              <h3 className="t-caps mt-7">On two wheels</h3>
+              <h3 className="t-caps mt-7 text-brick-deep">On two wheels</h3>
               <p className="t-body mt-1.5 max-w-[48ch]">
                 Plenty of riders stop in off Sierra College Blvd. There is seating out
                 front, so you can sit where you can keep an eye on the bike.
               </p>
 
-              <h3 className="t-caps mt-7">Accessibility</h3>
+              <h3 className="t-caps mt-7 text-brick-deep">Accessibility</h3>
               {/* TODO(andrew): confirm step free entry, accessible restroom, and
                   accessible parking with the owners before launch. Guessing at
                   an accessibility claim is worse than saying nothing, because a

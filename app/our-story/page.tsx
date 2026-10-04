@@ -76,6 +76,7 @@ export default function OurStoryPage() {
             height={1200}
             alt="The family who own and run The Grove Coffee House, behind the counter"
             brief="The owners and staff, in the room, working. Candid rather than posed. This is the most important photograph on the site after the hero."
+            doodle="table"
           />
         </div>
       </div>

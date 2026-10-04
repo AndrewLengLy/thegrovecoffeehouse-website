@@ -19,8 +19,12 @@ const cards = [
     href: "/our-story",
     cta: "Read more",
     external: false,
-    alt: "The family who own and run The Grove Coffee House, behind the counter",
+    /* The room, until the owners send the photograph of themselves this card
+       is waiting for. */
+    src: "/photos/grove-interior.jpg" as string | null,
+    alt: "The room at The Grove Coffee House: olive green chairs at wood tables under a red ceiling grid",
     brief: "The owners behind the counter, candid rather than posed. Portrait crop.",
+    doodle: "table" as const,
   },
   {
     key: "beans",
@@ -30,8 +34,10 @@ const cards = [
     href: site.roaster.url,
     cta: "Visit them",
     external: true,
+    src: null as string | null,
     alt: "An espresso being pulled at The Grove Coffee House",
     brief: "Coffee being made at the bar. A portafilter or a pour, hands in frame. Portrait crop.",
+    doodle: "beans" as const,
   },
 ];
 
@@ -61,15 +67,16 @@ export function FromTheGrove() {
         <Reveal className="grid gap-10 sm:grid-cols-2 sm:gap-6 lg:col-span-8">
           {cards.map((c) => (
             <article key={c.key}>
-              <div className="print aspect-[3/4]">
+              <div className="print aspect-[4/3] sm:aspect-[3/4]">
                 <Photo
-                  src={null}
+                  src={c.src}
                   fill
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   width={1000}
                   height={1333}
                   alt={c.alt}
                   brief={c.brief}
+                  doodle={c.doodle}
                 />
               </div>
               <div className="mt-3 flex items-baseline justify-between gap-4">

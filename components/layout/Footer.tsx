@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { site, hours } from "@/lib/site";
 import { Doodle } from "@/components/ui/Doodle";
+import { Wordmark } from "@/components/ui/Wordmark";
+import { CoffeeStain } from "@/components/ui/CoffeeStain";
 
 const sitemap = [
   { href: "/", label: "Home" },
@@ -12,10 +14,14 @@ const sitemap = [
 
 export function Footer() {
   return (
-    /* The page ends on the wine it was written in, the way the reference ends
-       on its own. */
-    <footer className="on-wine">
-      <div className="wrap pb-10 pt-8 md:pt-10">
+    /* The page ends on the forest of the chairs, under the name set large the
+       way it heads the board, stain and all. */
+    <footer className="on-forest">
+      <div className="wrap pb-10 pt-10 md:pt-14">
+        <div className="relative mb-12 md:mb-16">
+          <CoffeeStain className="absolute -left-4 -top-8 h-28 w-40 text-paper opacity-50 md:-top-10 md:h-36 md:w-52" />
+          <Wordmark size="large" onDark className="relative max-w-full" />
+        </div>
         <div className="grid gap-10 md:grid-cols-12 md:gap-6">
           {/* Where the reference asks for an email address. The Grove has no
               mailing list, and it posts everything on Instagram first, so this
@@ -144,7 +150,7 @@ export function Footer() {
             href="https://paraboxdigital.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-[58px] w-[58px] items-center justify-center rounded-full border border-paper/80 text-[22px] italic leading-none transition-colors hover:bg-paper hover:text-wine md:h-[68px] md:w-[68px]"
+            className="flex h-[58px] w-[58px] items-center justify-center rounded-full border border-paper/80 text-[22px] italic leading-none transition-colors hover:bg-paper hover:text-forest md:h-[68px] md:w-[68px]"
           >
             <span aria-hidden="true" className="-mt-1">pd</span>
             <span className="sr-only">Site by Parabox Digital</span>

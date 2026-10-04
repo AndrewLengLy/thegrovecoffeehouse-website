@@ -3,52 +3,69 @@
 /* ============================================================
    The Grove Coffee House.
 
-   Direction: cream paper and wine ink, after florawellnesscafe.com.
-   A warm cream stock with a faint fibre in it, every word printed
-   in one deep wine, italic old style serif for anything that is a
-   title, a typewriter mono for prices, buttons and small print, and
-   a plain grotesque in capitals for item names and labels. Section
-   breaks are drawn by hand, not ruled, and small red line drawings
-   sit in the margins the way they would on a printed menu.
+   Direction: The Grove's own menu board and room. The board in the
+   shop is a green script "The Grove Coffee House" beside a coffee
+   stain and a sketch of beans, every item and price in red typewriter
+   capitals between red rules, and the matcha list on a wash of green
+   watercolour. The room is cream walls, olive green chairs, warm wood
+   tables and a red ceiling grid. The site is set the same way: script
+   titles in the logo's green, the board's red typewriter for items,
+   prices, labels and buttons, a warm serif for reading, and green
+   line drawings in the margins.
 
    Photography is matted inside the page gutter rather than bled to
    the edge, so every photograph reads as a print laid on the paper.
    ============================================================ */
 
 @theme {
-  /* ---- Paper ---- */
+  /* ---- Paper ----
+     The cream of the walls. */
   --color-paper: #f2ecd9;       /* the page */
   --color-paper-deep: #e8dfc6;  /* an inset, and an empty photograph slot */
 
   /* ---- Ink ----
-     One colour carries every word on the paper. Wine on paper is 10.5:1,
-     so it holds at any size. The soft step is for meta and notes and is
-     still 5.9:1. */
-  --color-ink: #5f1e1b;
-  --color-ink-soft: #7f4b45;
+     A deep green carries the reading copy. On paper it is 8.4:1, so it
+     holds at any size. The soft step is for meta and notes, 5.0:1. */
+  --color-ink: #1f453a;
+  --color-ink-soft: #4a6a5f;
 
-  /* The hand drawn rule between sections. Decorative only, never the
-     only thing that separates two controls. */
-  --color-pencil: #a08274;
+  /* The logo's green, from the board. 4.6:1 on paper, so it passes AA
+     even as body text, and every title is set in it. */
+  --color-grove: #2e7560;
+
+  /* The board's thin red rules, softened for the hand drawn rule
+     between sections. Decorative only, never the only thing that
+     separates two controls. */
+  --color-pencil: #c9877c;
 
   /* ---- Red ----
-     The reference sets its buttons in a brighter red than this, but
-     paper text on that red is 3.7:1 and fails at button size. This is
-     the red of its bottom strip, where the same text is 5.0:1. */
+     The board's red, and the ceiling grid's. Items, prices, labels and
+     buttons. Paper text on it is 5.0:1 and it is 5.0:1 as text on paper. */
   --color-brick: #b53530;
-  --color-brick-hover: #5f1e1b;
-  /* Drawings only. Never text. */
-  --color-doodle: #c4453e;
+  --color-brick-hover: #1f453a;
+  /* Red as text: heads and prices. The board red drops under 4.5:1 once
+     the matcha wash sits behind it, and this holds 6.4:1 on paper and
+     4.9:1 on the thickest part of the wash. */
+  --color-brick-deep: #9c2b27;
 
-  /* The footer field. The same wine as the ink, so the page ends in
-     the colour it was written in. Paper on it is 10.5:1. */
-  --color-wine: #5f1e1b;
+  /* Drawings only. Never text. A little brighter than the logo so a
+     thin line still reads as green. */
+  --color-doodle: #3d8a70;
+
+  /* The board's coffee stain and its watercolour matcha wash.
+     Decoration only. */
+  --color-stain: #8b5a2b;
+  --color-matcha: #a9c79a;
+
+  /* The footer field, the green of the chairs taken down to a deep
+     forest. Paper on it is 8.4:1. */
+  --color-forest: #1f453a;
 
   /* Type */
-  --font-serif: var(--font-garamond), "Adobe Caslon Pro", "Iowan Old Style", Georgia, serif;
+  --font-script: var(--font-damion), "Brush Script MT", cursive;
+  --font-serif: var(--font-garamond), "Iowan Old Style", Georgia, serif;
   --font-mono: var(--font-courier), "Courier New", ui-monospace, monospace;
-  --font-grotesk: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-grotesk);
+  --font-sans: var(--font-serif);
 
   --radius-none: 0px;
 
@@ -93,7 +110,7 @@
   :focus:not(:focus-visible) {
     outline: none;
   }
-  .on-wine :focus-visible,
+  .on-forest :focus-visible,
   .on-brick :focus-visible {
     outline-color: var(--color-paper);
   }
@@ -123,10 +140,10 @@
     background-size: 240px 240px, 700px 700px;
   }
 
-  /* The footer's wine carries the same fibre, lighter. */
-  .on-wine {
-    background-color: var(--color-wine);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .03 0 0 0 0 .03 .22 0 0 0 -.04'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23f)'/%3E%3C/svg%3E");
+  /* The footer's forest carries the same fibre, lighter. */
+  .on-forest {
+    background-color: var(--color-forest);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .04 0 0 0 0 .12 0 0 0 0 .09 .22 0 0 0 -.04'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23f)'/%3E%3C/svg%3E");
     background-size: 240px 240px;
     color: var(--color-paper);
   }
@@ -136,35 +153,47 @@
   }
 
   /* ---------- Titles ----------
-     Italic old style serif, set close. The reference never uses a bold
-     title and never an upright one. */
+     The script of the logo on the board, in the logo's green. Damion
+     is a lighter pen than the board's, so a hairline stroke in the same
+     colour thickens it to match without the blur of faux bold. */
 
   .t-display {
-    font-family: var(--font-serif);
-    font-style: italic;
+    font-family: var(--font-script);
     font-weight: 400;
-    font-size: clamp(38px, 2.4vw + 18px, 58px);
-    line-height: 0.94;
-    letter-spacing: -0.012em;
+    font-size: clamp(46px, 3.2vw + 22px, 78px);
+    line-height: 1.02;
+    color: var(--color-grove);
+    -webkit-text-stroke: 0.012em currentColor;
   }
 
-  /* Over a photograph. */
+  /* Over a photograph or on the forest. */
   .t-feature {
-    font-family: var(--font-serif);
-    font-style: italic;
+    font-family: var(--font-script);
     font-weight: 400;
-    font-size: clamp(30px, 1.2vw + 20px, 40px);
-    line-height: 0.96;
-    letter-spacing: -0.01em;
+    font-size: clamp(38px, 1.6vw + 26px, 54px);
+    line-height: 1.04;
+    -webkit-text-stroke: 0.012em currentColor;
   }
 
   .t-h2 {
-    font-family: var(--font-serif);
-    font-style: italic;
+    font-family: var(--font-script);
     font-weight: 400;
-    font-size: clamp(27px, 0.6vw + 22px, 32px);
-    line-height: 1;
-    letter-spacing: -0.005em;
+    font-size: clamp(36px, 1.2vw + 27px, 48px);
+    line-height: 1.04;
+    color: var(--color-grove);
+    -webkit-text-stroke: 0.012em currentColor;
+  }
+
+  /* A section head on the board: red typewriter capitals, spaced out,
+     the way COFFEE and FAVORITES head their columns. */
+  .t-board {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.15;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-brick-deep);
   }
 
   /* A category head on the menu, or a card title. */
@@ -185,22 +214,23 @@
 
   /* ---------- Small type ---------- */
 
-  /* Item names and labels. A plain grotesque in capitals, pulled in. */
+  /* Item names, in the board's typewriter capitals. */
   .t-item {
-    font-family: var(--font-grotesk);
+    font-family: var(--font-mono);
     font-weight: 400;
     font-size: 15px;
     line-height: 1.2;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.01em;
     text-transform: uppercase;
   }
 
+  /* Labels. The same typewriter, smaller and spaced. */
   .t-caps {
-    font-family: var(--font-grotesk);
+    font-family: var(--font-mono);
     font-weight: 400;
-    font-size: 14px;
+    font-size: 13.5px;
     line-height: 1.25;
-    letter-spacing: -0.015em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
   }
 
@@ -301,7 +331,7 @@
     text-underline-offset: 4px;
   }
 
-  /* On the wine field or over a photograph. */
+  /* On the forest field or over a photograph. */
   .btn-light {
     background-color: var(--color-paper);
     color: var(--color-ink);
@@ -500,19 +530,6 @@
 }
 
 /* ============================================================
-   Hero slideshow. A slow cross fade between prints, the way the
-   reference's opening image changes under you. Opacity only.
-   ============================================================ */
-
-.slide {
-  opacity: 0;
-  transition: opacity 1.4s var(--ease-standard);
-}
-.slide[data-active="true"] {
-  opacity: 1;
-}
-
-/* ============================================================
    Menu jump bar
 
    Fixed under the header. When the header slides away on the way
@@ -542,23 +559,23 @@ html[data-header="hidden"] .jumpbar {
 /* ============================================================
    Photograph placeholders
 
-   A slot waiting for a print is a slightly deeper sheet with a fine
-   cross hatch, so it reads as a space left on the page rather than
-   an image that failed. The dark tone sits behind light type.
+   A slot waiting for a print is a deeper sheet with a loose wash of
+   the board's matcha green pooled in it and a line drawing on top,
+   so it reads as an illustration on the page rather than an image
+   that failed. The dark tone sits behind light type.
    ============================================================ */
 
 [data-photo-placeholder][data-tone="light"] {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    transparent 0 12px,
-    rgb(95 30 27 / 0.06) 12px 13px
-  );
+  background-image:
+    radial-gradient(ellipse 55% 45% at 30% 35%, rgb(169 199 154 / 0.55), transparent 70%),
+    radial-gradient(ellipse 45% 40% at 70% 70%, rgb(169 199 154 / 0.4), transparent 72%),
+    radial-gradient(ellipse 30% 25% at 78% 22%, rgb(139 90 43 / 0.08), transparent 70%);
 }
 [data-photo-placeholder][data-tone="dark"] {
-  background-color: #4a2320;
+  background-color: #1f453a;
   background-image:
-    radial-gradient(ellipse 60% 55% at 80% 20%, rgb(206 76 70 / 0.22), transparent 70%),
-    repeating-linear-gradient(-45deg, transparent 0 12px, rgb(242 236 217 / 0.05) 12px 13px);
+    radial-gradient(ellipse 60% 55% at 75% 25%, rgb(169 199 154 / 0.22), transparent 70%),
+    radial-gradient(ellipse 50% 45% at 20% 80%, rgb(181 53 48 / 0.18), transparent 70%);
 }
 
 /* ============================================================
