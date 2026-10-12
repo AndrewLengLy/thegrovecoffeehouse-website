@@ -77,7 +77,7 @@ export function Hero() {
               chair and stay a while.
             </p>
             <div data-hero-fade className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-4">
-              <Link href="/menu" className="btn btn-light btn-lg">
+              <Link href="/menu" className="btn btn-pill btn-lg">
                 See the menu
               </Link>
               <a

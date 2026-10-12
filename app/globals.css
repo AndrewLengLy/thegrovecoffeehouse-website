@@ -857,3 +857,32 @@ html[data-header="hidden"] .jumpbar {
 .panel-in {
   animation: panel-in 320ms var(--ease-out-quart) both;
 }
+
+/* The hero's button: a thin paper ring, fully round, with the arrow inside
+   it rather than in a square beside it. It fills with paper on hover. */
+.btn-pill {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-paper);
+  margin-right: 0;
+  padding-inline: 22px;
+  gap: 12px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px var(--color-paper);
+}
+.btn-pill::after {
+  content: none;
+}
+.btn-pill::before {
+  position: relative;
+  top: auto;
+  left: auto;
+  margin-top: 0;
+  order: 2;
+  flex-shrink: 0;
+}
+@media (hover: hover) {
+  .btn-pill:hover {
+    --btn-bg: var(--color-paper);
+    --btn-fg: var(--color-ink);
+  }
+}
