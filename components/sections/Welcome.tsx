@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { site } from "@/lib/site";
 import { Frame } from "@/components/motion/Frame";
 import { Reveal } from "@/components/motion/Reveal";
 
@@ -33,16 +32,9 @@ export function Welcome() {
 
         <div className="md:col-span-4 md:row-start-2 lg:col-span-3">
           <Reveal travel={16}>
-            <p className="t-body max-w-[34ch] text-[16px]">
-              The board changes with the seasons, the food is made to sit down
-              with, and the beans come from {site.roaster.name}, roasted just
-              down the road in {site.roaster.location}.
-            </p>
-            <div className="mt-5">
-              <Link href="/our-story" className="btn">
-                Our story
-              </Link>
-            </div>
+            <Link href="/our-story" className="btn">
+              Our story
+            </Link>
           </Reveal>
         </div>
 

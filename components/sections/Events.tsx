@@ -27,8 +27,8 @@ export function Events() {
 
         <div className="md:col-span-8 md:col-start-5 lg:col-span-7 lg:col-start-6">
           <p className="t-statement max-w-[30ch]">
-            Music nights, birthdays and the odd pop up. The next one goes up on
-            Instagram first. Would you come to another music night?
+            Music nights, craft nights and birthdays. The next one goes up on
+            Instagram first. What should we do next?
           </p>
 
           <Reveal as="ol" each={0.06} className="mt-12 border-t border-pencil">

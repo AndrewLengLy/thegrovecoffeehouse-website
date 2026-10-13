@@ -89,7 +89,7 @@ Search the codebase for `TODO(andrew)`. What is genuinely still open:
 | Item | Status |
 | --- | --- |
 | The domain | Needed. Drives `metadataBase`, the sitemap, robots and every canonical. |
-| Real photography | **Partly in.** `public/photos/` holds the shop's own shots: the drinks lineup and three summer close-ups (Instagram, 12 July 2026), the Snick-err Treat (22 September), the fall trio (23 September), and the room (joe.coffee listing, 800px; its EXIF says it came through Google, so confirm it is theirs). They fill the hero, a draggable "Fresh from our Instagram" board and the story card. Three drink-looking photos from the 30 June post were left out: they are Z's Creations candles, not drinks. Every other slot is an illustrated placeholder; its shot brief is in `data-brief` and printed under `next dev`. Tell the owners their photos are on the site. |
+| Real photography | **Partly in.** `public/photos/` holds the shop's own shots: the drinks lineup (Instagram, 12 July 2026), the Snick-err Treat (two shots, 22 September), the fall trio and the Dracula Fizz (23 September), and the room and a cup in the room (joe.coffee listing, 800px; the room's EXIF says it came through Google, so confirm both are theirs). They fill the hero, the welcome pair, a draggable "Fresh from our Instagram" board and the room. Slots with no photograph were removed rather than left as placeholders: the favorites row, the roaster, the owners on Our story and the storefront on Visit. Tell the owners their photos are on the site. |
 | The food menu | Needed. Their drinks board carries no food at all, so food has no prices. |
 | The owners' story | Needed before the middle of `/our-story` can be written. |
 | The logo file | Needed. See below. |

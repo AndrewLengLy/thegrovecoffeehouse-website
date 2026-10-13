@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
 import { site } from "@/lib/site";
-import { Photo } from "@/components/ui/Photo";
 import { Reveal } from "@/components/motion/Reveal";
 import { PageHead } from "@/components/ui/PageHead";
 import { Frame } from "@/components/motion/Frame";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbs } from "@/lib/seo";
-import { Doodle } from "@/components/ui/Doodle";
 
 export const metadata: Metadata = {
   title: "Our story",
@@ -58,10 +55,8 @@ export default function OurStoryPage() {
         </p>
       </PageHead>
 
-      {/* An offset pair. The room stands in on the left until the owners send
-          the photograph of themselves the right hand slot is waiting for. */}
-      <div className="wrap grid gap-8 md:grid-cols-12 md:gap-x-8">
-        <figure className="md:col-span-7">
+      <div className="wrap">
+        <figure className="md:w-[58%]">
           <Frame className="aspect-[4/3] w-full">
             <Image
               src="/photos/grove-interior.jpg"
@@ -74,20 +69,6 @@ export default function OurStoryPage() {
           </Frame>
           <figcaption className="t-script mt-3 text-[22px] leading-none text-grove">The room</figcaption>
         </figure>
-        <div className="md:col-span-4 md:col-start-9 md:mt-40">
-          <Frame className="aspect-[3/4] w-full" drift={10}>
-            <Photo
-              src={null}
-              fill
-              sizes="(min-width: 768px) 33vw, 100vw"
-              width={1200}
-              height={1600}
-              alt="The family who own and run The Grove Coffee House, behind the counter"
-              brief="The owners and staff, in the room, working. Candid rather than posed. This is the most important photograph on the site after the hero."
-              doodle="table"
-            />
-          </Frame>
-        </div>
       </div>
 
       <section aria-labelledby="more-heading">
@@ -109,33 +90,6 @@ export default function OurStoryPage() {
               room for the next one. The list in spring is never the list in
               October.
             </p>
-          </Reveal>
-        </div>
-      </section>
-
-      <section aria-labelledby="board-heading">
-        <div className="wrap section grid gap-6 md:grid-cols-12 md:gap-x-8">
-          <div className="md:col-span-5">
-            <h2 id="board-heading" className="t-h2">
-              There is a lot on the board
-            </h2>
-            <Doodle name="guitar" className="mt-10 hidden h-28 w-28 md:block" />
-          </div>
-          <Reveal className="md:col-span-6 md:col-start-7">
-            <p className="t-body max-w-[52ch]">
-              In one small room in Roseville you will find a gulab jamun latte
-              with cardamom, rose and saffron, a baklava latte with orange
-              blossom and honey, a Spanish latte on condensed milk, a Mexican
-              mocha with cayenne in it, and a matcha list eight drinks long.
-            </p>
-            <p className="t-body mt-4 max-w-[52ch]">
-              Those drinks are on the board because the people making them
-              wanted them there, and because you keep ordering them. Some
-              evenings the same room fills up for a music night instead.
-            </p>
-            <Link href="/menu" className="btn mt-4">
-              See the whole board
-            </Link>
           </Reveal>
         </div>
       </section>

@@ -39,7 +39,7 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
     await new Promise(r => setTimeout(r, 600));
   });
   const after = await drawn();
-  check("every drawing is drawn once scrolled past", after.total > 5 && after.drawn === after.total, JSON.stringify(after));
+  check("every drawing is drawn once scrolled past", after.total > 0 && after.drawn === after.total, JSON.stringify(after));
 
   // Once drawn, every stroke must end visible, not stuck at its hidden dash
   // offset. The longest drawing is 1.6s plus a stagger of about 2s.

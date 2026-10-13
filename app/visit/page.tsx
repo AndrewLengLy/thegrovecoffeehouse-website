@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { site, hoursCaveat } from "@/lib/site";
 import { HoursList } from "@/components/ui/HoursList";
-import { Photo } from "@/components/ui/Photo";
 import { Reveal } from "@/components/motion/Reveal";
 import { PageHead } from "@/components/ui/PageHead";
-import { Frame } from "@/components/motion/Frame";
 import { Faq } from "@/components/sections/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { faqSchema } from "@/lib/faq";
@@ -15,34 +12,15 @@ import { breadcrumbs } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "Visit",
   description:
-    "How to find The Grove Coffee House at 9260 Sierra College Blvd STE 100 in Roseville. Hours, parking, accessibility, and what the room is good for.",
+    "How to find The Grove Coffee House at 9260 Sierra College Blvd STE 100 in Roseville. Hours, parking and accessibility.",
   alternates: { canonical: "/visit" },
   openGraph: {
     title: "Visit | The Grove Coffee House",
     description:
-      "Directions, parking, hours, and what the room is good for. 9260 Sierra College Blvd STE 100, Roseville.",
+      "Directions, parking and hours. 9260 Sierra College Blvd STE 100, Roseville.",
     url: `${site.url}/visit`,
   },
 };
-
-const goodFor = [
-  {
-    title: "A morning of work",
-    body: "Outlets, comfortable seating, and nobody watching the clock. Stay as long as the work takes.",
-  },
-  {
-    title: "Meeting one person",
-    body: "Quiet enough to hear each other. Order at the counter, find a table, and stay for the second cup.",
-  },
-  {
-    title: "A stop mid ride",
-    body: "Riders come in off Sierra College Blvd most days. Refuel, take a seat outside, and get back on it.",
-  },
-  {
-    title: "Breakfast worth sitting down for",
-    body: "Avocado toast, bagels, scones, and a pastrami sandwich once it is closer to lunch.",
-  },
-];
 
 export default function VisitPage() {
   return (
@@ -143,50 +121,7 @@ export default function VisitPage() {
             <HoursList className="mt-5" />
             <p className="t-note mt-3 max-w-[52ch] text-ink-soft">{hoursCaveat}</p>
 
-            <Frame className="mt-12 aspect-[4/3] w-full">
-              <Photo
-                src={null}
-                fill
-                sizes="(min-width: 1024px) 45vw, 100vw"
-                width={1600}
-                height={1200}
-                alt="The front of The Grove Coffee House on Sierra College Blvd"
-                brief="The storefront from the parking lot, so people recognise it on arrival. Landscape."
-                doodle="sapling"
-              />
-            </Frame>
           </div>
-        </div>
-      </section>
-
-      <section aria-labelledby="good-for-heading">
-        <div className="wrap section grid gap-8 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <h2 id="good-for-heading" className="t-h2">
-              What the room is good for
-            </h2>
-            <Link href="/menu" className="btn mt-4">
-              See the menu
-            </Link>
-          </div>
-
-          <Reveal
-            as="ul"
-            each={0.06}
-            className="grid list-none gap-x-12 gap-y-7 sm:grid-cols-2 lg:col-span-8 lg:gap-x-16"
-          >
-            {goodFor.map((g, i) => (
-              <li key={g.title}>
-                <div className="flex items-baseline justify-between gap-4">
-                  <h3 className="t-item">{g.title}</h3>
-                  <span aria-hidden="true" className="t-price text-[14px]">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                </div>
-                <p className="t-body mt-1.5 max-w-[46ch]">{g.body}</p>
-              </li>
-            ))}
-          </Reveal>
         </div>
       </section>
 

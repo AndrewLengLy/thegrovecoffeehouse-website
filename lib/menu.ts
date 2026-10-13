@@ -26,31 +26,18 @@
  * There is no food on that board at all, so the food section below is still
  * review sourced and still has no prices. TODO(andrew): get the food menu.
  *
- * THE FALL 2026 BOARD IS ONLY PARTLY IN HERE.
+ * THE FALL 2026 BOARD.
  *
- * Update 23 September 2026: their posts of the 22nd and 23rd name four fall
- * drinks: the Snick-err Treat (now the featured drink), Witches Brew, Basic
- * Witch and Sweater Weather. They head the seasonal list.
+ * The fall menu released on 18 September 2026. The shop never posted the full
+ * lineup, so the seasonal list is exactly the five drinks their own posts
+ * name: the Snick-err Treat (22 September), Witches Brew, Basic Witch and
+ * Sweater Weather (23 September), and the Dracula Fizz (23 September).
+ * Checked again on 12 October 2026: nothing newer. None of them has a price
+ * yet. Last year's Elphaba's Brew and Apple Hill were taken off because
+ * neither appears in any 2026 post.
  *
- * On 17 September 2026 the shop posted a teaser reel, "Fall Menu Loading",
- * saying the fall menu released on the 18th. They never published the lineup.
- * Checked again on 19 September 2026: no feed post (still 208), no active
- * story, no highlight, nothing in their tagged posts, newest Yelp review is
- * the 15th. The reel itself is eight seconds of three unlabelled iced cups
- * with no on screen text, so it names nothing either. One commenter asked for
- * a "basic witch", which is a customer's word and not a board we can read.
- *
- * So the summer items below are marked unavailable, because the shop's own
- * post says fall has arrived and leaving them listed would send somebody out
- * for a drink that came off the board. Elphaba's Brew and Apple Hill stay
- * available: both are established fall drinks here, Elphaba's Brew from a
- * dated 2 November 2025 review and their own "this fall season" post, and
- * Apple Hill from Yelp's popular drinks. Neither is confirmed on the 2026
- * board.
- *
- * TODO(andrew): the moment they post the lineup, or the owners send it, add
- * the items, flip the two above if they are not on it, and set FEATURED_SLUG
- * at the bottom of this file.
+ * TODO(andrew): ask the owners for the full fall board with prices, and
+ * whether Witches Brew is last year's Elphaba's Brew under a new name.
  */
 
 export type Season = "spring" | "summer" | "fall" | "winter";
@@ -122,25 +109,22 @@ export const CATEGORY_ORDER: Category[] = [
 
 export const menu: MenuItem[] = [
   /* ---------------- Seasonal ---------------- */
-  /* The first confirmed drink on the fall 2026 board: their own post on
-     22 September 2026, "No tricks, just Snick-err Treats", with photographs.
-     What is in it is only what those photographs show, and it has no price
-     until the board or the owners give one. */
+  /* Their own posts of 22 September 2026. What is in it is their caption,
+     "Espresso, chocolatey caramel goodness, topped with peanut butter cold
+     foam + a little crunch". */
   {
     slug: "snick-err-treat",
     name: "Snick-err Treat",
     category: "seasonal",
     season: "fall",
     available: true,
-    oneLiner: "No tricks, just treats.",
-    whatsInIt: "Iced and creamy under a thick cold foam, finished with crushed peanuts. Inspired by the candy bar.",
+    oneLiner: "Your favorite candy bar, but caffeinated.",
+    whatsInIt: "Espresso and chocolatey caramel under a peanut butter cold foam, with a little crunch on top.",
   },
   /* Three more from their post of 23 September 2026, "Serving spells by the
      cup: Witches Brew, Basic Witch, Sweater Weather", photographed together
      with their names on the picture. Again only what the photograph shows, and
-     no prices yet.
-     TODO(andrew): ask whether Witches Brew is last fall's Elphaba's Brew under
-     a new name, and whether Elphaba's Brew and Apple Hill are back this year. */
+     no prices yet. */
   {
     slug: "witches-brew",
     name: "Witches Brew",
@@ -168,109 +152,17 @@ export const menu: MenuItem[] = [
     oneLiner: "Cozy, even over ice.",
     whatsInIt: "Iced and creamy under a thick caramel colored foam.",
   },
+  /* Their post of 23 September 2026, "Meet the Dracula Fizz, a wickedly
+     refreshing sip made with pomegranate + rosemary, topped with sparkling
+     fizz". */
   {
-    slug: "elphabas-brew",
-    name: "Elphaba's Brew",
+    slug: "dracula-fizz",
+    name: "Dracula Fizz",
     category: "seasonal",
     season: "fall",
     available: true,
-    oneLiner: "Pumpkin underneath, green on top.",
-    whatsInIt: "A pumpkin latte with matcha, finished with cinnamon foam.",
-  },
-  {
-    slug: "apple-hill",
-    name: "Apple Hill",
-    category: "seasonal",
-    season: "fall",
-    available: true,
-    oneLiner: "Apples and cool air, the whole drive up.",
-    whatsInIt: "A seasonal apple drink, on the board while fall lasts.",
-  },
-  {
-    slug: "spring-flower",
-    name: "Spring Flower",
-    category: "seasonal",
-    season: "spring",
-    available: false,
-    oneLiner: "Raspberry and lavender, like a yard in April.",
-    whatsInIt: "Raspberry and lavender together, tart and floral.",
-  },
-
-
-  /* Summer 2026 board. Names and descriptions are the shop's own, from their
-     "Grove Summer Favorites" post of 7 July 2026. No prices were shown.
-     Rotated off on 19 September 2026: see the fall note at the top of the file. */
-  {
-    slug: "bee-nana",
-    name: "Bee-nana latte or matcha",
-    category: "seasonal",
-    season: "summer",
-    available: false,
-    oneLiner: "Banana, cream, and a pinch of salt on top.",
-    whatsInIt: "Creamy banana latte or matcha, topped with foam and a sprinkle of sea salt.",
-  },
-  {
-    slug: "mango-oasis",
-    name: "Mango Oasis",
-    category: "seasonal",
-    season: "summer",
-    available: false,
-    oneLiner: "Mango sticky rice, if it were a drink.",
-    whatsInIt: "Inspired by mango sticky rice. Matcha with coconut mango cold foam, a condensed milk drizzle, and black seed on top.",
-  },
-  {
-    slug: "ubedan-latte",
-    name: "Ubedan latte",
-    category: "seasonal",
-    season: "summer",
-    available: false,
-    oneLiner: "Purple underneath, green foam on top.",
-    whatsInIt: "Ube latte topped with pandan cold foam.",
-  },
-  {
-    slug: "jasmine-cloud",
-    name: "Jasmine Cloud",
-    category: "seasonal",
-    season: "summer",
-    available: false,
-    oneLiner: "Jasmine tea under a soft green cloud.",
-    whatsInIt: "Jasmine iced tea with a matcha cold foam.",
-  },
-  {
-    slug: "coconut-mango-cream-chai",
-    name: "Coconut mango cream chai",
-    category: "seasonal",
-    season: "summer",
-    available: false,
-    oneLiner: "Warm spice, cold tropical foam.",
-    whatsInIt: "Chai latte topped with coconut mango cold foam.",
-  },
-  {
-    slug: "miso-blue",
-    name: "Miso Blue",
-    category: "seasonal",
-    season: "summer",
-    available: false,
-    oneLiner: "Salty caramel, blueberry, and green tea in one cup.",
-    whatsInIt: "Miso salted caramel matcha with blueberry cold foam.",
-  },
-  {
-    slug: "golden-hour-nitro",
-    name: "Golden Hour Nitro",
-    category: "seasonal",
-    season: "summer",
-    available: false,
-    oneLiner: "Cold, creamy, and lit from the top.",
-    whatsInIt: "Nitro cold brew with salted honey cold foam.",
-  },
-  {
-    slug: "rose-dalgona",
-    name: "Rose Dalgona",
-    category: "seasonal",
-    season: "summer",
-    available: false,
-    oneLiner: "Rose milk with a whipped coffee cap.",
-    whatsInIt: "Rose milk with dalgona whipped coffee foam on top.",
+    oneLiner: "Love at first sip.",
+    whatsInIt: "Pomegranate and rosemary, topped with sparkling fizz.",
   },
 
   /* ---------------- Favorites ---------------- */
@@ -769,17 +661,6 @@ export const menu: MenuItem[] = [
 /* Helpers                                                             */
 /* ------------------------------------------------------------------ */
 
-export const seasonalItems = menu.filter((i) => i.category === "seasonal");
-
-/**
- * What the home page rail shows: the seasonal board first, then the drinks that
- * are the actual reason to drive here rather than to a chain.
- */
-export const railItems: MenuItem[] = [
-  ...menu.filter((i) => i.category === "seasonal" && i.available),
-  ...menu.filter((i) => i.category === "favorites" && !i.offBoard),
-].slice(0, 14);
-
 export function itemsInCategory(category: Category): MenuItem[] {
   return menu.filter((i) => i.category === category);
 }
@@ -816,15 +697,6 @@ export const announcement = {
 /** Said plainly, everywhere the menu appears. */
 export const menuCaveat =
   "Prices come from the board in the shop, and the board changes. A few of these rotate in and out, so if you are coming for something in particular, give us a call and we will tell you what is on.";
-
-export const marqueePhrases = [
-  "Now pouring",
-  "Beans from Chocolate Fish",
-  "Roasted in Sacramento",
-  "Poured in Roseville",
-  "Room to work",
-  "Stay as long as you like",
-];
 
 /**
  * The milk and extras lists, split into a name and a price for a menu column.

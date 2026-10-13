@@ -32,11 +32,11 @@ export const faq: { q: string; a: string }[] = [
   },
   {
     q: "Is the menu the same all year?",
-    a: "No, and that is half the fun. There is a standing board, and a seasonal one that changes. Fall brings drinks like Elphaba's Brew and Apple Hill, and summer had a lineup of its own. If you are coming for something in particular, call us first.",
+    a: "No, and that is half the fun. There is a standing board, and a seasonal one that changes. This fall it is the Snick-err Treat, the Dracula Fizz and a few more, and summer had a lineup of its own. If you are coming for something in particular, call us first.",
   },
   {
     q: "Do you host events?",
-    a: `Sometimes. We have had music nights and a birthday weekend with drinks made for the occasion. Anything coming up goes on Instagram first, ${site.instagram.handle}.`,
+    a: `Sometimes. We have had music nights, a craft night and a birthday weekend with drinks made for the occasion. Anything coming up goes on Instagram first, ${site.instagram.handle}.`,
   },
 ];
 

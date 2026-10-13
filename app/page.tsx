@@ -2,7 +2,6 @@ import { Hero } from "@/components/sections/Hero";
 import { Welcome } from "@/components/sections/Welcome";
 import { MenuPreview } from "@/components/sections/MenuPreview";
 import { Quote } from "@/components/sections/Quote";
-import { Favorites } from "@/components/sections/Favorites";
 import { TheRoom } from "@/components/sections/TheRoom";
 import { Events } from "@/components/sections/Events";
 import { FromInstagram } from "@/components/sections/FromInstagram";
@@ -48,7 +47,6 @@ export default function Home() {
       <Welcome />
       <MenuPreview />
       <Quote />
-      <Favorites />
       <TheRoom />
       <Events />
       <FromInstagram />

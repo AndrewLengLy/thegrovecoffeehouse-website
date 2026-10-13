@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { Doodle, type DoodleName } from "@/components/ui/Doodle";
 
 /**
  * Small prints scattered round a heading, the way the lodge scatters its
@@ -11,9 +10,6 @@ import { Doodle, type DoodleName } from "@/components/ui/Doodle";
  * as the page moves. Here they can also be picked up and moved, which is the
  * part that is The Grove's: press on one and it straightens and comes to the
  * front; drag it anywhere inside its section and it stays where it was put.
- *
- * A print is either one of the shop's photographs or, where there is no
- * photograph, a sand tile with one of the board's green drawings on it.
  *
  * The move is the CSS `translate` property on the card, and the drift is a
  * transform on the figure around it, so the two never fight over one
@@ -24,15 +20,12 @@ import { Doodle, type DoodleName } from "@/components/ui/Doodle";
  */
 
 export type Pin = {
-  /** A photograph, or null for a drawn tile. */
-  src: string | null;
+  src: string;
   alt: string;
   width: number;
   height: number;
   /** Degrees. Zero sits square, the lodge's way. */
   tilt?: number;
-  /** The drawing on a tile without a photograph. */
-  doodle?: DoodleName;
   /** A word or two under the print, in the board's script. */
   caption?: string;
   sizes: string;
@@ -79,7 +72,7 @@ export function PinBoard({ pins }: { pins: Pin[] }) {
     /* `contents`, so each figure is placed by the section's own layout. */
     <div ref={scope} className="contents">
       {pins.map((p, i) => (
-        <DragPrint key={p.src ?? p.doodle ?? i} p={p} z={10 + order.indexOf(i)} onLift={() => lift(i)} />
+        <DragPrint key={p.src} p={p} z={10 + order.indexOf(i)} onLift={() => lift(i)} />
       ))}
     </div>
   );
@@ -168,25 +161,18 @@ function DragPrint({ p, z, onLift }: { p: Pin; z: number; onLift: () => void }) 
         }
       >
         <div
-          className={`relative overflow-hidden ${p.src ? "print" : "on-sand"}`}
+          className="print relative overflow-hidden"
           style={{ aspectRatio: `${p.width} / ${p.height}` }}
         >
-          {p.src ? (
-            <Image
-              src={p.src}
-              alt={p.alt}
-              fill
-              priority={p.priority}
-              sizes={p.sizes}
-              draggable={false}
-              className="pointer-events-none object-cover"
-            />
-          ) : (
-            <Doodle
-              name={p.doodle ?? "cup"}
-              className="pointer-events-none absolute left-1/2 top-1/2 h-[64%] w-[64%] -translate-x-1/2 -translate-y-1/2"
-            />
-          )}
+          <Image
+            src={p.src}
+            alt={p.alt}
+            fill
+            priority={p.priority}
+            sizes={p.sizes}
+            draggable={false}
+            className="pointer-events-none object-cover"
+          />
         </div>
         {p.caption && (
           <figcaption className="t-script pointer-events-none pt-2 text-[19px] leading-none text-grove sm:text-[21px]">

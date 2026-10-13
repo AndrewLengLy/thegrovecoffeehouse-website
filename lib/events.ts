@@ -12,7 +12,7 @@
  * whether they want upcoming events listed here ahead of Instagram.
  */
 
-export type EventKind = "music" | "celebration" | "drop";
+export type EventKind = "music" | "celebration" | "craft";
 
 export type GroveEvent = {
   slug: string;
@@ -31,10 +31,21 @@ export type GroveEvent = {
 export const EVENT_KIND_LABEL: Record<EventKind, string> = {
   music: "Music night",
   celebration: "Celebration",
-  drop: "In store",
+  craft: "Craft night",
 };
 
 export const events: GroveEvent[] = [
+  /* The post gives no date for the night itself, so this is the date it was
+     posted, the week it happened. */
+  {
+    slug: "crafts-and-gupshup-2026-09",
+    title: "Crafts & Gupshup",
+    kind: "craft",
+    date: "2026-09-29",
+    blurb:
+      "Our first Crafts & Gupshup: an evening of making things and talking, with good food and one question at the middle of it, what makes us bloom?",
+    source: "https://www.instagram.com/thegrovecoffeehouse916/reel/Dd4mzKIybXu/",
+  },
   {
     slug: "third-birthday-2026",
     title: "The Grove turns three",
@@ -54,15 +65,6 @@ export const events: GroveEvent[] = [
     blurb:
       "An evening of live performers in the room, with drink inspired candles on the counter. Afterwards the shop asked whether people wanted another one. The answer, judging by the comments, was yes.",
     source: "https://www.instagram.com/thegrovecoffeehouse916/reel/DaIxzMbIi8w/",
-  },
-  {
-    slug: "candle-drop-2026-06",
-    title: "Hand poured candles",
-    kind: "drop",
-    date: "2026-06-30",
-    blurb:
-      "Soy candles poured locally and scented after the drinks and sweets on the board. Sold at the counter while they last, and made to sit next to the cup they are named for.",
-    source: "https://www.instagram.com/thegrovecoffeehouse916/p/DaOLE6_gbfn/",
   },
 ];
 

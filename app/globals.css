@@ -761,27 +761,6 @@ html[data-header="hidden"] .jumpbar {
 }
 
 /* ============================================================
-   Photograph placeholders
-
-   A slot waiting for a print is a sand panel with a loose wash of the
-   board's matcha pooled in it and a line drawing on top, so it reads
-   as an illustration rather than an image that failed.
-   ============================================================ */
-
-[data-photo-placeholder][data-tone="light"] {
-  background-image:
-    radial-gradient(ellipse 55% 45% at 30% 35%, rgb(169 199 154 / 0.5), transparent 70%),
-    radial-gradient(ellipse 45% 40% at 70% 70%, rgb(169 199 154 / 0.36), transparent 72%),
-    radial-gradient(ellipse 30% 25% at 78% 22%, rgb(139 90 43 / 0.06), transparent 70%);
-}
-[data-photo-placeholder][data-tone="dark"] {
-  background-color: #45531f;
-  background-image:
-    radial-gradient(ellipse 60% 55% at 75% 25%, rgb(169 199 154 / 0.22), transparent 70%),
-    radial-gradient(ellipse 50% 45% at 20% 80%, rgb(181 53 48 / 0.16), transparent 70%);
-}
-
-/* ============================================================
    Page transition. Opacity only, on purpose.
 
    A transform in this keyframe makes the page wrapper a containing

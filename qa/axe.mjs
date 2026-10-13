@@ -42,7 +42,13 @@ for (const width of WIDTHS) {
         const o = parseFloat(getComputedStyle(el).opacity);
         return o === 0 || o > 0.99;
       });
-      for (let i = 0; i < 60 && !settled(); i++) await new Promise(r => setTimeout(r, 100));
+      // A staggered child can still be waiting at 0 while its sibling fades,
+      // so one settled reading is not enough: hold for longer than a stagger.
+      let still = 0;
+      for (let i = 0; i < 80 && still < 9; i++) {
+        still = settled() ? still + 1 : 0;
+        await new Promise(r => setTimeout(r, 100));
+      }
       await new Promise(r => setTimeout(r, 300));
     });
     await page.evaluate(axeSource);
