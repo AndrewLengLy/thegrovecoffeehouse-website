@@ -1,11 +1,10 @@
-import { site } from "@/lib/site";
 import { recentEvents, eventStamp, EVENT_KIND_LABEL } from "@/lib/events";
 import { Reveal } from "@/components/motion/Reveal";
 import { Doodle } from "@/components/ui/Doodle";
 
 /**
- * Things that happen here, as a list in the lodge's manner: the label, a line
- * and the way to Instagram on the left, and on the right each entry on its own
+ * Things that happen here, as a list in the lodge's manner: the label and a
+ * line on the left, and on the right each entry on its own
  * hairline, the date in small capitals, the title in the light serif, and a
  * link to the post it came from. The newest one is open, with its few lines.
  *
@@ -26,17 +25,7 @@ export function Events() {
             Music nights, craft nights and birthdays. The next one goes up on
             Instagram first. What should we do next?
           </p>
-          <a
-            href={site.instagram.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-event="instagram_click"
-            data-event-location="events_section"
-            className="btn mt-7"
-          >
-            Follow along
-          </a>
-          <Doodle name="guitar" className="mt-12 hidden h-24 w-24 md:block" />
+          <Doodle name="guitar" className="mt-10 hidden h-24 w-24 md:block" />
         </div>
 
         <div className="md:col-span-7 md:col-start-6 lg:col-span-7 lg:col-start-6">

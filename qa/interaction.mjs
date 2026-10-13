@@ -125,30 +125,6 @@ const check = (name, pass, detail = "") => { results.push({ name, pass, detail }
   await page.close();
 }
 
-/* ---------- 4. The hidden reward ---------- */
-{
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1440, height: 900 });
-  await page.goto(BASE + "/", { waitUntil: "networkidle0" });
-  await new Promise(r => setTimeout(r, 1200));
-  const before = await page.evaluate(() => {
-    const n = document.getElementById("grove-note");
-    return { hidden: n?.hidden, hasTooltip: !!document.querySelector('[aria-controls="grove-note"]')?.getAttribute("title") };
-  });
-  await page.evaluate(() => document.querySelector('[aria-controls="grove-note"]').click());
-  await new Promise(r => setTimeout(r, 400));
-  const after = await page.evaluate(() => {
-    const n = document.getElementById("grove-note");
-    return { hidden: n?.hidden, text: (n?.textContent || "").trim().slice(0, 60),
-             name: document.querySelector('[aria-controls="grove-note"]').textContent.trim() };
-  });
-  check("reward starts hidden", before.hidden === true);
-  check("reward has no visible tooltip", before.hasTooltip === false);
-  check("reward opens on click", after.hidden === false, after.text);
-  check("reward has an accessible name", after.name.length > 3, after.name);
-  await page.close();
-}
-
 /* ---------- 5. Phone: the thumb bar comes and goes ---------- */
 {
   const page = await browser.newPage();

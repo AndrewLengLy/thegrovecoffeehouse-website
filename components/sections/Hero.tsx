@@ -65,11 +65,6 @@ export function Hero() {
         </h1>
 
         <div className="mt-8 grid gap-6 md:mt-12 md:grid-cols-12 md:items-end">
-          <p data-hero-fade className="t-caps hidden md:col-span-4 md:block">
-            Family owned on Sierra College Blvd
-            <br />
-            Roseville, California
-          </p>
           <div className="md:col-span-6 md:col-start-7 lg:col-span-4 lg:col-start-8">
             <p data-hero-fade className="max-w-[40ch] text-[17px] leading-[1.4] md:text-[18px]">
               A seasonal board we change with the weather, real food all day,
@@ -80,13 +75,16 @@ export function Hero() {
               <Link href="/menu" className="btn btn-pill btn-lg">
                 See the menu
               </Link>
+              {/* The header carries Directions from xl up; below that, and
+                  while the phone's thumb bar waits for the hero to pass, this
+                  is the only way to it at the top of the page. */}
               <a
                 href={site.directionsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-event="directions_click"
                 data-event-location="hero"
-                className="btn btn-ghost min-h-11 text-[14px]"
+                className="btn btn-ghost min-h-11 text-[14px] xl:hidden"
               >
                 Get directions
               </a>

@@ -1,4 +1,4 @@
-import { site, hours } from "@/lib/site";
+import { site } from "@/lib/site";
 
 /**
  * Questions people actually ask, answered only where the answer is confirmed.
@@ -6,14 +6,6 @@ import { site, hours } from "@/lib/site";
  * structured data, because this is exactly the shape an answer engine wants.
  */
 export const faq: { q: string; a: string }[] = [
-  {
-    q: "What are your hours?",
-    a: `${hours[0].label}, ${hours[0].time}. ${hours[1].label}, ${hours[1].time}. We close two hours earlier on Sundays, and holiday hours can change, so give us a call on ${site.phone.display} if you are coming on one.`,
-  },
-  {
-    q: "Where exactly are you?",
-    a: `${site.addressLine}. We are in Suite 100 of the retail center on Sierra College Blvd, with parking in the lot out front.`,
-  },
   {
     q: "Can I work from The Grove?",
     a: "Yes, and plenty of people do. There are outlets, seating inside and out, and nobody watching the clock. Whole mornings are normal here.",
@@ -25,10 +17,6 @@ export const faq: { q: string; a: string }[] = [
   {
     q: "Can I order online?",
     a: `Not yet. Order at the counter, or give us a call on ${site.phone.display} ahead of time if you are in a hurry.`,
-  },
-  {
-    q: "Whose coffee do you pour?",
-    a: `${site.roaster.name}, a roastery in ${site.roaster.location}. Close enough that we can drive out and see them.`,
   },
   {
     q: "Is the menu the same all year?",

@@ -16,45 +16,14 @@ const linkCls = "inline-flex min-h-7 items-center transition-opacity hover:opaci
 
 /**
  * The page ends on a field of olive, the chairs' colour, the way the lodge
- * ends on its own. It opens with the one thing every page is really asking,
- * come and see us, then the hours, the address and the links in small columns,
- * and the name set large in the board's script across the foot.
+ * ends on its own: the address, the hours and the links in small columns, and
+ * the name set large in the board's script across the foot.
  */
 export function Footer() {
   return (
     <footer className="on-olive overflow-x-clip">
       <div className="wrap pb-8 pt-16 md:pt-20">
-        <div>
-          <div>
-            <p className="t-caps">Come see us</p>
-            <p className="t-statement-lg mt-5 max-w-[26ch]">
-              We are on Sierra College Blvd in Roseville, and the coffee is on
-              at seven every day of the week.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-              <a
-                href={site.directionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-event="directions_click"
-                data-event-location="footer"
-                className="btn btn-light btn-lg"
-              >
-                Get directions
-              </a>
-              <a
-                href={site.phone.href}
-                data-event="phone_click"
-                data-event-location="footer"
-                className="btn btn-ghost min-h-11 tabular-nums"
-              >
-                Call {site.phone.display}
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-16 grid gap-10 sm:grid-cols-2 md:mt-20 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-3">
             <h2 className="t-caps">Find us</h2>
             <address className="mt-4 text-[16px] not-italic leading-[1.4]">

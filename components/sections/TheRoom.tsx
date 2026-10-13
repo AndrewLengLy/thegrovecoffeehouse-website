@@ -7,8 +7,8 @@ import { Reveal } from "@/components/motion/Reveal";
  * The room, the mirror of the welcome above it: the photograph on the left and
  * the label, the sentence and the way to the visit page on the right, both
  * centred on one line. Reviews of this cafe keep mentioning the same things,
- * outlets, seats inside and out, people staying, riders stopping in, so that is
- * what the sentence says.
+ * outlets, seats inside and out, people staying, so that is what the sentence
+ * says.
  *
  * The room is the photograph from the shop's joe.coffee listing: olive chairs,
  * wood tables, the red ceiling grid. It is 800px square, so it is shown square
@@ -26,10 +26,6 @@ export function TheRoom() {
             Outlets, seats inside and out, and nobody watching the clock. People
             spend whole mornings here working and studying, or catching up with
             a friend over a second cup.
-          </p>
-          <p className="t-body mt-5 max-w-[40ch] text-[16px]">
-            Riders come in off Sierra College Blvd most days and sit out front,
-            where they can keep an eye on the bike.
           </p>
           <div className="mt-7">
             <Link href="/visit" className="btn">

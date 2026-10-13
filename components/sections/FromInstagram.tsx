@@ -58,8 +58,7 @@ export function FromInstagram() {
             Fresh from our Instagram
           </h2>
           <p className="t-body mt-4 max-w-[36ch] text-[16px]">
-            What is pouring this fall. Go on, move them around. Which one are
-            you trying first?
+            What is pouring this fall. Which one are you trying first?
           </p>
           <a
             href={site.instagram.url}

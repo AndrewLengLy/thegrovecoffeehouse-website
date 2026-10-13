@@ -44,7 +44,7 @@ node qa/interaction.mjs
 ```
 
 The hand drawn lines drawing in, the closable announcement strip, mobile nav focus containment
-and Escape handling, the skip link, the hidden reward, the phone thumb bar, the menu jump bar,
+and Escape handling, the skip link, the phone thumb bar, the menu jump bar,
 dragging the pinned prints (mouse, touch, and staying inside their section), and that content
 is still present with JavaScript disabled.
 

@@ -1,7 +1,6 @@
 import { Hero } from "@/components/sections/Hero";
 import { Welcome } from "@/components/sections/Welcome";
 import { MenuPreview } from "@/components/sections/MenuPreview";
-import { Quote } from "@/components/sections/Quote";
 import { TheRoom } from "@/components/sections/TheRoom";
 import { Events } from "@/components/sections/Events";
 import { FromInstagram } from "@/components/sections/FromInstagram";
@@ -33,10 +32,9 @@ function to24(t: string) {
   return `${String(hh).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
-/* The order follows the lodge's own home page: the photograph, a welcome with
-   an offset pair, the board where the lodges would be, a quotation, a row of
-   tall prints, the story with its pair, a list, the scattered prints, and the
-   olive field. Sections are separated by space alone. */
+/* The photograph, a welcome with the newest fall drinks, the board, the room,
+   what has been happening, and the latest photographs. Sections are
+   separated by space alone. */
 export default function Home() {
   return (
     <>
@@ -46,7 +44,6 @@ export default function Home() {
       <Hero />
       <Welcome />
       <MenuPreview />
-      <Quote />
       <TheRoom />
       <Events />
       <FromInstagram />

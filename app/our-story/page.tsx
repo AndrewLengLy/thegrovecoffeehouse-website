@@ -49,10 +49,6 @@ export default function OurStoryPage() {
           We opened in the summer of 2023, and this August we turned three. It
           is still just us: one family, one room on Sierra College Blvd.
         </p>
-        <p className="t-body mt-5 max-w-[48ch]">
-          Three years of coffee runs, matcha dates, study sessions and catch
-          ups, and a lot of familiar faces.
-        </p>
       </PageHead>
 
       <section aria-labelledby="more-heading">
@@ -107,21 +103,9 @@ export default function OurStoryPage() {
               enough that we can drive out and see them, which means the coffee
               arrives fresh and we always know who roasted it.
             </p>
-            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
-              <a href={site.roaster.url} target="_blank" rel="noopener noreferrer" className="btn">
-                Visit Chocolate Fish
-              </a>
-              <a
-                href={site.directionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-event="directions_click"
-                data-event-location="our_story_footer"
-                className="btn btn-ghost"
-              >
-                Get directions
-              </a>
-            </div>
+            <a href={site.roaster.url} target="_blank" rel="noopener noreferrer" className="btn mt-4">
+              Visit Chocolate Fish
+            </a>
           </Reveal>
         </div>
       </section>

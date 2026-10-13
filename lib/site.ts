@@ -175,7 +175,7 @@ export const hours: HoursRow[] = [
 
 /** Stated plainly because the early Sunday close is the thing people get wrong. */
 export const hoursCaveat =
-  "We close two hours earlier on Sundays. Holiday hours can change, so give us a call if you are coming on one.";
+  "Holiday hours can change, so give us a call if you are coming on one.";
 
 /* ------------------------------------------------------------------ */
 /* Navigation                                                          */

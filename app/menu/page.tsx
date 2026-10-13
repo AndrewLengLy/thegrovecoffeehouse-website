@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { site } from "@/lib/site";
 import {
@@ -161,44 +160,6 @@ export default function MenuPage() {
         </div>
       </section>
 
-      <section aria-labelledby="order-heading" className="on-sand relative">
-        <div className="wrap section grid gap-8 md:grid-cols-12 md:gap-x-8">
-          <p className="t-caps md:col-span-3">Ordering</p>
-          <div className="md:col-span-8 md:col-start-5 lg:col-span-6 lg:col-start-7">
-          <h2 id="order-heading" className="t-statement-lg">
-            Not sure what to order?
-          </h2>
-            <p className="t-body mt-5 max-w-[46ch]">
-              Tell whoever is on bar what you usually go for and how sweet you like
-              it, and they will find you something. It is the best part of
-              ordering in person.
-            </p>
-            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
-              <a
-                href={site.directionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-event="directions_click"
-                data-event-location="menu_footer"
-                className="btn"
-              >
-                Get directions
-              </a>
-              <a
-                href={site.phone.href}
-                data-event="phone_click"
-                data-event-location="menu_footer"
-                className="btn btn-ghost tabular-nums"
-              >
-                {site.phone.display}
-              </a>
-              <Link href="/visit" className="btn btn-ghost">
-                Hours and parking
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
