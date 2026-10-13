@@ -4,10 +4,10 @@ import { Reveal } from "@/components/motion/Reveal";
 import { Doodle } from "@/components/ui/Doodle";
 
 /**
- * Things that happen here, as a list in the lodge's manner: the label on the
- * left, and on the right each entry on its own hairline, the date in small
- * capitals, the title in the light serif, and a link to the post it came from.
- * The newest one is open, with its few lines.
+ * Things that happen here, as a list in the lodge's manner: the label, a line
+ * and the way to Instagram on the left, and on the right each entry on its own
+ * hairline, the date in small capitals, the title in the light serif, and a
+ * link to the post it came from. The newest one is open, with its few lines.
  *
  * Every entry is sourced to the shop's own Instagram post, and the section is
  * honest that the next one gets posted there first.
@@ -18,20 +18,29 @@ export function Events() {
   return (
     <section id="events" aria-labelledby="events-heading" className="relative scroll-mt-2 overflow-x-clip">
       <div className="wrap section grid gap-y-10 md:grid-cols-12 md:gap-x-8">
-        <div className="md:col-span-3">
+        <div className="md:col-span-5 lg:col-span-4">
           <h2 id="events-heading" className="t-caps">
             Lately at The Grove
           </h2>
-          <Doodle name="guitar" className="mt-10 hidden h-28 w-28 md:block" />
-        </div>
-
-        <div className="md:col-span-8 md:col-start-5 lg:col-span-7 lg:col-start-6">
-          <p className="t-statement max-w-[30ch]">
+          <p className="t-statement mt-5 max-w-[22ch]">
             Music nights, craft nights and birthdays. The next one goes up on
             Instagram first. What should we do next?
           </p>
+          <a
+            href={site.instagram.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-event="instagram_click"
+            data-event-location="events_section"
+            className="btn mt-7"
+          >
+            Follow along
+          </a>
+          <Doodle name="guitar" className="mt-12 hidden h-24 w-24 md:block" />
+        </div>
 
-          <Reveal as="ol" each={0.06} className="mt-12 border-t border-pencil">
+        <div className="md:col-span-7 md:col-start-6 lg:col-span-7 lg:col-start-6">
+          <Reveal as="ol" each={0.06} className="border-t border-pencil">
             <li className="border-b border-pencil py-7">
               <p className="t-caps text-ink-soft">
                 {eventStamp(latest)} <span aria-hidden="true">/</span> {EVENT_KIND_LABEL[latest.kind]}
@@ -74,16 +83,6 @@ export function Events() {
             ))}
           </Reveal>
 
-          <a
-            href={site.instagram.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-event="instagram_click"
-            data-event-location="events_section"
-            className="btn mt-8"
-          >
-            Follow along
-          </a>
         </div>
       </div>
     </section>

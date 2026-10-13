@@ -23,11 +23,11 @@ const linkCls = "inline-flex min-h-7 items-center transition-opacity hover:opaci
 export function Footer() {
   return (
     <footer className="on-olive overflow-x-clip">
-      <div className="wrap pb-8 pt-20 md:pt-28">
-        <div className="grid gap-y-8 md:grid-cols-12 md:gap-x-8">
-          <p className="t-caps md:col-span-3">Come see us</p>
-          <div className="md:col-span-8 md:col-start-5 lg:col-span-7 lg:col-start-6">
-            <p className="t-statement-lg max-w-[26ch]">
+      <div className="wrap pb-8 pt-16 md:pt-20">
+        <div>
+          <div>
+            <p className="t-caps">Come see us</p>
+            <p className="t-statement-lg mt-5 max-w-[26ch]">
               We are on Sierra College Blvd in Roseville, and the coffee is on
               at seven every day of the week.
             </p>
@@ -54,7 +54,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 grid gap-10 sm:grid-cols-2 md:mt-28 lg:grid-cols-12 lg:gap-8">
+        <div className="mt-16 grid gap-10 sm:grid-cols-2 md:mt-20 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-3">
             <h2 className="t-caps">Find us</h2>
             <address className="mt-4 text-[16px] not-italic leading-[1.4]">

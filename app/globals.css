@@ -304,16 +304,16 @@
 
   /* The lodge breathes. Sections are separated by space, not rules. */
   .section {
-    padding-block: 64px;
+    padding-block: 48px;
   }
   @media (min-width: 768px) {
     .section {
-      padding-block: 88px;
+      padding-block: 64px;
     }
   }
   @media (min-width: 1280px) {
     .section {
-      padding-block: 112px;
+      padding-block: 80px;
     }
   }
 

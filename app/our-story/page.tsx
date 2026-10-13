@@ -55,29 +55,26 @@ export default function OurStoryPage() {
         </p>
       </PageHead>
 
-      <div className="wrap">
-        <figure className="md:w-[58%]">
-          <Frame className="aspect-[4/3] w-full">
-            <Image
-              src="/photos/grove-interior.jpg"
-              alt="Inside The Grove Coffee House: olive green chairs at warm wood tables under a red ceiling grid, with plants on the shelves and big front windows"
-              fill
-              priority
-              sizes="(min-width: 768px) 58vw, 100vw"
-              className="object-cover"
-            />
-          </Frame>
-          <figcaption className="t-script mt-3 text-[22px] leading-none text-grove">The room</figcaption>
-        </figure>
-      </div>
-
       <section aria-labelledby="more-heading">
-        <div className="wrap section grid gap-6 md:grid-cols-12 md:gap-x-8">
-          <h2 id="more-heading" className="t-h2 md:col-span-5">
-            More than a coffee shop
-          </h2>
-          <Reveal className="md:col-span-6 md:col-start-7">
-            <p className="t-body max-w-[52ch]">
+        <div className="wrap grid gap-10 pb-12 md:grid-cols-12 md:items-center md:gap-x-8 md:pb-16">
+          <figure className="md:col-span-7">
+            <Frame className="aspect-[4/3] w-full">
+              <Image
+                src="/photos/grove-interior.jpg"
+                alt="Inside The Grove Coffee House: olive green chairs at warm wood tables under a red ceiling grid, with plants on the shelves and big front windows"
+                fill
+                priority
+                sizes="(min-width: 768px) 58vw, 100vw"
+                className="object-cover"
+              />
+            </Frame>
+            <figcaption className="t-script mt-3 text-[22px] leading-none text-grove">The room</figcaption>
+          </figure>
+          <Reveal className="md:col-span-5">
+            <h2 id="more-heading" className="t-h2">
+              More than a coffee shop
+            </h2>
+            <p className="t-body mt-5 max-w-[52ch]">
               Three years in, the part we are proudest of is not on the menu. It
               is the familiar faces, the friendships that started here, and
               everyone who brought someone along or told a friend about us. The

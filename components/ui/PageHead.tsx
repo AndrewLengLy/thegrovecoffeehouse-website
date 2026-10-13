@@ -4,7 +4,7 @@ import { Reveal } from "@/components/motion/Reveal";
 /**
  * How every inner page opens, the way the lodge opens its own: a tiny label in
  * capitals, the title across the page in huge thin capitals that rise line by
- * line, and the opening lines set in the right half underneath.
+ * line, and the opening lines straight underneath on the same left edge.
  */
 export function PageHead({
   label,
@@ -22,11 +22,9 @@ export function PageHead({
         {title}
       </SplitHeading>
       {children && (
-        <div className="mt-10 grid md:mt-14 md:grid-cols-12 md:gap-x-8">
-          <Reveal onLoad travel={8} className="md:col-span-7 md:col-start-6 lg:col-span-5 lg:col-start-7">
-            {children}
-          </Reveal>
-        </div>
+        <Reveal onLoad travel={8} className="mt-8 max-w-[44rem] md:mt-10">
+          {children}
+        </Reveal>
       )}
     </div>
   );
